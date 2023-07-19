@@ -43,12 +43,12 @@ import MeetingPkReady from "./pages/MeetingPkReady";
 const router = createBrowserRouter([
   {
     path: "/",
+    element: <Home />,
+  },
+  {
+    path: "/",
     element: <Root />,
     children: [
-      {
-        path: "/",
-        element: <Home />,
-      },
       {
         path: "mypage/edit",
         element: <MypageEdit />,

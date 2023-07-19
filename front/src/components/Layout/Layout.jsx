@@ -30,7 +30,7 @@ export default function Layout({ children }) {
   return (
     <LayoutContainer>
       <Header />
-      <HeroImage />
+      {/* <HeroImage /> */}
       <LayoutBody>{children}</LayoutBody>
     </LayoutContainer>
   );
