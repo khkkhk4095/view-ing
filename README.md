@@ -1,70 +1,107 @@
-# Getting Started with Create React App
+|요구사항번호|우선순위|대분류      |카테고리    |요구사항명          |요구사항 상세                                                                                                                                                                                     |비고              |
+|------|----|---------|--------|---------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------|
+|      |    |         |        |               |                                                                                                                                                                                            |                |
+|      |    |         |        |               |                                                                                                                                                                                            |                |
+|      |상   |회원관리     |회원가입    |회원가입 정보 입력     |카카오, 구글, 깃헙, 애플 → 안 되는 건 빼자  닉네임 설정 및 중복 체크                                                                                                                                                 |                |
+|      |상   |회원관리     |로그인     |DB에 저장된 정보로 로그인|                                                                                                                                                                                            |                |
+|      |상   |회원관리     |로그인     |구글 계정으로 로그인    |                                                                                                                                                                                            |                |
+|      |상   |회원관리     |로그인     |카카오 로그인        |                                                                                                                                                                                            |                |
+|.     |상   |회원관리     |로그아웃    |로그아웃           |소셜 마다 다름.                                                                                                                                                                                   |                |
+|      |상   |회원관리     |마이페이지   |마이페이지 첫화면      |닉네임,프로필 사진 확인 및 수정 페이지 (나의 정보보기)                                                                                                                                                            |                |
+|      |상   |회원관리     |마이페이지   |나의 정보 보기       |닉네임, 프로필 사진 확인 가능 및 수정 가능 닉네임 변경 시에는 중복 체크                                                                                                                                                  |                |
+|      |상   |회원관리     |마이페이지   |나의 스터디 정보 보기   |가입한 스터디 카드뷰 리스트를 제공, 각 스터디를 클릭 시 해당 스터디 페이지로 이동                                                                                                                                             |                |
+|      |상   |         |        |               |                                                                                                                                                                                            |                |
+|      |상   |회원관리     |마이페이지   |나의 정보 수정       |닉네임, 프로필 사진 수정                                                                                                                                                                              |                |
+|      |상   |회원관리     |마이페이지   |탈퇴하기           |탈퇴 의사 재확인 후 탈퇴 진행 탈퇴 시, 해당 유저의 isDelete = true and nickname = del + rand 탈퇴 시, 탈퇴 사유 설문 (우선순위 하)                                                                                            |                |
+|      |상   |회원관리     |마이페이지   |캘린더에 일정 등록하기   |제목, 날짜, 시작시간, 종료시간을 등록                                                                                                                                                                      |                |
+|      |상   |회원관리     |마이페이지   |캘린더에 일정 수정하기   |모든 정보를 수정 가능                                                                                                                                                                                |                |
+|      |상   |회원관리     |마이페이지   |캘린더에 일정 삭제하기   |삭제 기능                                                                                                                                                                                       |                |
+|      |중   |쪽지       |쪽지쓰기    |쪽지 보내기         |닉네임을 클릭 ⇒ 쪽지보내기 ⇒ 새 창을 통해 작성 가능 수신자는 기본입력 내용 입력 후, ‘보내기’ 버튼 클릭을 통해 송신 글자 수 제한은 한글 기준 5000자 송신자, 수신자, 내용, 송신날짜, is_read=false 상태로 생성                                                         |                |
+|      |    |쪽지       |쪽지읽기    |쪽지 읽기          |마이페이지에 쪽지함 컴포넌트를 구현하여 보낸 쪽지함, 받은 쪽지함 확인 가능하도록 함 개별 쪽지는 컴포넌트를 바꾸어 내용 등을 표시                                                                                                                   |                |
+|      |    |쪽지       |쪽지읽기    |삭제             |보낸 쪽지함, 받은 쪽지함에서 쪽지 리스트 왼쪽에 체크박스를 통해 선택 후 삭제할 수 있도록 함                                                                                                                                       |                |
+|      |    |         |        |               |                                                                                                                                                                                            |                |
+|      |    |         |        |               |                                                                                                                                                                                            |                |
+|      |    |메인페이지    |슬라이딩 페이지|슬라이딩           |스터디 검색 컴포넌트 하단에 인기 기업을 순위로 제공한다, (생성된 스터디가 많은 순)                                                                                                                                            |                |
+|      |    |메인페이지    |검색 조건   |               |                                                                                                                                                                                            |                |
+|      |    |         |        |               |                                                                                                                                                                                            |                |
+|      |    |         |        |               |                                                                                                                                                                                            |                |
+|      |    |         |        |               |                                                                                                                                                                                            |                |
+|      |하   |관리자페이지   |유저관리    |               |유저 조회, 유저 삭제                                                                                                                                                                                |                |
+|      |    |         |        |               |                                                                                                                                                                                            |                |
+|      |하   |         |스터디 관리  |               |스터디 조회, 스터디 삭제                                                                                                                                                                              |                |
+|      |    |         |        |               |                                                                                                                                                                                            |                |
+|      |하   |         |게시판 관리  |               |게시글 조회, 게시글 삭제, 카테고리 추가, 공지사항 게시                                                                                                                                                            |                |
+|      |    |         |        |               |                                                                                                                                                                                            |                |
+|      |중   |         |유저분석    |               |월/일간 방문자 수 카운트, 전체 회원 수, 전체 스터디 수, 회원가입 추이, 스터디 생성 추이                                                                                                                                       |                |
+|      |    |         |        |               |                                                                                                                                                                                            |                |
+|      |    |         |        |               |                                                                                                                                                                                            |                |
+|      |    |스터디 검색   |페이지네이션  |               |                                                                                                                                                                                            |                |
+|      |    |스터디 검색   |검색 조건   |               |기업명(필수), 지원 직무(선택), 인턴/신입/경력(선택)                                                                                                                                                            |                |
+|      |    |스터디 검색   |표시되는 정보 |               |                                                                                                                                                                                            |                |
+|      |    |스터디 검색   |로딩 이미지  |               |                                                                                                                                                                                            |                |
+|      |    |스터디 검색   |카드뷰     |스터디 목록 카드뷰     |스터디 이름, 회사, 직무, 현재인원/최대인원, 스터디장 이름(닉네임), 태그 정보를 제공한다. 스크랩 버튼을 클릭하여 스크랩 할 수 있다. 모집 마감된 카드는 따로 표시하여 클릭할 수 없도록 한다. 카드를 클릭하면 해당 스터디의 상세 페이지로 이동한다.                                              |                |
+|      |    |         |        |               |                                                                                                                                                                                            |                |
+|      |    |게시판      |공지사항    |공지사항 페이지 조회    |게시글 - 제목, 내용, 작성자, 조회수, 좋아요 수, 댓글 수, 작성날짜 댓글 - 내용, 작성자, 작성날짜  좋아요 기능 구현 댓글 - 대댓글 (최대 깊이 1, 단 공지사항에는 댓글 불가)  댓글 좋아요 기능 구현 (우선순위 나중) 게시글 신고 기능 구현 및 제재 기준 설정 (우선순위 나중)   제목,제목+내용,작성자 기준 검색 가능|                |
+|      |상   |게시판      |공지사항    |공지사항 작성(관리자)   |상단 내용 일괄 적용                                                                                                                                                                                 |                |
+|      |상   |게시판      |공지사항    |공지사항 수정(관리자)   |상단 내용 일괄 적용                                                                                                                                                                                 |                |
+|      |상   |게시판      |공지사항    |공지사항 삭제(관리자)   |상단 내용 일괄 적용                                                                                                                                                                                 |                |
+|      |중   |게시판      |질문게시판   |질문 작성          |상단 내용 일괄 적용                                                                                                                                                                                 |                |
+|      |중   |게시판      |질문게시판   |질문 삭제          |상단 내용 일괄 적용                                                                                                                                                                                 |                |
+|      |중   |게시판      |질문게시판   |질문 조회          |상단 내용 일괄 적용                                                                                                                                                                                 |                |
+|      |중   |게시판      |질문게시판   |질문 수정          |상단 내용 일괄 적용                                                                                                                                                                                 |                |
+|      |중   |게시판      |질문게시판   |질문 답변          |상단 내용 일괄 적용                                                                                                                                                                                 |                |
+|      |중   |게시판      |질문게시판   |답변 채택          |상단 내용 일괄 적용                                                                                                                                                                                 |                |
+|      |중   |게시판      |자유게시판   |게시글 작성         |상단 내용 일괄 적용                                                                                                                                                                                 |                |
+|      |중   |게시판      |자유게시판   |게시글 수정         |상단 내용 일괄 적용                                                                                                                                                                                 |                |
+|      |중   |게시판      |자유게시판   |게시글 삭제         |상단 내용 일괄 적용                                                                                                                                                                                 |                |
+|      |중   |게시판      |자유게시판   |게시글 조회         |상단 내용 일괄 적용                                                                                                                                                                                 |                |
+|      |중   |게시판      |자유게시판   |댓글 작성          |상단 내용 일괄 적용                                                                                                                                                                                 |                |
+|      |중   |게시판      |자유게시판   |댓글 수정          |상단 내용 일괄 적용                                                                                                                                                                                 |                |
+|      |중   |게시판      |자유게시판   |댓글 삭제          |상단 내용 일괄 적용                                                                                                                                                                                 |                |
+|      |중   |게시판      |자유게시판   |대댓글 작성         |상단 내용 일괄 적용                                                                                                                                                                                 |                |
+|      |중   |게시판      |자유게시판   |대댓글 삭제         |상단 내용 일괄 적용                                                                                                                                                                                 |                |
+|      |중   |게시판      |자유게시판   |대댓글 수정         |상단 내용 일괄 적용                                                                                                                                                                                 |                |
+|      |상   |게시판      |면접후기    | CRUD + 댓글     |상단 내용 일괄 적용                                                                                                                                                                                 |                |
+|      |하   |게시판      |전체게시판   |댓글반응           |댓글별 이모지 체크 가능                                                                                                                                                                               |                |
+|      |    |         |        |               |                                                                                                                                                                                            |                |
+|      |상   |스터디 내부 기능|스터디 관리  |스터디 생성         |필수 : 스터디 이름, 지원 회사, 최대인원, 스터디 설명(미입력 시, 안녕하세요~), 신입/경력/무관, 모집 마감 기한 (모집 시까지 선택지 제공) 선택 : 직무 (미입력 시, 무관), 태그 (보기 중에 중복선택 ex합격이미지첨부필수)                                                        |                |
+|      |상   |스터디 내부 기능|스터디 관리  |스터디 정보 수정      |이름, 최대 인원, 설명, 마감 기한, 마감/모집 중 여부, 직무, 태그 수정 가능                                                                                                                                              |                |
+|      |상   |스터디 내부 기능|스터디 관리  |스터디 제거         |스터디장의 권한으로 제거 가능 // 최장 존속 기간은 3개월                                                                                                                                                           |                |
+|      |상   |스터디 내부 기능|스터디 관리  |스터디 가입 승인      |신청된 가입에 대해 스터디장의 권한으로 조회 및 수락/거절 가능 신청자의 닉네임 클릭 시, 쪽지 전송 가능                                                                                                                                 |                |
+|      |상   |스터디 내부 기능|스터디 관리  |스터디원 관리        |스터디장의 권한으로 스터디장 위임, 스터디원 추방                                                                                                                                                                 |                |
+|      |상   |스터디 내부 기능|스터디 관리  |스터디 가입 신청      |모달을 통해 합격 인증 사진 업로드 및 인사말 작성 닉네임, 날짜 자동 입력                                                                                                                                                  |                |
+|      |상   |스터디 내부 기능|스터디 관리  |스터디 탈퇴         |자유 권한으로 언제든지 가능, 스터디장은 탈퇴 불가                                                                                                                                                                |                |
+|      |상   |스터디 내부 기능|모의 면접   |영상 회의 방 생성     |평소엔 비활성화 상태로 1인 이상의 참여자가 있을 시, 회의 방 활성화                                                                                                                                                     |                |
+|      |상   |스터디 내부 기능|모의 면접   |영상 회의 방 참여     |영상 회의 참여 버튼을 통해 참여하며 별도의 페이지를 띄운다.                                                                                                                                                          |                |
+|      |상   |스터디 내부 기능|모의 면접   |영상 회의 방 폐쇄     |참여자가 없거나 진행 시간이 5시간을 넘으면 폐쇄                                                                                                                                                                 |                |
+|      |상   |스터디 내부 기능|모의 면접   |영상 회의 방 나가기    |나가기 버튼 클릭 시, 페이지를 닫으며 탈출                                                                                                                                                                    |                |
+|      |상   |스터디 내부 기능|모의 면접   |실시간 채팅         |우측에 채팅 창을 제공하며 숨기기가 가능                                                                                                                                                                      |                |
+|      |상   |스터디 내부 기능|모의 면접   |영상 녹화          |구현 예정이나 세부 내용은 미정 필요한 필수 내용은 질문자의 음성, 답변자의 음성 및 영상                                                                                                                                          |                |
+|      |중   |스터디 내부 기능|모의 면접   |화면 재정렬         |면접자 지정에 따라 면접자 위주의 배치로 화면을 재정렬                                                                                                                                                              |                |
+|      |중   |스터디 내부 기능|모의 면접   |타이머 기능         |화면에서 확인할 수 있도록 구현                                                                                                                                                                           |                |
+|      |중   |스터디 내부 기능|모의 면접   |피드백 저장         |질문자가 질문과 피드백을 입력하면 영상 통화 종료 시에 파일로 제공 피드백 탭 ⇒ 멤버 목록 ⇒ 멤버 클릭 ⇒ 해당 멤버에 대한 피드백 입력 가능 ⇒ 해당 멤버 퇴장 ⇒ 서버 전송 ⇒ 유저에게 전달 스터디 나가기 시 모달창을 통해 피드백 다운로드, 클립보드 복사, 그냥 나가기                                  |                |
+|      |    |         |        |               |                                                                                                                                                                                            |                |
+|      |    |         |        |               |                                                                                                                                                                                            |                |
+|      |    |         |        |               |                                                                                                                                                                                            |                |
+|      |    |스터디 내부 기능|스터디원 확인 |스터디원 리스트       |해당 스터디의 구성원의 닉네임을 리스트로 제공 스터디장은 별도의 표시                                                                                                                                                      |                |
+|      |    |스터디 내부 기능|스터디 게시판 |게시글 작성         |일반 게시판과 동일하게 구현하되 파일 업로드가 가능하도록                                                                                                                                                             |                |
+|      |    |스터디 내부 기능|스터디 게시판 |게시글 수정         |                                                                                                                                                                                            |                |
+|      |    |스터디 내부 기능|스터디 게시판 |게시글 삭제         |                                                                                                                                                                                            |                |
+|      |    |스터디 내부 기능|스터디 게시판 |게시글 조회         |                                                                                                                                                                                            |                |
+|      |    |스터디 내부 기능|스터디 게시판 |(대)댓글 작성       |                                                                                                                                                                                            |                |
+|      |    |스터디 내부 기능|스터디 게시판 |(대)댓글 수정       |                                                                                                                                                                                            |                |
+|      |    |스터디 내부 기능|스터디 게시판 |(대)댓글 삭제       |                                                                                                                                                                                            |                |
+|      |중   |스터디 내부 기능|스터디 채팅  |스터디 실시간 채팅     |                                                                                                                                                                                            |시간이 남으면 구현하는 것으로|
+|      |    |스터디 내부 기능|스터디 캘린더 |개인 캘린더 연동      |개인 캘린더에 추가하면 스터디 캘린더에 추가.                                                                                                                                                                   |                |
+|      |    |스터디 내부 기능|스터디 캘린더 |스터디 일정 추가      |스터디장의 권한으로 추가 가능, 스터디 일정 추가 시에 개인 캘린더에도 추가 제목, 날짜, 시작시간, 종료시간을 등록                                                                                                                           |                |
+|      |    |스터디 내부 기능|스터디 캘린더 |스터디 일정 수정      | 스터디장의 권한으로 수정 가능, 모든 정보를 수정 가능                                                                                                                                                             |                |
+|      |    |스터디 내부 기능|스터디 캘린더 |스터디 일정 삭제      |스터디장의 권한으로 삭제 가능, 개인 캘린더에서 삭제 만약, 스터디가 터지거나 탈퇴/추방 경우에 해당 스터디의 일정이 개인 캘린더에서 삭제되도록 구현                                                                                                         |                |
+|      |하   |스터디 내부 기능|스터디 채팅  |스터디 내 실시간 채팅   |스터터 페이지 내에 실시간 채팅을 구현                                                                                                                                                                       |                |
+|      |    |         |        |               |                                                                                                                                                                                            |                |
+|      |    |푸시 알림    |푸시 알림 송신|푸시 알림          |수신자, 내용, 날짜, 읽음 여부를 포함 프론트 단에서 실시간 업데이트를 구현할 것인지를 고민해볼 것                                                                                                                                    |                |
+|      |    |푸시 알림    |푸시 알림 수신|알림 도착          |헤더 우측에 알림 버튼 알림 버튼 클릭 시, 알림 리스트를 모달로 노출 쪽지일 시에는 클릭하면 쪽지 페이지로 이동 스터디 가입 요청일 시에는 클릭하면 해당 스터디 관리 페이지로 이동 스터디 가입 승인일 시에는 클릭하면 해당 스터디 페이지로 이동 스터디 가입 거부일 시에는 클릭없음                                |                |
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+--- 
 
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### API 명세서 링크(NOTION)
+[API 명세서](https://imported-blouse-29a.notion.site/api-76df542ba576406a9385ba7b7cf879d2?pvs=4)
