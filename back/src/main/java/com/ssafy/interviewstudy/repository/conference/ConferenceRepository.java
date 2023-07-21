@@ -5,11 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface ConferenceRepository extends JpaRepository<ConferenceRoom,Long> {
-
+public interface ConferenceRepository extends JpaRepository<ConferenceRoom,Integer> {
     @Override
-    Optional<ConferenceRoom> findById(Long id);
-
-    @Override
-    boolean existsById(Long id);
+    boolean existsById(Integer id);
 }

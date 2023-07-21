@@ -1,5 +1,6 @@
 package com.ssafy.interviewstudy.domain.conference;
 
+import com.ssafy.interviewstudy.domain.study.Study;
 import lombok.*;
 
 import javax.persistence.*;
@@ -15,12 +16,12 @@ public class ConferenceRoom {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
-    private Long id;
+    private Integer conferenceRoom_id;
 
 
-//    @JoinColumn(name = "study_id", nullable = false)
-//    @OneToOne(fetch = FetchType.LAZY)
-//    private Study study;
+    @JoinColumn(name = "study_id", nullable = false)
+    @OneToOne(fetch = FetchType.LAZY)
+    private Study study;
 
     @Column(nullable = false)
     LocalDateTime createdAt;
