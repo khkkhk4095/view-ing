@@ -2,6 +2,7 @@ package com.ssafy.interviewstudy.domain.conference;
 
 import com.ssafy.interviewstudy.domain.study.Study;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -9,14 +10,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@NoArgsConstructor
 @Table(name = "conference_room")
 public class ConferenceRoom {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
-    private Integer conferenceRoom_id;
+    @Column(name="conference_room_id")
+    private Integer id;
 
 
     @JoinColumn(name = "study_id", nullable = false)
@@ -24,11 +26,9 @@ public class ConferenceRoom {
     private Study study;
 
     @Column(nullable = false)
-    LocalDateTime createdAt;
+    @CreatedDate
+    private LocalDateTime createdAt;
 
-    @Column(nullable = true)
-    LocalDateTime closedAt;
-
-    @OneToMany(mappedBy = "conferenceRoom", cascade = CascadeType.ALL)
-    List<ConferenceAttendee> conferenceAttendeeList = new ArrayList<>();
+    @OneToMany(mappedBy = "conferenceRoom", cascade = CascadeType.REMOVE)
+    private List<ConferenceAttendee> conferenceAttendeeList = new ArrayList<>();
 }
