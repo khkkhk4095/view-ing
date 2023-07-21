@@ -21,4 +21,7 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     private List<StudyMember> studies = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<StudyBookmark> studyBookmarks = new ArrayList<>();
 }

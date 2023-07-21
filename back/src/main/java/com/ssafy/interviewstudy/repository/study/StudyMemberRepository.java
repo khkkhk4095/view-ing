@@ -13,5 +13,10 @@ public interface StudyMemberRepository extends JpaRepository<StudyMember, Intege
     //스터디 탈퇴
     @Modifying(clearAutomatically = true)
     @Query("delete from StudyMember sm where sm.study.id = :study_id and sm.member.id = :member_id")
-    public void deleteStudyMember(@Param("study_id") Integer studyId, @Param("member_id") Integer memberId);
+    public void deleteStudyMemberId(@Param("study_id") Integer studyId, @Param("member_id") Integer memberId);
+
+    //스터디 탈퇴
+    @Modifying(clearAutomatically = true)
+    @Query("delete from StudyMember sm where sm.study = :study and sm.member = :member")
+    public void deleteStudyMember(@Param("study") Study study, @Param("member") Member member);
 }

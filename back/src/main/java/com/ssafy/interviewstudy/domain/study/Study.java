@@ -58,7 +58,10 @@ public class Study {
     List<StudyTag> studyTags = new ArrayList<>();
 
     @OneToMany(mappedBy = "study")
-    List<StudyCalender> studyCalenders = new ArrayList<>();
+    List<StudyCalendar> studyCalendars = new ArrayList<>();
+
+    @OneToMany(mappedBy = "study")
+    List<StudyBookmark> studyBookmarks = new ArrayList<>();
 
     public Study(String title, String description, String appliedJob, int capacity) {
         this.title = title;

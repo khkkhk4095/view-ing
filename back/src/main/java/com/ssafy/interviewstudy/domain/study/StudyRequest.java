@@ -21,6 +21,8 @@ public class StudyRequest {
 
     private String introduction;
 
+    @CreatedDate
+    @Column(updatable = false)
     private LocalDateTime requestedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)

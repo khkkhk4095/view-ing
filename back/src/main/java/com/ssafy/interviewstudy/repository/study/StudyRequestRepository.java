@@ -6,10 +6,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface StudyRequestRepository extends JpaRepository<StudyRequest, Integer> {
 
-    //study_id 로 신청 조회
-    @Query("select sr from StudyRequest sr where sr.study.id = :study_id")
-    public List<StudyRequest> findStudyRequestsByStudyId(@Param("study_id") Integer studyId);
+    @Query("select distinct sr from StudyRequest sr left join fetch sr.studyRequestFiles where sr.id = :id")
+    public Optional<StudyRequest> findStudyRequestById(@Param("id") Integer id);
 }

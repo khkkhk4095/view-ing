@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedBy;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -18,6 +19,8 @@ public class StudyMember {
 
     private String role;
 
+    @CreatedBy
+    @Column(updatable = false)
     private LocalDateTime joinedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)

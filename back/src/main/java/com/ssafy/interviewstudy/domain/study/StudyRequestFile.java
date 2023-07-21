@@ -3,11 +3,12 @@ package com.ssafy.interviewstudy.domain.study;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
-@Getter
+@Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class StudyRequestFile {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

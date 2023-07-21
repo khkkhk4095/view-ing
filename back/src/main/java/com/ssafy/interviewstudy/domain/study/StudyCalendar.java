@@ -3,14 +3,15 @@ package com.ssafy.interviewstudy.domain.study;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Getter
+@Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class StudyCalender {
+public class StudyCalendar {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "study_calender_id")
     private Integer id;
