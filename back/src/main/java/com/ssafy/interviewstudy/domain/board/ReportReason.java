@@ -10,6 +10,7 @@ import javax.persistence.*;
 public class ReportReason {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "report_reason_id")
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)

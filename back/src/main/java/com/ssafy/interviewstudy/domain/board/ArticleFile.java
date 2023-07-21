@@ -10,6 +10,7 @@ import javax.persistence.*;
 public class ArticleFile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "article_file_id")
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 public class NoticeBoard {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+    @Column(name = "notice_board_id")
     private int id;
 
     @Column(name = "title", nullable = false)

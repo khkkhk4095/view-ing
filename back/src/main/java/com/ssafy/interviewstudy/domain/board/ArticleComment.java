@@ -17,6 +17,7 @@ import java.util.List;
 public class ArticleComment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "article_comment_id")
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)

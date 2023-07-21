@@ -16,7 +16,7 @@ import java.util.List;
 public abstract class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "board_id")
     private int id;
 
     @Embedded

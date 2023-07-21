@@ -11,6 +11,7 @@ import javax.persistence.*;
 public class ArticleLike {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "article_like_id")
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)

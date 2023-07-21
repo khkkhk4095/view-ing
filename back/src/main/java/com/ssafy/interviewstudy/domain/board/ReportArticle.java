@@ -14,6 +14,7 @@ import java.util.List;
 public class ReportArticle {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+    @Column(name = "report_article_id")
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
