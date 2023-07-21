@@ -21,7 +21,6 @@ public class StudyCalendar {
 
     private LocalDateTime endedAt;
 
-    @Column(columnDefinition = "TEXT")
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
