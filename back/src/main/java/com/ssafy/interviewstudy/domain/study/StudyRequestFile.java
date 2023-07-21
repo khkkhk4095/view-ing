@@ -17,7 +17,7 @@ public class StudyRequestFile {
 
     private String originalFileName;
 
-    private String file;
+    private byte[] fileData;
 
     private String fileType;
 

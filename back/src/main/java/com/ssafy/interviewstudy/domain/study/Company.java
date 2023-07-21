@@ -20,5 +20,5 @@ public class Company {
 
     //private Image logo
     @OneToMany(mappedBy = "appliedCompany")
-    private List<Study> studys = new ArrayList<>();
+    private List<Study> studies = new ArrayList<>();
 }

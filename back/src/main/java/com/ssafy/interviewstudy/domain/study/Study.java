@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -30,16 +31,18 @@ public class Study {
 
     private int capacity;
 
+    @CreatedDate
+    @Column(updatable = false)
     private LocalDateTime createdAt;
 
     private LocalDateTime deadline;
 
-    private boolean isRecruit;
+    private Boolean isRecruit;
 
-    private boolean isDelete;
+    private Boolean isDelete;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "leader_id")
     private Member leader;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -64,10 +67,4 @@ public class Study {
     @OneToMany(mappedBy = "study")
     List<StudyBookmark> studyBookmarks = new ArrayList<>();
 
-    public Study(String title, String description, String appliedJob, int capacity) {
-        this.title = title;
-        this.description = description;
-        this.appliedJob = appliedJob;
-        this.capacity = capacity;
-    }
 }

@@ -18,7 +18,7 @@ public class StudyMember {
     @Column(name = "study_member_id")
     private Integer id;
 
-    private String role;
+    private Boolean isLeader;
 
     @CreatedBy
     @Column(updatable = false)

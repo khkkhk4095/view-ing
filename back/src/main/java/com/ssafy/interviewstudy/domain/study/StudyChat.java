@@ -18,7 +18,6 @@ public class StudyChat {
     @Column(name = "study_chat_id")
     private Integer id;
 
-    @Lob
     @Column
     private String content;
 
