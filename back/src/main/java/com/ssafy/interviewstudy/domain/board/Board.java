@@ -1,29 +1,33 @@
 package com.ssafy.interviewstudy.domain.board;
 
-import com.ssafy.interviewstudy.dto.Author;
+import com.ssafy.interviewstudy.domain.member.Member;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Entity
+@NoArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "board_type")
 public abstract class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "board_id")
-    private int id;
+    @Column(name = "article_id")
+    private Integer id;
 
-    @Embedded
-    private Author author;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member author;
     @Column(name = "title", nullable = false)
     private String title;
-    @Column(name = "content", nullable = false)
+    @Column(name = "content", nullable = false, length = 5000)
     private String content;
 
     @Column(name = "created_at", nullable = false)
@@ -34,17 +38,17 @@ public abstract class Board {
     private LocalDateTime updatedAt;
 
     @Column(name = "view_count", nullable = false)
-    private int viewCount;
+    private Integer viewCount;
 
     @OneToMany(mappedBy = "article")
-    private List<ArticleComment> comments;
+    private List<ArticleComment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "article")
-    private List<ArticleLike> likes;
+    private List<ArticleLike> likes = new ArrayList<>();
 
     @OneToMany(mappedBy = "article")
-    private List<ArticleFile> files;
+    private List<ArticleFile> files = new ArrayList<>();
 
     @OneToMany(mappedBy = "article")
-    private List<ReportArticle> reports;
+    private List<ReportArticle> reports = new ArrayList<>();
 }
