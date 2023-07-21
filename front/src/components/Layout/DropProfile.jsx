@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
@@ -15,7 +15,7 @@ const ProfileImg = styled.img`
 
 const DropdownMenu = styled.div`
   position: absolute;
-  top: 64px; /* Adjust the distance from the ProfileImg */
+  top: 53px; /* Adjust the distance from the ProfileImg */
   right: 0;
   width: 150px;
   background-color: white;
@@ -41,20 +41,39 @@ const MenuItem = styled(Link)`
 
 export default function DropProfile() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const profileImgRef = useRef(null);
 
   const handleProfileImgClick = () => {
     setMenuOpen(!menuOpen);
   };
 
+  const handleClickOutside = (event) => {
+    if (
+      profileImgRef.current &&
+      !profileImgRef.current.contains(event.target)
+    ) {
+      setMenuOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("click", handleClickOutside);
+    return () => {
+      window.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <ProfileImgWrapper>
+    <ProfileImgWrapper ref={profileImgRef}>
       <ProfileImg
-        src={"ty.jpg"}
+        src={"/ty.jpg"}
         alt="프로필사진"
         onClick={handleProfileImgClick}
       />
       <DropdownMenu open={menuOpen}>
-        <MenuItem to="/mypage/edit">마이페이지</MenuItem>
+        <MenuItem to="/mypage/edit" style={{ fontWeight: "600" }}>
+          마이페이지
+        </MenuItem>
         <MenuItem to="/mypage/study">내 스터디</MenuItem>
         <MenuItem to="/mypage/get">내 쪽지함</MenuItem>
         <MenuItem to="/mypage/myarticle">내 게시글</MenuItem>

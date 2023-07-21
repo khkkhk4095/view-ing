@@ -36,6 +36,15 @@ const ThirdContainer = styled.div`
   align-items: center;
 `;
 
+const RightMenu = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const MarginRight = styled.div`
+  margin-right: 20px;
+`;
+
 export default function HeaderBox() {
   const isSocialLogin = true; // true라고 가정하겠습니다. 실제 상태는 알맞게 설정해주세요.
 
@@ -51,8 +60,12 @@ export default function HeaderBox() {
       {/* 로그인 상태에 따라 알맞은 내용 표시 */}
       {isSocialLogin ? (
         <ThirdContainer>
-          <DropAlert />
-          <DropProfile />
+          <RightMenu>
+            <MarginRight>
+              <DropAlert />
+            </MarginRight>
+            <DropProfile />
+          </RightMenu>
         </ThirdContainer>
       ) : (
         <ThirdContainer>로그인/회원가입</ThirdContainer>
