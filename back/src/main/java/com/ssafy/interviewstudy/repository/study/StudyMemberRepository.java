@@ -1,6 +1,6 @@
 package com.ssafy.interviewstudy.repository.study;
 
-import com.ssafy.interviewstudy.domain.study.Member;
+import com.ssafy.interviewstudy.domain.member.Member;
 import com.ssafy.interviewstudy.domain.study.Study;
 import com.ssafy.interviewstudy.domain.study.StudyMember;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,7 +12,7 @@ public interface StudyMemberRepository extends JpaRepository<StudyMember, Intege
 
     //스터디 탈퇴
     @Modifying(clearAutomatically = true)
-    @Query("delete from StudyMember sm where sm.study.id = :study_id and sm.member.id = :member_id")
+    @Query("delete from StudyMember sm where sm.study.id = :study_id and sm.member.memberId = :member_id")
     public void deleteStudyMemberId(@Param("study_id") Integer studyId, @Param("member_id") Integer memberId);
 
     //스터디 탈퇴

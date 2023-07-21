@@ -1,8 +1,7 @@
 package com.ssafy.interviewstudy.repository.study;
 
-import com.ssafy.interviewstudy.domain.study.Member;
+import com.ssafy.interviewstudy.domain.member.Member;
 import com.ssafy.interviewstudy.domain.study.Study;
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,7 +15,7 @@ public interface StudyRepository extends JpaRepository<Study, Integer>, StudyRep
     public List<Study> findStudiesByRecruit();
 
     @Query("select s from Study s join s.studyMembers sm where sm.member = :member")
-    public List<Study> findStudiesByMember(@Param("member")Member member);
+    public List<Study> findStudiesByMember(@Param("member") Member member);
 
     @Query("select s from Study s join s.studyBookmarks sb where sb.member = :member")
     public List<Study> findBookmarksByMember(@Param("member")Member member);

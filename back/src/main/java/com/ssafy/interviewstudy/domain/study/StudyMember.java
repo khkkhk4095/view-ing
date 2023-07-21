@@ -1,5 +1,6 @@
 package com.ssafy.interviewstudy.domain.study;
 
+import com.ssafy.interviewstudy.domain.member.Member;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
