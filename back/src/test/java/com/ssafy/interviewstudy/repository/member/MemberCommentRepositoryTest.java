@@ -6,9 +6,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @Transactional
-public class MemberCommentRepository {
+public class MemberCommentRepositoryTest{
 
     @Autowired
     MemberRepository memberRepository;
+
+    @Autowired
+    MemberCommentRepository memberCommentRepository;
 
 }
