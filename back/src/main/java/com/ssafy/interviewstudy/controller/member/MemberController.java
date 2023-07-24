@@ -139,17 +139,27 @@ public class MemberController {
         memberService.register(registeredMember);
 
         //닉네임 고르러 가즈아
+        //내가 리다이렉트 시키는게 맞는지 생각
         HttpHeaders responseHttpHeaders = new HttpHeaders();
         responseHttpHeaders.setLocation(URI.create(RedirectUriSupport.selectNickname));
         return new ResponseEntity<>(responseHttpHeaders, HttpStatus.MOVED_PERMANENTLY);
     }
 
+    @GetMapping("/login/nickname/check/{nickname}")
+    public ResponseEntity<?> checkDuplicateNickname(@PathVariable(required = true) String nickname){
+        Member checkedMember = memberService.checkDuplicateNickname(nickname);
+        if(checkedMember==null){
+            return ResponseEntity.ok().build();
+        }
+        else return ResponseEntity.badRequest().build();
+    }
+    
     @PostMapping("/login/nickname")
     public ResponseEntity<?> selectNickname(@RequestBody(required = true) String nickname){
 
         //닉네임 중복체크
         Member checkedMember = memberService.checkDuplicateNickname(nickname);
-        if(checkedMember==null){
+        if(checkedMember!=null){
             HttpHeaders responseHttpHeaders = new HttpHeaders();
             /*
                 JWT토큰으로 처리하는 부분 현재 페이지에 들어와있는 멤버가 누군지 알아야함
@@ -163,32 +173,11 @@ public class MemberController {
             return new ResponseEntity<>(responseHttpHeaders, HttpStatus.MOVED_PERMANENTLY);
         }
         else{
-
             memberService.nextRegistrationStatus(checkedMember);
             HttpHeaders responseHttpHeaders = new HttpHeaders();
             responseHttpHeaders.setLocation(URI.create("http://localhost:8080/oauth"));
             return new ResponseEntity<>(responseHttpHeaders, HttpStatus.MOVED_PERMANENTLY);
 
         }
-    }
-
-    @GetMapping("/test")
-    public String test(HttpServletRequest httpServletRequest){
-        return "success!";
-    }
-
-    @GetMapping("/test2")
-    public ResponseEntity<?> test2(){
-        JWTMemberInfo jwtMemberInfo = JWTMemberInfo
-                .builder()
-                .memberId(1)
-                .email("tkdwo7699@gmail.com")
-                .build();
-
-        JWTProvider jwtProvider = new JWTProviderImpl();
-
-        HttpHeaders responseHttpHeaders = new HttpHeaders();
-        responseHttpHeaders.setBearerAuth(jwtProvider.provideToken(jwtMemberInfo));
-        return new ResponseEntity<>(responseHttpHeaders,HttpStatus.OK);
     }
 }
