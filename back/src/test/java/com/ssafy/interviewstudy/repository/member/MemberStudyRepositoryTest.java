@@ -29,6 +29,9 @@ public class MemberStudyRepositoryTest {
     MemberStudyRepository memberStudyRepository;
 
     @Autowired
+    StudyMemberRepository studyMemberRepository;
+
+    @Autowired
     MemberRepository memberRepository;
 
     @Test
@@ -64,15 +67,19 @@ public class MemberStudyRepositoryTest {
         StudyMember study1Member1 = StudyMember.builder().member(createdMember1).study(createdStudy1).build();
         StudyMember study2Member1 = StudyMember.builder().member(createdMember1).study(createdStudy2).build();
 
-        memberStudyRepository.save(study1Member1);
-        memberStudyRepository.save(study2Member1);
+        studyMemberRepository.save(study1Member1);
+        studyMemberRepository.save(study2Member1);
 
         //when
-        List<StudyMember> studyMemberList =
-                memberStudyRepository.findStudyMembersByMemberId(createdMember1.getId());
+        List<Study> studyList =
+                memberStudyRepository.getStudyByMemberId(createdMember1.getId());
 
-        org.assertj.core.api.Assertions.assertThat(studyMemberList)
-                .contains(study1Member1)
-                .contains(study2Member1);
+        org.assertj.core.api.Assertions.assertThat(studyList)
+                .contains(
+                        createdStudy1
+                ).contains(
+                        createdStudy2
+                );
+
     }
 }
