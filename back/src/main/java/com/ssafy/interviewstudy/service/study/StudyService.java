@@ -8,6 +8,7 @@ import com.ssafy.interviewstudy.repository.member.MemberRepository;
 import com.ssafy.interviewstudy.repository.study.StudyMemberRepository;
 import com.ssafy.interviewstudy.repository.study.StudyRepository;
 import com.ssafy.interviewstudy.repository.study.StudyRequestRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -20,18 +21,13 @@ import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class StudyService {
 
-    private StudyRepository studyRepository;
-    private MemberRepository memberRepository;
-    private StudyMemberRepository studyMemberRepository;
+    private final StudyRepository studyRepository;
+    private final MemberRepository memberRepository;
+    private final StudyMemberRepository studyMemberRepository;
 
-    @Autowired
-    public StudyService(StudyRepository studyRepository, MemberRepository memberRepository, StudyMemberRepository studyMemberRepository) {
-        this.studyRepository = studyRepository;
-        this.memberRepository = memberRepository;
-        this.studyMemberRepository = studyMemberRepository;
-    }
 
     //내 스터디 조회
     public List<Study> findMyStudies(Integer id){
