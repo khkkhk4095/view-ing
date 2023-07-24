@@ -15,6 +15,6 @@ const Container = styled.div`
   
 `;
 
-export default function SubButton(props) {
-  return <Container>{props.content}</Container>
+export default function SubButton({content, onClick}) {
+  return <Container onClick={onClick}>{content}</Container>
 }
