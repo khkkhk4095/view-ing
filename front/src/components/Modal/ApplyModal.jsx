@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import InputBox from "../Common/InputBox";
-import DownloadFiles from "../Common/DownloadFile";
+import DownloadFiles from "../Common/UploadFile";
 import MainButton from "../Button/MainButton";
 
 const ModalOverlay = styled.div`
@@ -48,8 +48,8 @@ const ButtonContainer = styled.div`
 `;
 
 export default function ApplyModal({ isOpen, onClose }) {
-  const [text, setText] = useState("")
-  const [files, setFiles] = useState([])
+  const [text, setText] = useState("");
+  const [files, setFiles] = useState([]);
 
   const handleCloseModal = () => {
     onClose();
@@ -63,22 +63,27 @@ export default function ApplyModal({ isOpen, onClose }) {
             <CompanyAndJob>삼성 SDS/ 머시깽이 직무</CompanyAndJob>
             <Title>스터디명 완전 좋아</Title>
             <AuthorAndDate>신청자 김김김 작성일 2023.07.24</AuthorAndDate>
-            <InputBox width={578} height={200} setText={setText} text={text}></InputBox>
+            <InputBox
+              width={578}
+              height={200}
+              setText={setText}
+              text={text}
+            ></InputBox>
             <DownloadFiles setFiles={setFiles} files={files}></DownloadFiles>
             <ButtonContainer>
-              <MainButton 
-              content="신청하기" 
-              onClick={() => console.log(text, files)}
-              fontSize={14}
-              marginRight={20}
-              width={80}
-              height={40}
+              <MainButton
+                content="신청하기"
+                onClick={() => console.log(text, files)}
+                fontSize={14}
+                marginRight={20}
+                width={80}
+                height={40}
               />
-              <MainButton 
-              content="취소하기"
-              fontSize={14}
-              width={80}
-              height={40}
+              <MainButton
+                content="취소하기"
+                fontSize={14}
+                width={80}
+                height={40}
               />
             </ButtonContainer>
           </ModalContent>
