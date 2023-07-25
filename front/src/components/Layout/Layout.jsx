@@ -1,9 +1,7 @@
 import styled from "styled-components";
-import HeaderBox from "./HeaderBox";
 
 const LayoutContainer = styled.div`
   width: 100%;
-  max-width: 100vw;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -11,15 +9,28 @@ const LayoutContainer = styled.div`
 
 const LayoutBody = styled.div`
   width: 1200px;
-  background-color: #ffffff;
+  background-color: red;
   height: 100vh;
   margin: 0 auto;
+`;
+
+const Header = styled.div`
+  width: 100%;
+  height: 64px;
+  background-color: blue;
+`;
+
+const HeroImage = styled.div`
+  width: 100%;
+  height: 372px;
+  background-color: green;
 `;
 
 export default function Layout({ children }) {
   return (
     <LayoutContainer>
-      <HeaderBox />
+      <Header />
+      {/* <HeroImage /> */}
       <LayoutBody>{children}</LayoutBody>
     </LayoutContainer>
   );
