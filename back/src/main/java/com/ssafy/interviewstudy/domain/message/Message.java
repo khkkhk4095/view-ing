@@ -28,7 +28,7 @@ public class Message {
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
-    private Boolean isRead;
+    private Boolean isRead=false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id")
@@ -37,4 +37,8 @@ public class Message {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "receiver_id")
     private Member receiver;
+
+    public void readMessage(){
+        isRead = true;
+    }
 }
