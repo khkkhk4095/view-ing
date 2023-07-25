@@ -26,13 +26,13 @@ public class MessageSendRequest {
     //쪽지 제목
     private String title;
 
-    public static Message toEntity(MessageSendRequest messageSendRequest){
+    public static Message toEntity(MessageSendRequest messageSendRequest,Member author,Member receiver){
         Message message =
                 Message.builder()
                         .title(messageSendRequest.getTitle())
                         .content(messageSendRequest.getContent())
-                        .author(Member.builder().id(messageSendRequest.getAuthorId()).build())
-                        .receiver(Member.builder().id(messageSendRequest.getReceiverId()).build())
+                        .author(author)
+                        .receiver(receiver)
                         .build();
         return message;
     }

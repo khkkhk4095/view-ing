@@ -1,8 +1,10 @@
 package com.ssafy.interviewstudy.service.message;
 
+import com.ssafy.interviewstudy.domain.member.Member;
 import com.ssafy.interviewstudy.domain.message.Message;
 import com.ssafy.interviewstudy.dto.message.MessageListResponse;
 import com.ssafy.interviewstudy.dto.message.MessageSendRequest;
+import com.ssafy.interviewstudy.repository.member.MemberRepository;
 import com.ssafy.interviewstudy.repository.message.MessageRepository;
 import com.ssafy.interviewstudy.dto.message.MessageDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +18,18 @@ import java.util.List;
 public class MessageService {
     private final MessageRepository messageRepository;
 
+    private final MemberRepository memberRepository;
+
     private final EntityManager em;
 
+
     @Autowired
-    public MessageService(MessageRepository messageRepository, EntityManager em) {
+    public MessageService(MessageRepository messageRepository, MemberRepository memberRepository, EntityManager em) {
         this.messageRepository = messageRepository;
+        this.memberRepository = memberRepository;
         this.em = em;
     }
+
 
 
     //쪽지 상세 조회
@@ -30,7 +37,6 @@ public class MessageService {
     public MessageDto getMessageDetail(Integer messageId) {
         Message message = messageRepository.findMessageById(messageId);
         message.readMessage();
-        em.flush();
         return MessageDto.fromEntity(message);
     }
 
@@ -51,7 +57,9 @@ public class MessageService {
     //쪽지 보내기
     @Transactional
     public Integer sendMessage(MessageSendRequest messageSendRequest){
-        Message message = MessageSendRequest.toEntity(messageSendRequest);
+        Member author = memberRepository.findMemberById(messageSendRequest.getAuthorId());
+        Member receiver = memberRepository.findMemberById(messageSendRequest.getReceiverId());
+        Message message = MessageSendRequest.toEntity(messageSendRequest,author,receiver);
         messageRepository.save(message);
         return message.getId();
     }
