@@ -43,14 +43,14 @@ const ToggleContainer = styled.div`
   padding: 3px;
   margin-left: 5px;
 
-  ${({ isToggled }) =>
-    isToggled &&
+  ${({ $isToggled }) =>
+    $isToggled &&
     css`
       animation: ${colorAnimation} 0.3s linear;
       background-color: var(--primary);
     `}
-  ${({ isToggled }) =>
-    !isToggled &&
+  ${({ $isToggled }) =>
+    !$isToggled &&
     css`
       animation: ${colorAnimation2} 0.3s linear;
       background-color: var(--gray-200);
@@ -65,8 +65,8 @@ const ToggleButton = styled.div`
   background-color: var(--gray-50);
   transition: transform 0.3s ease-in-out;
 
-  ${({ isToggled }) =>
-    isToggled &&
+  ${({ $isToggled }) =>
+    $isToggled &&
     css`
       transform: translateX(25px);
     `}
@@ -82,8 +82,8 @@ const Toggle = ({text}) => {
   return (
     <Container>
       <H1 onClick={handleToggle}>모집 중만 보기</H1>
-      <ToggleContainer onClick={handleToggle} isToggled={isToggled}>
-        <ToggleButton isToggled={isToggled} />
+      <ToggleContainer onClick={handleToggle} $isToggled={isToggled}>
+        <ToggleButton $isToggled={isToggled} />
       </ToggleContainer>
     </Container>
   );
