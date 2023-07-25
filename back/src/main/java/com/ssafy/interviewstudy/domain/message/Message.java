@@ -1,6 +1,7 @@
 package com.ssafy.interviewstudy.domain.message;
 
 import com.ssafy.interviewstudy.domain.member.Member;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -37,6 +38,18 @@ public class Message {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "receiver_id")
     private Member receiver;
+
+    @Builder
+    public Message(Integer id, String title, String content, LocalDateTime createdAt, Boolean isRead, Member author, Member receiver) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.createdAt = createdAt;
+        this.isRead = isRead;
+        this.author = author;
+        this.receiver = receiver;
+    }
+
 
     public void readMessage(){
         isRead = true;

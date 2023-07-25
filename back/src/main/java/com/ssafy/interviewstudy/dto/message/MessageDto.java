@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Data
-public class MessageDetailResponse {
+public class MessageDto {
 
     //메세지 PK
     private Integer messageId;
@@ -34,8 +34,8 @@ public class MessageDetailResponse {
     private messageMember receiver;
 
     //엔티티로 부터 메시지 조회 응답 dto 생성
-    public static MessageDetailResponse fromEntityWithoutContent(Message message){
-        MessageDetailResponse messageDetailResponse = new MessageDetailResponse();
+    public static MessageDto fromEntityWithoutContent(Message message){
+        MessageDto messageDetailResponse = new MessageDto();
 
         messageDetailResponse.setMessageId(message.getId());
         messageDetailResponse.setTitle(message.getTitle());
@@ -58,10 +58,9 @@ public class MessageDetailResponse {
         return messageDetailResponse;
     }
 
-    public static MessageDetailResponse fromEntity(Message message){
-        MessageDetailResponse messageDetailResponse = fromEntityWithoutContent(message);
+    public static MessageDto fromEntity(Message message){
+        MessageDto messageDetailResponse = fromEntityWithoutContent(message);
         messageDetailResponse.setContent(message.getContent());
         return messageDetailResponse;
     }
-
 }

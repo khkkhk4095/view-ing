@@ -13,13 +13,13 @@ import java.util.List;
 @NoArgsConstructor
 public class MessageListResponse {
 
-    private List<MessageDetailResponse> data = new ArrayList<>();
+    private List<MessageDto> data = new ArrayList<>();
 
     public static MessageListResponse fromEntityList(List<Message> messageList){
         MessageListResponse messageListResponse = new MessageListResponse();
         for(Message m : messageList){
             messageListResponse.getData().
-                    add(MessageDetailResponse.fromEntityWithoutContent(m));
+                    add(MessageDto.fromEntityWithoutContent(m));
         }
         return messageListResponse;
     }
