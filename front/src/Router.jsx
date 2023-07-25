@@ -41,6 +41,7 @@ import MeetingPk from "./pages/MeetingPk";
 import MeetingPkReady from "./pages/MeetingPkReady";
 import MypageGetPk from "./pages/MypageGetPk";
 import MypageSendPk from "./pages/MypageSendPk";
+import KaKaoLogin from "./pages/KakaoLogin";
 
 const router = createBrowserRouter([
   {
@@ -209,6 +210,10 @@ const router = createBrowserRouter([
   {
     path: "meeting/:meetingPK/ready",
     element: <MeetingPkReady />,
+  },
+  {
+    path: "kakaologin",
+    element: <KaKaoLogin/>,
   },
 ]);
 

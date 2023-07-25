@@ -13,7 +13,7 @@ const Container = styled.div`
 `;
 
 export function LoginKakao() {
-  window.location.href = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=2869d34ce0755e095b7d39e5eb3aeafb&redirect_uri=http://localhost:3000"
+  window.location.href = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=2869d34ce0755e095b7d39e5eb3aeafb&redirect_uri=http://localhost:3000/kakaologin"
 }
 
 
