@@ -1,10 +1,8 @@
-import Toggle from "../components/Common/Toggle";
-import ApplyModal from "../components/Modal/ApplyModal";
-import UserProfile from "../components/Common/UserProfile";
-import MiniMenuList from "../components/Common/Organisms/MiniMenuList";
+import KakaoButton from '../components/Button/KakaoButton';
+import Calendar from './../components/Common/Calendar';
 
 export default function Login() {
-  return (
-    <>    </>
-  );
+  return <>
+    <KakaoButton></KakaoButton>
+  </>
 }
