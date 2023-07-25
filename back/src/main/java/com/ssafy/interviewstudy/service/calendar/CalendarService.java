@@ -44,7 +44,7 @@ public class CalendarService {
     public CalendarCreatedResponse createCalendar(CalendarDto calendarDto){
         Member author = memberRepository.findMemberById(calendarDto.getMemberId());
         Calendar calendar = CalendarDto.toEntity(calendarDto,author);
-        
+        calendarRepository.save(calendar);
         //Optional을 쓸만한 상황
         if(calendar==null){
             throw new CreationFailException("캘린더");
@@ -66,6 +66,12 @@ public class CalendarService {
 
     //일정 수정
     @Transactional
-    
+    public void updateCalendar(CalendarDto calendarDto){
+        Member updatedMember = memberRepository.findMemberById(calendarDto.getMemberId());
+        if(updatedMember==null){
+            throw new CreationFailException("캘린더");
+        }
+        calendarRepository.save(CalendarDto.toEntity(calendarDto,updatedMember));
+    }
 
 }
