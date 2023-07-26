@@ -1,0 +1,31 @@
+package com.ssafy.interviewstudy.dto.study;
+
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.ssafy.interviewstudy.domain.member.Member;
+import com.ssafy.interviewstudy.domain.member.MemberProfileBackground;
+import com.ssafy.interviewstudy.domain.member.MemberProfileImage;
+import lombok.*;
+
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@AllArgsConstructor(access = AccessLevel.PUBLIC)
+@Builder
+@Data
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
+public class StudyMemberDto {
+    private Integer id;
+
+    private String nickname;
+
+    private MemberProfileBackground background;
+
+    private MemberProfileImage character;
+
+    public StudyMemberDto(Member member){
+        if(member == null) return;
+        this.id = member.getId();
+        this.nickname = member.getNickname();
+        this.background = member.getMemberProfileBackground();
+        this.character = member.getMemberProfileImage();;
+    }
+}
