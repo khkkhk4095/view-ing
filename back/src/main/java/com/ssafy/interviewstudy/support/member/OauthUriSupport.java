@@ -34,7 +34,7 @@ public class OauthUriSupport {
     //Oauth 2.0 클라이언트ID
     public static String getClientId(SocialLoginType socialLoginType){
         if(socialLoginType==SocialLoginType.kakao){
-            return "a684cbf16b718d9b4f5ab2006f679570";
+            return "2869d34ce0755e095b7d39e5eb3aeafb";
         }
         if(socialLoginType==SocialLoginType.google){
             return "305569629426-vuadrf7g4tu5akoin7mu5faahukm2jhe.apps.googleusercontent.com";
@@ -47,12 +47,13 @@ public class OauthUriSupport {
     }
 
     public static String getRedirectUri(SocialLoginType socialLoginType){
+        if(socialLoginType==SocialLoginType.kakao) return "http://localhost:3000/kakaologin";
         return "http://localhost:8080/oauth/"+socialLoginType.toString();
     }
 
     public static String getClientSecret(SocialLoginType socialLoginType){
         if(socialLoginType==SocialLoginType.kakao){
-            return "txNZUThxM2ot63rNm0eJwqGVifYqpA8m";
+            return "mGDziiY3mWQqXCxnCR2quFwTBqBO4hTh";
         }
         if(socialLoginType==SocialLoginType.google){
             return "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";
