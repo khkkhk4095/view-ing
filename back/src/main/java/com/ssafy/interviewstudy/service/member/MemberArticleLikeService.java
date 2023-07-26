@@ -30,7 +30,16 @@ public class MemberArticleLikeService {
     @Transactional
     public List<BoardResponse> getLikedArticleByMemberId(BoardRequest boardRequest, BoardType boardType){
         List<BoardResponse> boardResponses = new ArrayList<>();
-        List<Board> boardList = memberArticleLikeRepository.getArticleByMemberId(boardRequest.getMemberId(),boardType);
+        List<Board> boardList = new ArrayList<>();
+        if(boardType.equals(BoardType.FreeBoard)){
+           boardList = memberArticleLikeRepository.getArticleByMemberIdAtFreeBoard(boardRequest.getMemberId());
+        }
+        if(boardType.equals(BoardType.QuestionBoard)){
+            boardList = memberArticleLikeRepository.getArticleByMemberIdAtQuestionBoard(boardRequest.getMemberId());
+        }
+        if(boardType.equals(BoardType.InterviewReviewBoard)){
+            boardList = memberArticleLikeRepository.getArticleByMemberIdAtInterviewReviewBoard(boardRequest.getMemberId());
+        }
         for(Board b : boardList){
             boardResponses.add(boardDtoService.fromEntityWithoutContent(b));
         }
