@@ -40,9 +40,14 @@ public class Study {
 
     private LocalDateTime deadline;
 
+    @ColumnDefault("false")
+    @Builder.Default
     private Boolean isRecruit = false;
 
-    private Boolean isDelete;
+    @ColumnDefault("false")
+    @Builder.Default
+    @Column(insertable = false)
+    private Boolean isDelete = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "leader_id")
