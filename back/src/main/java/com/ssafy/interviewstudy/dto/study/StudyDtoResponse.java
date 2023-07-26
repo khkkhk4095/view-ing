@@ -1,6 +1,9 @@
 package com.ssafy.interviewstudy.dto.study;
 
-import com.ssafy.interviewstudy.domain.study.Company;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.ssafy.interviewstudy.domain.study.CareerLevel;
 import com.ssafy.interviewstudy.domain.study.Study;
 import com.ssafy.interviewstudy.domain.study.StudyTag;
 import lombok.*;
@@ -13,7 +16,8 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 @Builder
 @Data
-public class StudyResponse {
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
+public class StudyDtoResponse {
     private Integer studyId;
 
     private String title;
@@ -28,17 +32,21 @@ public class StudyResponse {
 
     private int headCount;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime createdAt;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime deadline;
 
     private boolean isRecruit;
 
     private Leader leader;
 
+    private CareerLevel careerLevel;
+
     private List<String> tags = new ArrayList<>();
 
-    public StudyResponse(Study study){
+    public StudyDtoResponse(Study study){
         this.studyId = study.getId();
         this.title = study.getTitle();
         this.description = study.getDescription();
@@ -49,6 +57,7 @@ public class StudyResponse {
         this.deadline = study.getDeadline();
         this.isRecruit = study.getIsRecruit();
         this.leader = new Leader(study.getLeader());
+        this.careerLevel = study.getCareerLevel();
         List<StudyTag> tags = study.getStudyTags();
         for (StudyTag tag : tags) {
             this.tags.add(tag.getTag().getTagName());

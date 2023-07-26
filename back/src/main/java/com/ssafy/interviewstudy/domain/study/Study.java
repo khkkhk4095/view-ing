@@ -1,7 +1,9 @@
 package com.ssafy.interviewstudy.domain.study;
 
 import com.ssafy.interviewstudy.domain.member.Member;
+import com.ssafy.interviewstudy.dto.study.StudyDtoRequest;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -38,9 +40,13 @@ public class Study {
 
     private LocalDateTime deadline;
 
-    private Boolean isRecruit;
+    @ColumnDefault("false")
+    @Builder.Default
+    private Boolean isRecruit = false;
 
-    private Boolean isDelete;
+    @ColumnDefault("false")
+    @Builder.Default
+    private Boolean isDelete = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "leader_id")
@@ -68,4 +74,39 @@ public class Study {
     @OneToMany(mappedBy = "study")
     List<StudyBookmark> studyBookmarks = new ArrayList<>();
 
+    public Study(StudyDtoRequest studyDtoRequest){
+        this.title = studyDtoRequest.getTitle();
+        this.description = studyDtoRequest.getDescription();
+        this.appliedJob = studyDtoRequest.getAppliedJob();
+        this.careerLevel = studyDtoRequest.getCareerLevel();
+        this.capacity = studyDtoRequest.getCapacity();
+        this.deadline = studyDtoRequest.getDeadline();
+        this.isRecruit = studyDtoRequest.isRecruit();
+    }
+
+    public void updateLeader(Member member){
+        this.leader = member;
+    }
+
+    public void updateCompany(Company appliedCompany){
+        this.appliedCompany = appliedCompany;
+    }
+
+    public void deleteStudy(){
+        this.isDelete = true;
+    }
+
+    public void updateStudy(StudyDtoRequest studyDtoRequest){
+        this.title = studyDtoRequest.getTitle();
+        this.description = studyDtoRequest.getDescription();
+        this.appliedJob = studyDtoRequest.getAppliedJob();
+        this.careerLevel = studyDtoRequest.getCareerLevel();
+        this.capacity = studyDtoRequest.getCapacity();
+        this.deadline = studyDtoRequest.getDeadline();
+        this.isRecruit = studyDtoRequest.isRecruit();
+    }
+
+    public void switchRecruit(boolean isRecruit){
+        this.isRecruit = isRecruit;
+    }
 }
