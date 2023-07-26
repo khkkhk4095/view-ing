@@ -28,9 +28,16 @@ public class MemberCommentService {
     @Transactional
     public List<BoardResponse> getCommentedArticle(BoardRequest boardRequest, BoardType boardType){
         List<BoardResponse> boardResponses = new ArrayList<>();
-
-        List<Board> boardList = memberCommentRepository.getCommentedBoardByMemberId(boardRequest.getMemberId(),boardType);
-
+        List<Board> boardList = new ArrayList<>();
+        if(boardType==BoardType.FreeBoard){
+         boardList = memberCommentRepository.getCommentedBoardByMemberIdAtFreeBoard(boardRequest.getMemberId());
+        }
+        if(boardType==BoardType.QuestionBoard){
+            boardList=memberCommentRepository.getCommentedBoardByMemberIdAtQuestionBoard(boardRequest.getMemberId());
+        }
+        if(boardType==BoardType.InterviewReviewBoard){
+            boardList=memberCommentRepository.getCommentedBoardByMemberIdAtInterviewBoard(boardRequest.getMemberId());
+        }
         for(Board b : boardList){
             boardResponses.add(boardDtoService.fromEntityWithoutContent(b));
         }
