@@ -32,7 +32,7 @@ public class Study {
     @Enumerated(EnumType.STRING)
     private CareerLevel careerLevel;
 
-    private int capacity;
+    private Integer capacity;
 
     @CreatedDate
     @Column(updatable = false)
@@ -40,13 +40,9 @@ public class Study {
 
     private LocalDateTime deadline;
 
-    @ColumnDefault("false")
-    @Builder.Default
     private Boolean isRecruit = false;
 
-    @ColumnDefault("false")
-    @Builder.Default
-    private Boolean isDelete = false;
+    private Boolean isDelete;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "leader_id")
@@ -81,7 +77,7 @@ public class Study {
         this.careerLevel = studyDtoRequest.getCareerLevel();
         this.capacity = studyDtoRequest.getCapacity();
         this.deadline = studyDtoRequest.getDeadline();
-        this.isRecruit = studyDtoRequest.isRecruit();
+        this.isRecruit = studyDtoRequest.getRecruitment();
     }
 
     public void updateLeader(Member member){
@@ -103,7 +99,7 @@ public class Study {
         this.careerLevel = studyDtoRequest.getCareerLevel();
         this.capacity = studyDtoRequest.getCapacity();
         this.deadline = studyDtoRequest.getDeadline();
-        this.isRecruit = studyDtoRequest.isRecruit();
+        this.isRecruit = studyDtoRequest.getRecruitment();
     }
 
     public void switchRecruit(boolean isRecruit){

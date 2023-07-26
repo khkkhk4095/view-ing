@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,7 +61,7 @@ public class StudyService {
     }
 
 
-    //스터디 조회
+    //스터디 조회(사용하지 않음)
     public Page<StudyDtoResponse> findStudies(Boolean option, Pageable pageable){
         Page<Study> studies = studyRepository.findStudiesBySearch(option, null, null, null, pageable);
         List<StudyDtoResponse> result = new ArrayList<>();
@@ -86,7 +87,7 @@ public class StudyService {
         Study study = requestToStudy(studyDtoRequest);
         Member leader = memberRepository.findById(studyDtoRequest.getLeaderId()).get();
         study.updateLeader(leader);
-        study.updateCompany(companyRepository.findCompanyByName(studyDtoRequest.getAppliedCompany()).get());
+        study.updateCompany(companyRepository.findById(studyDtoRequest.getAppliedCompany()).get());
         studyRepository.save(study);
 
         List<Integer> tags = studyDtoRequest.getTags();
