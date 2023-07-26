@@ -1,4 +1,4 @@
-package com.ssafy.interviewstudy.service.member;
+package com.ssafy.interviewstudy.service.member.bookmark;
 
 import com.ssafy.interviewstudy.domain.member.Member;
 import com.ssafy.interviewstudy.domain.study.Study;
@@ -12,7 +12,12 @@ import com.ssafy.interviewstudy.repository.member.MemberStudyBookmarkRepository;
 import com.ssafy.interviewstudy.repository.study.StudyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
+
+@Validated
 @Service
 public class MemberStudyBookmarkService {
     private final MemberRepository memberRepository;
@@ -27,8 +32,18 @@ public class MemberStudyBookmarkService {
         this.studyRepository = studyRepository;
     }
 
-    public StudyBookmarkResponse createStudyBookmark(StudyBookmarkRequest studyBookmarkRequest){
+    @Transactional
+    public StudyBookmarkResponse createStudyBookmark(@Valid StudyBookmarkRequest studyBookmarkRequest){
 
+        //먼저 이미 북마크했는지 검증
+        StudyBookmark validStudyBookmark =
+                memberStudyBookmarkRepository.findStudyBookmarkByStudyIdAndMemberId(
+                                studyBookmarkRequest.getStudyId(),
+                                studyBookmarkRequest.getMemberId());
+
+        if(validStudyBookmark!=null){
+            throw new CreationFailException("스터디 북마크");
+        }
 
         //스터디 북마크할 멤버 조회
         Member member = memberRepository.findMemberById(studyBookmarkRequest.getMemberId());
@@ -53,7 +68,9 @@ public class MemberStudyBookmarkService {
         return new StudyBookmarkResponse(studyBookmark.getId());
     }
 
-    public void deleteStudyBookmark(StudyBookmarkRequest studyBookmarkRequest){
+
+    @Transactional
+    public void deleteStudyBookmark(@Valid StudyBookmarkRequest studyBookmarkRequest){
 
         //멤버아이디와 스터디아이디로 해당 북마크 지우기
         Integer result =

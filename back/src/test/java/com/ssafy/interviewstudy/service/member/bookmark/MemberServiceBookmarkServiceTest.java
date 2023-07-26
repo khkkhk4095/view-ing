@@ -1,4 +1,4 @@
-package com.ssafy.interviewstudy.service.member;
+package com.ssafy.interviewstudy.service.member.bookmark;
 
 import com.ssafy.interviewstudy.domain.member.Member;
 import com.ssafy.interviewstudy.domain.study.Company;
@@ -10,6 +10,7 @@ import com.ssafy.interviewstudy.repository.member.MemberRepository;
 import com.ssafy.interviewstudy.repository.member.MemberStudyBookmarkRepository;
 import com.ssafy.interviewstudy.repository.study.CompanyRepository;
 import com.ssafy.interviewstudy.repository.study.StudyRepository;
+import com.ssafy.interviewstudy.service.member.bookmark.MemberStudyBookmarkService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
