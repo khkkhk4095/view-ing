@@ -42,6 +42,8 @@ import MeetingPkReady from "./pages/MeetingPkReady";
 import MypageGetPk from "./pages/MypageGetPk";
 import MypageSendPk from "./pages/MypageSendPk";
 import KaKaoLogin from "./pages/KakaoLogin";
+import GoogleLogin from "./pages/GoogleLogin";
+import GitHubLogin from "./pages/GitHubLogin";
 
 const router = createBrowserRouter([
   {
@@ -212,8 +214,16 @@ const router = createBrowserRouter([
     element: <MeetingPkReady />,
   },
   {
-    path: "kakaologin",
+    path: "login/kakao",
     element: <KaKaoLogin/>,
+  },
+  {
+    path: "login/google",
+    element: <GoogleLogin/>,
+  },
+  {
+    path: "login/github",
+    element: <GitHubLogin/>,
   },
 ]);
 

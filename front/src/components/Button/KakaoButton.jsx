@@ -13,7 +13,16 @@ const Container = styled.div`
 `;
 
 export function LoginKakao() {
-  window.location.href = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=2869d34ce0755e095b7d39e5eb3aeafb&redirect_uri=http://localhost:3000/kakaologin"
+  const KAKAO_URL = "https://kauth.kakao.com/oauth/authorize";
+  const queries = {
+    response_type : "code",
+    client_id: "2869d34ce0755e095b7d39e5eb3aeafb",
+    redirect_uri: "http://localhost:3000/login/kakao"
+  };
+
+  const params = new URLSearchParams(queries).toString();
+
+  window.location.href = `${KAKAO_URL}?${params}`
 }
 
 
