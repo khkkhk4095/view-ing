@@ -93,6 +93,8 @@ public class MemberController {
             responseHttpHeaders.setLocation(URI.create(RedirectUriSupport.home));
             return new ResponseEntity<>(responseHttpHeaders, HttpStatus.MOVED_PERMANENTLY);
         }
+
+        System.out.println("이메일 : "+memberInfoResult.getEmail());
         //이메일롷 현재 멤버 찾아보기
         Member currentMember = memberService.findByEmail(memberInfoResult.getEmail());
 
@@ -143,9 +145,19 @@ public class MemberController {
 
         //닉네임 고르러 가즈아
         //내가 리다이렉트 시키는게 맞는지 생각
+
         HttpHeaders responseHttpHeaders = new HttpHeaders();
-        responseHttpHeaders.setLocation(URI.create(RedirectUriSupport.selectNickname));
-        return new ResponseEntity<>(responseHttpHeaders, HttpStatus.MOVED_PERMANENTLY);
+        JWTProvider jwtProvider = new JWTProviderImpl();
+        //jwt 토큰 세팅
+        JWTToken jwtToken = JWTToken.builder().accessToken(
+                jwtProvider.provideToken(JWTMemberInfo.
+                        builder().
+                        memberId(registeredMember.getId()).
+                        email(registeredMember.getEmail()).
+                        build()
+                )
+        ).build();
+        return ResponseEntity.ok().body(jwtToken);
     }
 
     @GetMapping("/login/nickname/check/{nickname}")
