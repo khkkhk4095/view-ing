@@ -4,7 +4,7 @@ import com.ssafy.interviewstudy.domain.board.Board;
 import com.ssafy.interviewstudy.domain.board.BoardType;
 import com.ssafy.interviewstudy.dto.board.BoardRequest;
 import com.ssafy.interviewstudy.dto.board.BoardResponse;
-import com.ssafy.interviewstudy.repository.member.MemberArticleLikeRepository;
+import com.ssafy.interviewstudy.repository.member.MemberCommentRepository;
 import com.ssafy.interviewstudy.service.board.BoardDtoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,27 +14,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class MemberArticleLikeService {
+public class MemberCommentService {
 
-    private MemberArticleLikeRepository memberArticleLikeRepository;
+    private MemberCommentRepository memberCommentRepository;
 
     private BoardDtoService boardDtoService;
-
     @Autowired
-    public MemberArticleLikeService(MemberArticleLikeRepository memberArticleLikeRepository, BoardDtoService boardDtoService) {
-        this.memberArticleLikeRepository = memberArticleLikeRepository;
+    public MemberCommentService(MemberCommentRepository memberCommentRepository, BoardDtoService boardDtoService) {
+        this.memberCommentRepository = memberCommentRepository;
         this.boardDtoService = boardDtoService;
     }
 
-
     @Transactional
-    public List<BoardResponse> getLikedArticleByMemberId(BoardRequest boardRequest, BoardType boardType){
+    public List<BoardResponse> getCommentedArticle(BoardRequest boardRequest, BoardType boardType){
         List<BoardResponse> boardResponses = new ArrayList<>();
-        List<Board> boardList = memberArticleLikeRepository.getArticleByMemberId(boardRequest.getMemberId(),boardType);
+
+        List<Board> boardList = memberCommentRepository.getCommentedBoardByMemberId(boardRequest.getMemberId(),boardType);
+
         for(Board b : boardList){
             boardResponses.add(boardDtoService.fromEntityWithoutContent(b));
         }
         return boardResponses;
     }
-
 }
