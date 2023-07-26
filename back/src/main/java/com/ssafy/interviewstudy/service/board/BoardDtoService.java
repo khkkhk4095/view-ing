@@ -1,10 +1,9 @@
 package com.ssafy.interviewstudy.service.board;
 
 import com.ssafy.interviewstudy.domain.board.Board;
+import com.ssafy.interviewstudy.domain.board.StudyBoard;
 import com.ssafy.interviewstudy.domain.member.Member;
-import com.ssafy.interviewstudy.dto.board.Author;
-import com.ssafy.interviewstudy.dto.board.BoardRequest;
-import com.ssafy.interviewstudy.dto.board.BoardResponse;
+import com.ssafy.interviewstudy.dto.board.*;
 import com.ssafy.interviewstudy.repository.board.ArticleCommentRepository;
 import com.ssafy.interviewstudy.repository.board.ArticleLikeRepository;
 import com.ssafy.interviewstudy.repository.board.BoardRepository;
@@ -58,4 +57,39 @@ public class BoardDtoService {
 
         return boardResponse;
     }
+
+    public StudyBoard toEntity(StudyBoardRequest studyBoardRequest) {
+        Member author = memberRepository.findMemberById(studyBoardRequest.getMemberId());
+
+        StudyBoard article = new StudyBoard();
+        article.setTitle(studyBoardRequest.getTitle());
+        article.setContent(studyBoardRequest.getContent());
+        article.setAuthor(author);
+
+        return article;
+    }
+
+    public StudyBoardResponse fromEntityWithoutContent(StudyBoard article) {
+        StudyBoardResponse studyBoardResponse = new StudyBoardResponse();
+
+        studyBoardResponse.setId(article.getId());
+        studyBoardResponse.setAuthor(new Author(article.getAuthor()));
+        studyBoardResponse.setTitle(article.getTitle());
+        studyBoardResponse.setViewCount(article.getViewCount());
+        studyBoardResponse.setCommentCount(commentRepository.countByArticle(article));
+        studyBoardResponse.setLikeCount(articleLikeRepository.countByArticle(article));
+
+        return studyBoardResponse;
+    }
+
+    public StudyBoardResponse fromEntity(StudyBoard article) {
+        StudyBoardResponse boardResponse = fromEntityWithoutContent(article);
+        boardResponse.setContent(article.getContent());
+        boardResponse.setCreatedAt(article.getCreatedAt());
+        boardResponse.setUpdatedAt(article.getUpdatedAt());
+        boardResponse.setArticleFiles(article.getFiles());
+
+        return boardResponse;
+    }
+
 }

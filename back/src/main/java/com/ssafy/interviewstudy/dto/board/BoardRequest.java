@@ -13,7 +13,7 @@ import java.util.List;
 public class BoardRequest {
 
     private Integer memberId;
-    private Integer id;
+//    private Integer id;
 
     private String title;
     private String content;
