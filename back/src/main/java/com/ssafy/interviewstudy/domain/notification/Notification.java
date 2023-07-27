@@ -1,8 +1,10 @@
 package com.ssafy.interviewstudy.domain.notification;
 
 import com.ssafy.interviewstudy.domain.member.Member;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -38,7 +40,18 @@ public class Notification {
     @Column(name = "notification_type")
     private NotificationType notificationType;
 
-    @Column(name = "is_read")
+    @ColumnDefault("false")
+    @Column(name = "is_read",insertable = false)
     private Boolean isRead;
 
+    @Builder
+    public Notification(Integer id, LocalDateTime createdAt, String url, String content, Member author, NotificationType notificationType, Boolean isRead) {
+        this.id = id;
+        this.createdAt = createdAt;
+        this.url = url;
+        this.content = content;
+        this.author = author;
+        this.notificationType = notificationType;
+        this.isRead = isRead;
+    }
 }

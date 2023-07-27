@@ -2,14 +2,14 @@ package com.ssafy.interviewstudy.repository.notification;
 
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-import java.util.List;
+import java.util.Map;
 
 public interface EmitterRepository {
 
-    public void save(String id, SseEmitter sseEmitter);
+    public SseEmitter save(String id, SseEmitter sseEmitter);
 
     public void deleteSseEmitterById(String id);
 
-    public List<SseEmitter> getEmittersByMemberId(Integer memberId);
+    public Map<String,SseEmitter> getEmittersByMemberId(Integer memberId);
 
 }

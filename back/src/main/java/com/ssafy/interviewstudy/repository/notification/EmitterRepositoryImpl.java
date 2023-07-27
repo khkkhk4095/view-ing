@@ -15,9 +15,10 @@ public class EmitterRepositoryImpl implements EmitterRepository{
     private static final ConcurrentHashMap<String, SseEmitter> sseEmitterConcurrentHashMap = new ConcurrentHashMap<>();
 
     @Override
-    public void save(String memberId,SseEmitter sseEmitter){
+    public SseEmitter save(String memberId,SseEmitter sseEmitter){
         String mapId = memberId+"_"+System.currentTimeMillis();
         sseEmitterConcurrentHashMap.put(mapId,sseEmitter);
+        return sseEmitter;
     }
 
     @Override
@@ -26,12 +27,11 @@ public class EmitterRepositoryImpl implements EmitterRepository{
     }
 
     @Override
-    public List<SseEmitter> getEmittersByMemberId(Integer memberId) {
+    public Map<String,SseEmitter> getEmittersByMemberId(Integer memberId) {
         return sseEmitterConcurrentHashMap
                 .entrySet()
                 .stream()
                 .filter(entry -> entry.getKey().startsWith(memberId+"_"))
-                .map(Map.Entry::getValue)
-                .collect(Collectors.toList());
+                .collect(Collectors.toMap(Map.Entry::getKey,Map.Entry::getValue));
     }
 }

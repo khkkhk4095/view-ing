@@ -10,5 +10,6 @@ public enum NotificationType {
     StudyReply,
     BoardComment,
     BoardReply,
-    Leader
+    Leader,
+    Test
 }
