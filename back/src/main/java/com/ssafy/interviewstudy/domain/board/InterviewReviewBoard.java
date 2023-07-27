@@ -14,8 +14,4 @@ import java.time.LocalDateTime;
 @DiscriminatorValue("interview_review_board")
 @PrimaryKeyJoinColumn(name = "article_id")
 public class InterviewReviewBoard extends Board{
-    @Builder
-    public InterviewReviewBoard(Integer id, Member author, String title, String content, LocalDateTime createdAt, LocalDateTime updatedAt, Integer viewCount) {
-        super(id, author, title, content, createdAt, updatedAt, viewCount);
-    }
 }
