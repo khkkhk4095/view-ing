@@ -44,24 +44,24 @@ public class BoardService {
     //글 리스트 조회, crud, 검색, 댓글 crud, 글 좋아요, 댓글 좋아요, 글 신고
 
     //글 목록 조회
-    public List<BoardResponse> findBoardList(String boardType, int page) {
+    public List<BoardResponse> findBoardList(Integer memberId, String boardType, int page) {
         List<Board> boardList = boardRepository.findByType(boardType, PageRequest.of(page, pageSize)).getContent();
         List<BoardResponse> responseList = new ArrayList<>();
 
         for (Board b : boardList) {
-            responseList.add(boardDtoService.fromEntityWithoutContent(b));
+            responseList.add(boardDtoService.fromEntityWithoutContent(memberId, b));
         }
 
         return responseList;
     }
 
     // 글 detail 조회
-    public BoardResponse findArticle(Integer articleId, String boardType) {
+    public BoardResponse findArticle(Integer memberId, Integer articleId, String boardType) {
         Optional<Board> article = boardRepository.findById(articleId);
         // 페이지도 나중에 request 받기
 
         // Null이면 예외 발생 처리
-        BoardResponse boardResponse = boardDtoService.fromEntity(article.orElseThrow(NullPointerException::new));
+        BoardResponse boardResponse = boardDtoService.fromEntity(memberId, article.orElseThrow(NullPointerException::new));
         boardResponse.setBoardType(boardType);
 
         return boardResponse;
@@ -75,11 +75,11 @@ public class BoardService {
         originArticle.modifyArticle(boardRequest);
         em.flush();
 
-        return boardDtoService.fromEntity(originArticle);
+        return boardDtoService.fromEntity(boardRequest.getMemberId(), originArticle);
     }
 
     // 글 삭제
-    public int removeArticle(Integer articleId){
+    public Integer removeArticle(Integer articleId){
 
         if(boardRepository.findById(articleId) == null){
             return 0;
