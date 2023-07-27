@@ -58,4 +58,14 @@ public class StudyController {
         studyService.removeStudy(studyId);
         return ResponseEntity.ok().build();
     }
+
+    @PutMapping("/{study_id}")
+    public ResponseEntity<?> modifyStudy(@PathVariable("study_id") Integer studyId, @Valid @RequestBody StudyDtoRequest study){
+        try {
+            studyService.modifyStudy(studyId, study);
+        }catch(ConstraintViolationException ce){
+            return ResponseEntity.internalServerError().body("스터디 수정 실패");
+        }
+        return ResponseEntity.created(URI.create("/studies/"+studyId)).build();
+    }
 }

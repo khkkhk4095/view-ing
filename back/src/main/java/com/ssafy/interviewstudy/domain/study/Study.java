@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter @Setter
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
@@ -66,7 +66,7 @@ public class Study {
     @OneToMany(mappedBy = "study")
     List<StudyRequest> studyRequests = new ArrayList<>();
 
-    @OneToMany(mappedBy = "study")
+    @OneToMany(mappedBy = "study", cascade = CascadeType.ALL, orphanRemoval = true)
     List<StudyTag> studyTags = new ArrayList<>();
 
     @OneToMany(mappedBy = "study")

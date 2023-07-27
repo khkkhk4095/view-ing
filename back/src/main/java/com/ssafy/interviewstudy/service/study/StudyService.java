@@ -3,6 +3,7 @@ package com.ssafy.interviewstudy.service.study;
 import com.ssafy.interviewstudy.domain.member.Member;
 import com.ssafy.interviewstudy.domain.study.*;
 import com.ssafy.interviewstudy.dto.study.*;
+import com.ssafy.interviewstudy.exception.message.NotFoundException;
 import com.ssafy.interviewstudy.repository.member.MemberRepository;
 import com.ssafy.interviewstudy.repository.study.*;
 import lombok.RequiredArgsConstructor;
@@ -51,7 +52,8 @@ public class StudyService {
         for (Study study : studies) {
             result.add(new StudyDtoResponse(study));
         }
-        return result;    }
+        return result;
+    }
 
 
     //스터디 정보 조회
@@ -115,6 +117,9 @@ public class StudyService {
     @Transactional
     public void modifyStudy(Integer studyId, StudyDtoRequest studyDtoRequest){
         Study study = studyRepository.findById(studyId).get();
+
+        if(study == null) throw new NotFoundException("스터디를 찾을 수 없습니다.");
+
         study.updateStudy(studyDtoRequest);
 
         studyTagRepository.deleteStudyTagByStudy(study);
