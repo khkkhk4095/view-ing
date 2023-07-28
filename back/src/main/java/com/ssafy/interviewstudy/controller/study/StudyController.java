@@ -117,7 +117,7 @@ public class StudyController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/{study_id}/requests/{request_id}")
+    @DeleteMapping("/{study_id}/requests/{request_id}")
     public ResponseEntity<?> requestCancel(@PathVariable("study_id") Integer studyId, @PathVariable("request_id") Integer requestId, @Valid@RequestBody Map map){
         Integer userId = null;
         if(map.containsKey("user_id")) userId = (Integer)map.get("user_id");
