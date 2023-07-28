@@ -1,12 +1,8 @@
 package com.ssafy.interviewstudy.controller.study;
 
 import com.ssafy.interviewstudy.domain.study.CareerLevel;
-import com.ssafy.interviewstudy.domain.study.StudyCalendar;
-import com.ssafy.interviewstudy.dto.message.MessageCreatedResponse;
-import com.ssafy.interviewstudy.dto.message.MessageSendRequest;
 import com.ssafy.interviewstudy.dto.study.*;
 import com.ssafy.interviewstudy.service.study.StudyService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -121,6 +117,14 @@ public class StudyController {
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping("/{study_id}/requests/{request_id}")
+    public ResponseEntity<?> requestCancel(@PathVariable("study_id") Integer studyId, @PathVariable("request_id") Integer requestId, @Valid@RequestBody Map map){
+        Integer userId = null;
+        if(map.containsKey("user_id")) userId = (Integer)map.get("user_id");
+        studyService.cancelRequest(requestId, studyId, userId);
+        return ResponseEntity.ok().build();
+    }
+
     @DeleteMapping("/{study_id}/members/{user_id}")
     public ResponseEntity<?> studyMemberBan(@PathVariable("study_id") Integer studyId, @PathVariable("user_id") Integer memberId){
         boolean result = studyService.banMemberStudy(studyId, memberId);
@@ -160,12 +164,12 @@ public class StudyController {
 
     @GetMapping("/{study_id}/calendars")
     public ResponseEntity<?> studyCalendarList(@PathVariable("study_id") Integer studyId){
-        return ResponseEntity.ok().body(studyService.findStudyCalenarByStudy(studyId));
+        return ResponseEntity.ok().body(studyService.findStudyCalendarsByStudy(studyId));
     }
 
     @GetMapping("/{study_id}/calendars/{calendar_id}")
     public ResponseEntity<?> studyCalendarDetail(@PathVariable("study_id") Integer studyId, @PathVariable("calendar_id") Integer calendarId){
-        return ResponseEntity.ok().body(studyService.findStudyCalenarByStudy(studyId, calendarId));
+        return ResponseEntity.ok().body(studyService.findStudyCalendarByStudy(studyId, calendarId));
     }
 
     @PostMapping("/{study_id}/calendars")
