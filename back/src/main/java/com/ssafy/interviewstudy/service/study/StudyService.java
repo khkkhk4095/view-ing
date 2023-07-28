@@ -332,7 +332,7 @@ public class StudyService {
     //스터디원인지 체크
     public boolean checkStudyMember(Integer studyId, Integer memberId){
         Optional<StudyMember> result = studyMemberRepository.findByStudyIdAndMemberId(studyId, memberId);
-        return result.isPresent() ? true : false;
+        return result.isPresent();
     }
 
 
