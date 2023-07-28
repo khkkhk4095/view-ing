@@ -64,7 +64,7 @@ public class NotificationService {
                 timeIncludeId,
                 0
 
-                );
+        );
         if(lastEventId!=null){
             sendMissingData(lastEventId,memberId,timeIncludeId,sseEmitter);
         }
