@@ -1,4 +1,7 @@
 import { styled } from "styled-components";
+import MainButton from "./../Button/MainButton";
+import { AiOutlineCloseCircle } from "react-icons/ai";
+import { useState } from "react";
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -21,25 +24,65 @@ const ModalContent = styled.div`
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 `;
 
-export default function AlertModal({ isOpen, onClose, type, }) {
+const ModalText = styled.div`
+  font-size: 22px;
+  text-align: center;
+  margin-top: 45px;
+`;
 
+const Buttons = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+`;
 
-  let width = 600
-  let height = 400
-  let content = ""
-  switch (type = "withdraw") {
+const XButtonContainer = styled.div`
+  display: flex;
+  justify-content: right;
+`;
+
+export default function AlertModal({ isOpen, onClose, type }) {
+  let width = 600;
+  let height = 400;
+  let content = "";
+  const [title, setTitle] = useState("")
+  const [date, setDate] = useState("")
+  const [start, setStart] = useState("")
+  const [end, setEnd] = useState("")
+  console.log(title)
+  console.log(date)
+  console.log(start)
+  switch ((type = "schedule")) {
     case "withdraw":
-      width = 300
-      height = 200
-      content = "정말 탈퇴하시겠습니까?"
+      width = 300;
+      height = 180;
+      content = <ModalText>정말 탈퇴하시겠습니까?</ModalText>;
     case "withdraw_super":
-      width = 300
-      height = 200
-      content = "방장은 탈퇴할 수 없습니다."
+      width = 300;
+      height = 180;
+      content = <ModalText>방장은 탈퇴할 수 없습니다.</ModalText>;
     case "delete":
-      width = 300
-      height = 200
-      content = "정말 삭제하시겠습니까?"
+      width = 300;
+      height = 180;
+      content = <ModalText>정말 삭제하시겠습니까?</ModalText>;
+    case "schedule":
+      width = 500;
+      height = 400;
+      content = <>
+        <ModalText> 스터디 일정 추가 </ModalText>
+        <ModalText>
+          제목
+          <input onChange={(e)=>setTitle(e.target.value)}></input> 
+        </ModalText>
+        <ModalText>
+          일시
+          <input type="date" onChange={(e)=>setDate(e.target.value)}></input>
+        </ModalText>
+        <ModalText>
+          시작시간 <input type="time" onChange={(e)=>setStart(e.target.value)} />
+          종료시간 <input type="time" onChange={(e)=>setEnd(e.target.value)}/>
+        </ModalText>
+      </>
   }
 
   return (
@@ -47,10 +90,20 @@ export default function AlertModal({ isOpen, onClose, type, }) {
       {isOpen && (
         <ModalOverlay>
           <ModalContent $width={width} $height={height}>
-            <button onClick={()=>onClose(false)}>나가기</button>
-            <p>{content}</p>
+            <XButtonContainer onClick={() => onClose(false)}>
+              <AiOutlineCloseCircle />
+            </XButtonContainer>
+            {content}
+            <Buttons>
+              <MainButton
+                content={"확인"}
+                width={50}
+                height={30}
+                marginright={20}
+              ></MainButton>
+              <MainButton content={"취소"} width={50} height={30}></MainButton>
+            </Buttons>
           </ModalContent>
-          
         </ModalOverlay>
       )}
     </>
