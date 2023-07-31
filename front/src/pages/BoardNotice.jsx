@@ -1,3 +1,4 @@
+import { styled } from "styled-components";
 import BoardNavBar from "../components/Board/BoardNavBar";
 import ArticleList from "../components/Board/Organisms/ArticleList";
 
@@ -85,11 +86,18 @@ const data = [
   },
 ];
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
 export default function BoardNotice() {
   return (
-    <>
+    <Container>
       <BoardNavBar />
       <ArticleList data={data} />
-    </>
+    </Container>
   );
 }

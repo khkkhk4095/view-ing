@@ -46,6 +46,41 @@ const reply = [
     created_at: "2023-06-24",
     updated_at: "2023-06-24",
     isDelte: false,
+    isLike: false,
+    replies: [
+      {
+        author: {
+          id: 3,
+          nickname: "배고파",
+          hat: "모자",
+          character: "rabbit",
+          background: "green",
+        },
+        comment_id: 123,
+        content: "첫번째 댓글의 대댓글입니다",
+        like_count: 25,
+        created_at: "2023-06-24",
+        updated_at: "2023-06-24",
+        isDelte: false,
+        isLike: false,
+      },
+      {
+        author: {
+          id: 3,
+          nickname: "배고파",
+          hat: "모자",
+          character: "rabbit",
+          background: "green",
+        },
+        comment_id: 123,
+        content: "첫번째 댓글의 대댓글입니다2",
+        like_count: 25,
+        created_at: "2023-06-24",
+        updated_at: "2023-06-24",
+        isDelte: false,
+        isLike: false,
+      },
+    ],
   },
   {
     author: {
@@ -62,37 +97,7 @@ const reply = [
     created_at: "2023-06-24",
     updated_at: "2025-12-21",
     isDelte: false,
-  },
-];
-
-const rereply = [
-  {
-    author: {
-      id: 1,
-      nickname: "배고파요",
-      hat: "모자",
-      character: "rabbit",
-      background: "green",
-    },
-    comment_id: 123,
-    content: "대댓글입니다",
-    like_count: 25,
-    created_at: "2023 - 06 - 24",
-    updated_at: "2023 - 06 - 24",
-  },
-  {
-    author: {
-      id: 1,
-      nickname: "배고파요",
-      hat: "모자",
-      character: "rabbit",
-      background: "green",
-    },
-    comment_id: 123,
-    content: "대댓글입니다",
-    like_count: 25,
-    created_at: "2023 - 06 - 24",
-    updated_at: "2023 - 06 - 24",
+    replies: [],
   },
 ];
 
@@ -100,7 +105,7 @@ export default function BoardFreePk() {
   return (
     <>
       <ArticleDetail data={data}></ArticleDetail>
-      <ReplyList reply={reply} rereply={rereply}></ReplyList>
+      <ReplyList reply={reply}></ReplyList>
     </>
   );
 }

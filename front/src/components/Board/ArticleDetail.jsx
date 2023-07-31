@@ -6,7 +6,7 @@ import { useLocation, useParams } from "react-router-dom";
 import { PiSirenLight } from "react-icons/pi";
 
 // import { data } from "../Layout/db";
-import { data } from "./../Layout/db";
+//import { data } from "./../Layout/db";
 
 const ArticleContainer = styled.div`
   max-width: 800px;
@@ -120,20 +120,28 @@ export default function ArticleDetail({ data }) {
       <Title>{data.title}</Title>
       <AuthorDateContainer>
         <AuthorInfo>
-          <UserProfile
-            backgroundcolor={data.author.background}
-            characterimg={data.author.character}
-            nickname={data.author.nickname}
-          />
+          {boardTypeText(boardType) === "공지사항" ? (
+            <div>관리자</div>
+          ) : (
+            data.author && ( // Check if data.author exists
+              <UserProfile
+                backgroundcolor={data.author.background}
+                characterimg={data.author.character}
+                nickname={data.author.nickname}
+              />
+            )
+          )}
         </AuthorInfo>
         <CountDateContainer>
-          <IconWrapper>
-            <BiBullseye size={16} />
-            <span> {data.view_count}</span>
-          </IconWrapper>
+          {boardTypeText(boardType) !== "공지사항" && (
+            <IconWrapper>
+              <BiBullseye size={16} />
+              <span> {data.view_count}</span>
+            </IconWrapper>
+          )}
           <DateInfo>
             {" "}
-            &nbsp;작성일
+            &nbsp;작성일&nbsp;&nbsp;
             {data.created_at}
           </DateInfo>
         </CountDateContainer>
@@ -142,26 +150,28 @@ export default function ArticleDetail({ data }) {
       <HorizontalLine />
 
       <Content>{data.content}</Content>
-      <HorizontalLine />
 
-      <BottomContainer>
-        <CountInfo>
-          <IconWrapper>
-            <BiCommentDetail size={16} />
-            <span> &nbsp; {data.comment_count}</span>
+      {boardTypeText(boardType) !== "공지사항" && <HorizontalLine />}
+      {boardTypeText(boardType) !== "공지사항" && (
+        <BottomContainer>
+          <CountInfo>
+            <IconWrapper>
+              <BiCommentDetail size={16} />
+              <span> &nbsp; {data.comment_count}</span>
+            </IconWrapper>
+            <IconWrapper>
+              <BiHeart size={16} />
+              <span> &nbsp; {data.like_count}</span>
+            </IconWrapper>
+          </CountInfo>
+
+          <IconWrapper style={{ color: " #888" }}>
+            <PiSirenLight size={16} />
+
+            <span style={{ fontSize: "12px" }}> &nbsp;신고하기</span>
           </IconWrapper>
-          <IconWrapper>
-            <BiHeart size={16} />
-            <span> &nbsp; {data.like_count}</span>
-          </IconWrapper>
-        </CountInfo>
-
-        <IconWrapper style={{ color: " #888" }}>
-          <PiSirenLight size={16} />
-
-          <span style={{ fontSize: "12px" }}> &nbsp;신고하기</span>
-        </IconWrapper>
-      </BottomContainer>
+        </BottomContainer>
+      )}
     </ArticleContainer>
   );
 }

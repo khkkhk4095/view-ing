@@ -7,25 +7,27 @@ const ReplyContainer = styled.div`
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
-  border: 1px solid var(--gray-100);
+  /* border: 1px solid var(--gray-100); */
   //border-radius: 8px;
   display: flex;
   align-items: flex-start;
+
+  /* display: block; */
 `;
 
 const InputStyled = styled.textarea`
-  flex-grow: 1;
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-right: 10px;
-  resize: vertical;
+  flex-grow: 1;    
+  padding: 10px;  
+  font-size: 16px;  
+  border: 1px solid #ccc;  
+  border-radius: 4px;  
+  margin-right: 10px;  
+  resize: vertical;  
   /* Higher specificity for the placeholder color */
 
   color: var(--gary-800);
-    font-family: "Pretendard";
-    font-size: 13px;
+  font-family: "Pretendard";
+  font-size: 13px;
 
   &::placeholder {
     color: var(--gary-300);

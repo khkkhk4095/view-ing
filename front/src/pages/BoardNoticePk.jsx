@@ -1,3 +1,4 @@
+import styled from "styled-components";
 import ArticleDetail from "../components/Board/ArticleDetail";
 
 const data = {

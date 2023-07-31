@@ -1,5 +1,6 @@
 import BoardNavBar from "../components/Board/BoardNavBar";
 import ArticleList from "../components/Board/Organisms/ArticleList";
+import styled from "styled-components";
 
 //질문게시판
 const data = [
@@ -33,11 +34,19 @@ const data = [
   },
 ];
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+
 export default function BoardQuestion() {
   return (
-    <>
+    <Container>
       <BoardNavBar />
       <ArticleList data={data} />
-    </>
+    </Container>
   );
 }
