@@ -1,6 +1,7 @@
 import BoardNavBar from "../components/Board/BoardNavBar";
 import ArticleList from "../components/Board/Organisms/ArticleList";
 import styled from "styled-components";
+import SearchBoxBoard from "../components/Board/SearchBoxBoard";
 
 //질문게시판
 const data = [
@@ -47,6 +48,8 @@ export default function BoardQuestion() {
     <Container>
       <BoardNavBar />
       <ArticleList data={data} />
+      <SearchBoxBoard></SearchBoxBoard>
+
     </Container>
   );
 }

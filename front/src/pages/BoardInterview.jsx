@@ -1,6 +1,8 @@
 import BoardNavBar from "../components/Board/BoardNavBar";
 import ArticleList from "../components/Board/Organisms/ArticleList";
 import styled from "styled-components";
+import SearchBoxBoard from "../components/Board/SearchBoxBoard";
+
 
 //면접게시판
 const data = [
@@ -46,6 +48,7 @@ export default function BoardInterview() {
     <Container>
       <BoardNavBar />
       <ArticleList data={data} />
+      <SearchBoxBoard></SearchBoxBoard>
     </Container>
   );
 }

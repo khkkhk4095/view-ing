@@ -1,6 +1,7 @@
 import BoardNavBar from "../components/Board/BoardNavBar";
 import ArticleList from "../components/Board/Organisms/ArticleList";
 import styled from "styled-components";
+import SearchBoxBoard from "../components/Board/SearchBoxBoard";
 
 //자유게시판
 const data = [
@@ -46,6 +47,7 @@ export default function BoardFree() {
     <Container>
       <BoardNavBar />
       <ArticleList data={data} />
+      <SearchBoxBoard></SearchBoxBoard>
     </Container>
   );
 }
