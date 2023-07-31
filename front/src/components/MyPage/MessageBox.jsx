@@ -3,13 +3,13 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 const Container = styled.div`
-  width: 1000px;
-  height: 30px;
+  width: 900px;
+  height: 50px;
   /* background-color: var(--gray-100); */
   border: 0.5px var(--gray-100) solid;
 
   display: flex;
-  font-size: 12px;
+  font-size: 14px;
   align-items: center; /* Center items vertically */
 `;
 
