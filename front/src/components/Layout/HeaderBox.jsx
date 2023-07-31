@@ -16,21 +16,31 @@ const HeaderStyle = styled.div`
 `;
 
 const FirstContainer = styled(Link)`
-  padding-left: 40px;
+  padding-left: 170px;
+  text-decoration: none;
+`;
+
+const LogoStyled = styled.div`
+  font-family: "HSSummer";
+  text-decoration: none;
+  color: var(--primary);
+  font-size: 25px;
 `;
 
 const SecondContainer = styled.div`
   display: flex;
+  text-decoration: none; /* Optional: Remove default link underline */
 `;
 
 const MenuItem = styled(Link)`
   margin-left: 20px; /* Add some space between menu items */
   cursor: pointer; /* Optional: Show pointer cursor when hovering over the menu items */
   text-decoration: none; /* Optional: Remove default link underline */
+  color: var(--gray-800);
 `;
 
 const ThirdContainer = styled.div`
-  padding-right: 40px;
+  padding-right: 170px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -51,11 +61,12 @@ export default function HeaderBox() {
   return (
     <HeaderStyle>
       <FirstContainer to={"/"}>
-        <Logo />
+        {/* <Logo /> */}
+        <LogoStyled>뷰잉</LogoStyled>
       </FirstContainer>
       <SecondContainer>
         <MenuItem to="/search">스터디</MenuItem>
-        <MenuItem to="/board">커뮤니티</MenuItem>
+        <MenuItem to="/board/notice">커뮤니티</MenuItem>
       </SecondContainer>
       {/* 로그인 상태에 따라 알맞은 내용 표시 */}
       {isSocialLogin ? (
