@@ -63,9 +63,24 @@ public class MemberStudyRequestInterceptor implements HandlerInterceptor {
             return false;
         }
 
+        int studyId = pathVariables.get(0);
+        int requestId = pathVariables.get(1);
+
         Integer memberId = jwtMemberInfo.getMemberId();
         Member member = memberService.findMemberByMemberId(memberId);
 
+        if(member==null){
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST,"없는 유저 입니다.");
+            return false;
+        }
+        
+        //이 스터디 가입 요청을 보낸 멤버가 맞는지 확인
+        Boolean isRequestByMember = studyService.checkStudyRequest(requestId,studyId,memberId);
 
+        if(!isRequestByMember){
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED,"해당 요청을 신청한 유저가 아닙니다.");
+            return false;
+        }
+        return true;
     }
 }
