@@ -11,11 +11,11 @@ const Container = styled.div`
   font-weight: 500;
   border-radius: 15px;
   font-size: ${(props) => `${props.fontSize}px`};
-  margin-right: ${(props) => `${props.marginRight}px`};
+  margin-right: ${(props) => `${props.marginright}px`};
 `;
 
 export default function MainButton({
-  marginRight,
+  marginright,
   width,
   height,
   fontSize,
@@ -24,7 +24,7 @@ export default function MainButton({
 }) {
   return <Container 
   onClick={onClick}
-  marginRight={marginRight}
+  marginright={marginright}
   width={width}
   height={height}
   fontSize={fontSize}
