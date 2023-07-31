@@ -1,3 +1,3 @@
 export default function MypageBookmark() {
-  return <></>;
+  return <>찜한 스터디</>;
 }

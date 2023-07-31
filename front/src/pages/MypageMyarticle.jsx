@@ -1,3 +1,3 @@
 export default function MypageMyarticle() {
-  return <></>;
+  return <>내가 쓴 글</>;
 }

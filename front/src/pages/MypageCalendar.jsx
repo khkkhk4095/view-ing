@@ -1,3 +1,3 @@
 export default function MypageCalendar() {
-  return <></>;
+  return <>달력</>;
 }

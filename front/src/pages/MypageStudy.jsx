@@ -1,3 +1,3 @@
 export default function MypageStudy() {
-  return <></>;
+  return <>내 스터디</>;
 }

@@ -1,3 +1,3 @@
 export default function MypageLike() {
-  return <></>;
+  return <>라이크 페이지 입니다.</>;
 }
