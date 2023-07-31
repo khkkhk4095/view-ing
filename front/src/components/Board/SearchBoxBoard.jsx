@@ -8,9 +8,9 @@ const SearchContainer = styled.div`
   height: 30px;
   display: flex;
   align-items: center;
-  background-color: #ffffff;
+  background-color: var(--gray-100);
   padding: 8px;
-  border-radius: 24px;
+  border-radius: 5px;
 `;
 
 const VerticalLine = styled.div`
@@ -26,6 +26,7 @@ const SearchInput = styled.input`
   padding: 12px;
   border-radius: 4px;
   color: var(--gray-700);
+  background-color: var(--gray-100);
 
   ::placeholder {
     /* Change the placeholder font color here */
@@ -89,7 +90,7 @@ export default function SearchBoxBoard() {
 
   const handleSearch = () => {
     if (input.trim() === "") {
-      alert("회사명을 입력해주세요.");
+      alert("검색어를 입력해주세요.");
       return;
     }
 
@@ -110,15 +111,14 @@ export default function SearchBoxBoard() {
         type="text"
         value={input}
         onChange={handleInputChange}
-        placeholder="회사명을 입력하세요 (필수)"
+        placeholder="검색어를 입력하세요."
       />
       <VerticalLine />
 
       <Dropdown value={selectedOption} onChange={handleDropdownChange}>
-        <option value="option1">전체</option>
-        <option value="option2">신입</option>
-        <option value="option3">경력</option>
-        <option value="option4">경력무관</option>
+        <option value="option1">제목</option>
+        <option value="option2">제목+내용</option>
+        <option value="option3">작성자</option>
       </Dropdown>
       <ButtonContainer>
         <SearchButton onClick={handleSearch} disabled={isInputEmpty}>
