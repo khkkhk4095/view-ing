@@ -63,7 +63,8 @@ public class BoardDtoService {
 
     public BoardResponse fromEntity(Integer memberId, Board article) {
         BoardResponse boardResponse = fromEntityWithoutContent(article);
-        boardResponse.setIsLike(articleLikeRepository.existsByMember_IdAndId(memberId, article.getId()));
+
+        if(memberId != null) boardResponse.setIsLike(articleLikeRepository.existsByMember_IdAndId(memberId, article.getId()));
         boardResponse.setContent(article.getContent());
         boardResponse.setCreatedAt(article.getCreatedAt());
         boardResponse.setUpdatedAt(article.getUpdatedAt());

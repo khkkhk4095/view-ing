@@ -40,8 +40,8 @@ public class BoardService {
     //글 리스트 조회, crud, 검색, 댓글 crud, 글 좋아요, 댓글 좋아요, 글 신고
 
     //글 목록 조회
-    public List<BoardResponse> findBoardList(Integer memberId, BoardType boardType, int page) {
-        List<Board> boardList = boardRepository.findByType(boardType, PageRequest.of(page, pageSize)).getContent();
+    public List<BoardResponse> findBoardList(BoardType boardType, Pageable pageable) {
+        List<Board> boardList = boardRepository.findByType(boardType, pageable).getContent();
         List<BoardResponse> responseList = new ArrayList<>();
 
         for (Board b : boardList) {
@@ -53,11 +53,12 @@ public class BoardService {
 
     // 글 detail 조회
     public BoardResponse findArticle(Integer memberId, Integer articleId, BoardType boardType) {
-        Optional<Board> article = boardRepository.findById(articleId);
-        // 페이지도 나중에 request 받기
+        Board article = boardRepository.findById(articleId).get();
+
+        if(article != null) modifyViewCount(article);
 
         // Null이면 예외 발생 처리
-        BoardResponse boardResponse = boardDtoService.fromEntity(memberId, article.orElseThrow(NullPointerException::new));
+        BoardResponse boardResponse = boardDtoService.fromEntity(memberId, article);
         boardResponse.setBoardType(boardType);
 
         return boardResponse;
@@ -83,13 +84,13 @@ public class BoardService {
     }
 
     // 글 저장
-    public Integer saveFreeBoard(BoardRequest boardRequest){
+    public Integer saveBoard(BoardRequest boardRequest){
         Board article = boardRepository.save(boardDtoService.toEntity(boardRequest));
         return article.getId();
     }
 
     // 글 검색
-    public List<BoardResponse> findByTitle(String searchBy, String keyword, BoardType boardType, Pageable pageable){
+    public List<BoardResponse> findArticleByKeyword(String searchBy, String keyword, BoardType boardType, Pageable pageable){
         List<Board> articles;
         List<BoardResponse> responseList = new ArrayList<>();
         if(searchBy.equals("title")) articles = boardRepository.findByTitleContaining(keyword, boardType, pageable).getContent();
@@ -104,8 +105,8 @@ public class BoardService {
     }
 
     // 조회수+1
-    public void modifyViewCount(Integer articleId){
-        Board article = boardRepository.findById(articleId).get();
+    public void modifyViewCount(Board article){
+//        Board article = boardRepository.findById(articleId).get();
         article.updateViewCount();
         boardRepository.save(article);
     }
