@@ -180,7 +180,6 @@ public class StudyController {
     }
 
     @JWTRequired(required = true)
-    @Authority(authorityType = AuthorityType.Study_Member)
     @PostMapping("/{study_id}/chats")
     public ResponseEntity<?> studyChatsAdd(@PathVariable("study_id") Integer studyId, @Valid@RequestBody ChatRequest chat){
         studyService.addChat(studyId, chat);
@@ -188,7 +187,6 @@ public class StudyController {
     }
 
     @JWTRequired(required = true)
-    @Authority(authorityType = AuthorityType.Study_Member)
     @GetMapping("/{study_id}/chats")
     public ResponseEntity<?> studyChatList(@PathVariable("study_id") Integer studyId, @RequestParam(name = "lastChatId", required = false) Integer lastChatId){
         return ResponseEntity.ok().body(studyService.findStudyChats(studyId, lastChatId));
