@@ -3,7 +3,6 @@ package com.ssafy.interviewstudy.controller.member;
 import com.ssafy.interviewstudy.annotation.Authority;
 import com.ssafy.interviewstudy.annotation.AuthorityType;
 import com.ssafy.interviewstudy.annotation.JWTRequired;
-import com.ssafy.interviewstudy.annotation.MemberInfo;
 import com.ssafy.interviewstudy.domain.member.*;
 import com.ssafy.interviewstudy.dto.member.dto.MemberProfileChangeDto;
 import com.ssafy.interviewstudy.dto.member.jwt.JWTMemberInfo;
@@ -13,15 +12,11 @@ import com.ssafy.interviewstudy.support.member.*;
 import com.ssafy.interviewstudy.util.jwt.JWTProvider;
 import com.ssafy.interviewstudy.util.jwt.JWTProviderImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
-
-import javax.validation.Valid;
+import org.springframework.web.util.UriComponentsBuilder;;
 import java.net.URI;
 import java.time.LocalDateTime;
 
