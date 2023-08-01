@@ -1,41 +1,34 @@
 package com.ssafy.interviewstudy.service.board;
 
-import com.ssafy.interviewstudy.domain.board.*;
+import com.ssafy.interviewstudy.domain.board.ArticleLike;
+import com.ssafy.interviewstudy.domain.board.Board;
+import com.ssafy.interviewstudy.domain.board.BoardType;
+import com.ssafy.interviewstudy.domain.member.Member;
 import com.ssafy.interviewstudy.dto.board.BoardRequest;
 import com.ssafy.interviewstudy.dto.board.BoardResponse;
-import com.ssafy.interviewstudy.dto.board.StudyBoardRequest;
-import com.ssafy.interviewstudy.repository.board.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import com.ssafy.interviewstudy.repository.board.ArticleLikeRepository;
+import com.ssafy.interviewstudy.repository.board.BoardRepository;
+import com.ssafy.interviewstudy.repository.member.MemberRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class BoardService {
 
-    final int pageSize = 20;
-
-    private BoardRepository boardRepository;
-    private StudyBoardRepository studyBoardRepository;
-    private BoardDtoService boardDtoService;
+    private final BoardRepository boardRepository;
+    private final BoardDtoService boardDtoService;
+    private final ArticleLikeRepository articleLikeRepository;
+    private final MemberRepository memberRepository;
 
     @PersistenceContext
     private EntityManager em;
-
-    @Autowired
-    public BoardService(BoardRepository boardRepository, StudyBoardRepository studyBoardRepository, BoardDtoService boardDtoService) {
-        this.boardRepository = boardRepository;
-        this.studyBoardRepository = studyBoardRepository;
-        this.boardDtoService = boardDtoService;
-    }
 
     //글 리스트 조회, crud, 검색, 댓글 crud, 글 좋아요, 댓글 좋아요, 글 신고
 
@@ -56,6 +49,7 @@ public class BoardService {
         Board article = boardRepository.findById(articleId).get();
 
         if(article != null) modifyViewCount(article);
+        else System.out.println("null입니다...");
 
         // Null이면 예외 발생 처리
         BoardResponse boardResponse = boardDtoService.fromEntity(memberId, article);
@@ -106,7 +100,6 @@ public class BoardService {
 
     // 조회수+1
     public void modifyViewCount(Board article){
-//        Board article = boardRepository.findById(articleId).get();
         article.updateViewCount();
         boardRepository.save(article);
     }
@@ -121,5 +114,34 @@ public class BoardService {
         else return false;
     }
 
+    // 좋아요 누르기
+    public Integer saveArticleLike(Integer memberId, Integer articleId){
+        Member member = memberRepository.findMemberById(memberId);
+        Board article = boardRepository.findById(articleId).get();
+
+        if(checkMemberLikeArticle(memberId, articleId)) return 0;
+
+        ArticleLike articleLike = articleLikeRepository.save(ArticleLike.builder()
+                .member(member)
+                .article(article)
+                .build());
+
+        return articleLike.getId();
+    }
+
+    // 좋아요 삭제
+    public void removeArticleLike(Integer memberId, Integer articleId){
+        Member member = memberRepository.findMemberById(memberId);
+        Board article = boardRepository.findById(articleId).get();
+
+        if(!checkMemberLikeArticle(memberId, articleId)){
+            articleLikeRepository.removeByArticleAndMember(article, member);
+        }
+    }
+
+    // 유저가 좋아요를 한 상태면 true, 아니면 false
+    public Boolean checkMemberLikeArticle(Integer memberId, Integer articleId){
+        return articleLikeRepository.existsByMember_IdAndArticle_Id(memberId, articleId);
+    }
 
 }

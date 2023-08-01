@@ -1,6 +1,5 @@
 package com.ssafy.interviewstudy.service.board;
 
-import com.ssafy.interviewstudy.domain.board.ArticleComment;
 import com.ssafy.interviewstudy.domain.board.Board;
 import com.ssafy.interviewstudy.domain.board.StudyBoard;
 import com.ssafy.interviewstudy.domain.member.Member;
@@ -8,30 +7,17 @@ import com.ssafy.interviewstudy.dto.board.*;
 import com.ssafy.interviewstudy.repository.board.*;
 import com.ssafy.interviewstudy.repository.member.MemberRepository;
 import com.ssafy.interviewstudy.repository.study.StudyRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class BoardDtoService {
-    private ArticleCommentRepository commentRepository;
-    private ArticleLikeRepository articleLikeRepository;
-    private MemberRepository memberRepository;
-    private CommentLikeRepository commentLikeRepository;
-    private BoardRepository boardRepository;
-    private StudyRepository studyRepository;
-    private StudyBoardCommentRepository studyBoardCommentRepository;
-
-    @Autowired
-    public BoardDtoService(ArticleCommentRepository commentRepository, ArticleLikeRepository articleLikeRepository, MemberRepository memberRepository, CommentLikeRepository commentLikeRepository, BoardRepository boardRepository, StudyRepository studyRepository, StudyBoardCommentRepository studyBoardCommentRepository) {
-        this.commentRepository = commentRepository;
-        this.articleLikeRepository = articleLikeRepository;
-        this.memberRepository = memberRepository;
-        this.commentLikeRepository = commentLikeRepository;
-        this.boardRepository = boardRepository;
-        this.studyRepository = studyRepository;
-        this.studyBoardCommentRepository = studyBoardCommentRepository;
-    }
-
+    private final ArticleCommentRepository commentRepository;
+    private final ArticleLikeRepository articleLikeRepository;
+    private final MemberRepository memberRepository;
+    private final StudyRepository studyRepository;
+    private final StudyBoardCommentRepository studyBoardCommentRepository;
 
 
     public Board toEntity(BoardRequest boardRequest) {
@@ -64,7 +50,7 @@ public class BoardDtoService {
     public BoardResponse fromEntity(Integer memberId, Board article) {
         BoardResponse boardResponse = fromEntityWithoutContent(article);
 
-        if(memberId != null) boardResponse.setIsLike(articleLikeRepository.existsByMember_IdAndId(memberId, article.getId()));
+        if(memberId != null) boardResponse.setIsLike(articleLikeRepository.existsByMember_IdAndArticle_Id(memberId, article.getId()));
         boardResponse.setContent(article.getContent());
         boardResponse.setCreatedAt(article.getCreatedAt());
         boardResponse.setUpdatedAt(article.getUpdatedAt());
@@ -72,42 +58,4 @@ public class BoardDtoService {
 
         return boardResponse;
     }
-
-    public StudyBoard toEntity(StudyBoardRequest studyBoardRequest) {
-        Member author = memberRepository.findMemberById(studyBoardRequest.getMemberId());
-
-        StudyBoard article = StudyBoard.builder()
-                .title(studyBoardRequest.getTitle())
-                .content(studyBoardRequest.getContent())
-                .study(studyRepository.findStudyById(studyBoardRequest.getStudyId()))
-                .author(author)
-                .files(studyBoardRequest.getFiles())
-                .build();
-
-        return article;
-    }
-
-    public StudyBoardResponse fromEntityWithoutContent(StudyBoard article) {
-        StudyBoardResponse studyBoardResponse = StudyBoardResponse.builder()
-                .id(article.getId())
-                .author(new Author(article.getAuthor()))
-                .title(article.getTitle())
-                .viewCount(article.getViewCount())
-                .commentCount(studyBoardCommentRepository.countByArticle(article))
-                .build();
-
-        return studyBoardResponse;
-    }
-
-    public StudyBoardResponse fromEntity(StudyBoard article) {
-        StudyBoardResponse boardResponse = fromEntityWithoutContent(article);
-        boardResponse.setContent(article.getContent());
-        boardResponse.setCreatedAt(article.getCreatedAt());
-        boardResponse.setUpdatedAt(article.getUpdatedAt());
-        boardResponse.setArticleFiles(article.getFiles());
-
-        return boardResponse;
-    }
-
-
 }
