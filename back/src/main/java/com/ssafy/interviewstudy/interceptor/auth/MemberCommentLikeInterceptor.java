@@ -82,8 +82,6 @@ public class MemberCommentLikeInterceptor implements HandlerInterceptor {
             }
         }
 
-
-        //게시글 처리 서비스 메소드 필요
         return true;
     }
 }

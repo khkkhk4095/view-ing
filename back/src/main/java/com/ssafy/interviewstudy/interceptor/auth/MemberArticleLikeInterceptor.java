@@ -66,7 +66,7 @@ public class MemberArticleLikeInterceptor implements HandlerInterceptor {
         }
 
         int memberId = pathVariables.get(0);
-        int articleIdf = pathVariables.get(1);
+        int articleId = pathVariables.get(1);
 
         //jwt로 멤버 조회
         Member member = memberService.findMemberByMemberId(jwtMemberInfo.getMemberId());
@@ -81,8 +81,6 @@ public class MemberArticleLikeInterceptor implements HandlerInterceptor {
                 return false;
             }
         }
-
-        //게시글 처리 서비스 메소드 필요
         return true;
     }
 }
