@@ -65,24 +65,11 @@ public class MemberNotificationInterceptor implements HandlerInterceptor {
 
             return false;
         }
-        int memberId = pathVariables.get(0);
-        int notificationId = pathVariables.get(1);
+        Integer pathMemberId = pathVariables.get(0);
+        Integer notificationId = pathVariables.get(1);
+        Integer jwtMemberId = jwtMemberInfo.getMemberId();
 
-        //PathVariable로 멤버 조회
-        Member member = memberService.findMemberByMemberId(memberId);
-
-        if(member==null){
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST,"없는 유저 입니다.");
-            return false;
-        }
-        else{
-            if(jwtMemberInfo.getMemberId()!=member.getId()){
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST,"잘못된 Path Variable");
-                return false;
-            }
-        }
-
-        Boolean isNotificationByMember = notificationService.checkNotificationByMemberId(memberId,notificationId);
+        Boolean isNotificationByMember = notificationService.checkNotificationByMemberId(jwtMemberId,notificationId);
         if(!isNotificationByMember){
             return false;
         }

@@ -47,7 +47,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
 
         //jwt 인터셉터는 무조건 1번
-        registry.addInterceptor(jwtRequestInterceptor).addPathPatterns("/**");
+        registry.addInterceptor(jwtRequestInterceptor).addPathPatterns("/**").order(0);
 
         //멤바 인타셉타
         registry.addInterceptor(memberInterceptor).addPathPatterns("/**");
