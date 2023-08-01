@@ -1,3 +1,4 @@
+import StudyCard from './../components/Study/StudyCard';
 export default function MypageStudy() {
-  return <>내 스터디</>;
+  return <StudyCard></StudyCard>;
 }

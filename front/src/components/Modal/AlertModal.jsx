@@ -45,44 +45,52 @@ export default function AlertModal({ isOpen, onClose, type }) {
   let width = 600;
   let height = 400;
   let content = "";
-  const [title, setTitle] = useState("")
-  const [date, setDate] = useState("")
-  const [start, setStart] = useState("")
-  const [end, setEnd] = useState("")
-  console.log(title)
-  console.log(date)
-  console.log(start)
-  switch ((type = "schedule")) {
+  const [title, setTitle] = useState("");
+  const [date, setDate] = useState("");
+  const [start, setStart] = useState("");
+  const [end, setEnd] = useState("");
+  switch (type) {
     case "withdraw":
       width = 300;
       height = 180;
       content = <ModalText>정말 탈퇴하시겠습니까?</ModalText>;
+      break;
     case "withdraw_super":
       width = 300;
       height = 180;
       content = <ModalText>방장은 탈퇴할 수 없습니다.</ModalText>;
+      break;
     case "delete":
       width = 300;
       height = 180;
       content = <ModalText>정말 삭제하시겠습니까?</ModalText>;
+      break;
     case "schedule":
       width = 500;
       height = 400;
-      content = <>
-        <ModalText> 스터디 일정 추가 </ModalText>
-        <ModalText>
-          제목
-          <input onChange={(e)=>setTitle(e.target.value)}></input> 
-        </ModalText>
-        <ModalText>
-          일시
-          <input type="date" onChange={(e)=>setDate(e.target.value)}></input>
-        </ModalText>
-        <ModalText>
-          시작시간 <input type="time" onChange={(e)=>setStart(e.target.value)} />
-          종료시간 <input type="time" onChange={(e)=>setEnd(e.target.value)}/>
-        </ModalText>
-      </>
+      content = (
+        <>
+          <ModalText> 스터디 일정 추가 </ModalText>
+          <ModalText>
+            제목
+            <input onChange={(e) => setTitle(e.target.value)}></input>
+          </ModalText>
+          <ModalText>
+            일시
+            <input
+              type="date"
+              onChange={(e) => setDate(e.target.value)}
+            ></input>
+          </ModalText>
+          <ModalText>
+            시작시간{" "}
+            <input type="time" onChange={(e) => setStart(e.target.value)} />
+            종료시간{" "}
+            <input type="time" onChange={(e) => setEnd(e.target.value)} />
+          </ModalText>
+        </>
+      );
+      break;
   }
 
   return (

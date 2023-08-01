@@ -7,7 +7,7 @@ import { useState } from "react";
 const ArticleContainer = styled.div``;
 
 const HeaderContainer = styled.div`
-  width: 1000px;
+  width: ${(props) => `${props.$width}px`};
   height: 35px;
   display: flex;
   align-items: center;
@@ -54,7 +54,7 @@ const MetaItem = styled.div`
   margin-right: 31px;
 `;
 
-export default function ArticleList({ data }) {
+export default function ArticleList({ data, width}) {
   const location = useLocation();
   const isNotice = location.pathname === "/board/notice";
 
@@ -78,7 +78,7 @@ export default function ArticleList({ data }) {
   return (
     <>
       <ArticleContainer>
-        <HeaderContainer>
+        <HeaderContainer $width={width}>
           <ProfileContainer>작성자</ProfileContainer>
           <TitleContainer>제목</TitleContainer>
 
@@ -92,14 +92,15 @@ export default function ArticleList({ data }) {
         {isNotice
           ? data.map((article, idx) => (
               <ArticleBox
-                url={article.article_id}
+                url={"/board/" + article.board_type + "/" + article.article_id}
                 key={idx}
                 title={article.title}
+                width={width}
               />
             ))
           : data.map((article, idx) => (
               <ArticleBox
-                url={article.article_id}
+                url={"/board/" + article.board_type + "/" + article.article_id}
                 key={idx}
                 nickname={article.author.nickname}
                 backgroundcolor={article.author.background}
@@ -107,6 +108,7 @@ export default function ArticleList({ data }) {
                 title={article.title}
                 commentCount={article.comment_count}
                 heartCount={article.like_count}
+                width={width}
               />
             ))}
       </ArticleContainer>

@@ -52,7 +52,7 @@ const ColorOption = styled.div`
   border-radius: 50%;
 
   border: 2px solid
-    ${({ isSelected }) => (isSelected ? "var(--gray-200)" : "white")};
+    ${({ $isselected }) => ($isselected ? "var(--gray-200)" : "white")};
   box-shadow: 2px 2px 2px 0px rgba(123, 123, 123, 0.5);
 
   background-color: white;
@@ -74,14 +74,14 @@ const ImageOption = styled.div`
 
   border: 0.5px var(--gray-200) solid;
 
-  background-image: ${({ selectedImage }) => `url(${selectedImage})`};
+  background-image: ${({ $selectedimage }) => `url(${$selectedimage})`};
 
   background-size: 65%; /* Set the background image to cover 90% of the container */
   background-repeat: no-repeat; /* Prevent image repetition */
   background-position: center; /* Center the background image */
 
-  background-color: ${({ isSelected }) =>
-    isSelected ? "var(--gray-200)" : "var(--gray-50)"};
+  background-color: ${({ $isselected }) =>
+    $isselected ? "var(--gray-200)" : "var(--gray-50)"};
 
   /* border-radius: 50%; */
 
@@ -100,9 +100,9 @@ const SelectedContainer = styled.div`
   padding: 10px;
   margin-top: 20px;
   border-radius: 50%;
-  background-image: ${({ selectedImage }) => `url(${selectedImage})`};
+  background-image: ${({ $selectedimage }) => `url(${$selectedimage})`};
 
-  background-color: ${({ selectedColor }) => selectedColor};
+  background-color: ${({ $selectedcolor }) => $selectedcolor};
 
   background-size: 65%; /* Set the background image to cover 90% of the container */
   background-repeat: no-repeat; /* Prevent image repetition */
@@ -133,8 +133,8 @@ export default function SetProfileImage() {
       {/* Render color options */}
 
       <SelectedContainer
-        selectedColor={selectedColor}
-        selectedImage={selectedImage}
+        $selectedcolor={selectedColor}
+        $selectedimage={selectedImage}
       ></SelectedContainer>
       <br></br>
 
@@ -146,10 +146,10 @@ export default function SetProfileImage() {
         {images.map((image, index) => (
           <ImageOption
             key={index}
-            selectedImage={image}
+            $selectedimage={image}
             alt={`Image ${index + 1}`}
             onClick={() => handleImageClick(image)}
-            isSelected={selectedImage === image} // Updated this line
+            $isselected={selectedImage === image} // Updated this line
           />
         ))}
       </ImageContainer>
@@ -160,7 +160,7 @@ export default function SetProfileImage() {
             key={index}
             style={{ backgroundColor: color }}
             onClick={() => handleColorClick(color)}
-            isSelected={selectedColor === color}
+            $isselected={selectedColor === color}
           />
         ))}
       </ColorContainer>

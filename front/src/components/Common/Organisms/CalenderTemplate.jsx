@@ -7,12 +7,18 @@ import { FakeData2 } from "../FakeData2";
 import moment from "moment";
 
 const Container = styled.div`
-  display: flex;
+  display: ${(props) => {
+    if (props.isFlex) {
+      return "flex"
+    } else {
+      return "block"
+    }
+  }};
   justify-content: center;
   align-items: center;
 `;
 
-export default function CalenderTemplate() {
+export default function CalenderTemplate({isFlex}) {
   const [data, dataChange] = useState([]);
   const [value, onChange] = useState(new Date());
 
@@ -21,21 +27,19 @@ export default function CalenderTemplate() {
   }, []);
   const data2 = data.filter(
     (d) => {
-      console.log(moment(d.started_at).format("YY.MM.DD"))
-      console.log(moment(value).format("YY.MM.DD"))
       return moment(value).format("YY.MM.DD") === moment(d.started_at).format("YY.MM.DD")
     }
   );
 
   return (
-    <Container>
+    <Container $isFlex={isFlex}>
       <Calendar
         dataChange={dataChange}
         data={data}
         value={value}
         onChange={onChange}
       ></Calendar>
-      <TimeBar data={data2}></TimeBar>
+      <TimeBar data={data2} isFlex={isFlex}></TimeBar>
     </Container>
   );
 }

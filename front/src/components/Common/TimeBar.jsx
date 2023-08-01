@@ -2,15 +2,33 @@ import styled from "styled-components";
 import { FakeData2 } from "./FakeData2";
 import moment, { months } from "moment";
 
+const BigContainer = styled.div`
+  margin-top : ${(props) => {
+    if (props.$isflex) {
+      return "0px"
+    } else {
+      return "50px"
+    };
+  }};
+`
+
 const Container = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 10px;
+  
 `;
 
 const NoSchedule = styled.div`
   width: 500px;
   text-align: center;
+  margin-top : ${(props) => {
+    if (props.$isflex) {
+      return "0px"
+    } else {
+      return "50px"
+    };
+  }};
 `
 
 const NickName = styled.div`
@@ -40,6 +58,8 @@ const Schedule = styled.div`
   width: ${(props) => `${(props.end - props.start) * 400}px`};
   margin-left: ${(props) => `${props.start * 400}px`};
   background-color: var(--primary);
+
+  
 `;
 
 // props에 해당 날짜를 받는다. 날짜에 맞는 스케줄은 상위로직에서 수행한다.
@@ -112,11 +132,11 @@ export default function TimeBar(props) {
       </Container>
     );
   }
-  let res = <NoSchedule> 일정이 없습니다. </NoSchedule>;
+  let res = <NoSchedule $isflex={props.isFlex}> 일정이 없습니다. </NoSchedule>;
   if (data.length) {
     res = (
-      <div>
-        <Container>
+      <BigContainer>
+        <Container $isflex={props.isFlex}>
           <NickName>Study</NickName>
           <BarContainer>
             <Bar></Bar>
@@ -124,7 +144,7 @@ export default function TimeBar(props) {
           </BarContainer>
         </Container>
         {finalSchedules}
-      </div>
+      </BigContainer>
     );
   }
 
