@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import HeaderBox from "../components/Layout/HeaderBox";
+import HeaderHome from "../components/Layout/HeaderHome";
 import Hot10Box from "../components/Home/Hot10Box";
 import SearchBox from "../components/Home/SearchBox";
 import {
@@ -11,6 +11,7 @@ import {
 } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { throttle } from "throttle-debounce-ts";
+import Footer from "../components/Layout/Footer";
 
 const Container = styled.div`
   width: 100%;
@@ -20,7 +21,6 @@ const Container = styled.div`
   flex-direction: column;
 
   background-color: white;
-
 `;
 
 // const HeroContainer = styled.div`
@@ -89,7 +89,6 @@ const TitleContainer = styled(motion.div)`
   margin: 70px;
   margin-left: 150px;
   line-height: 150%;
-
 
   /* opacity: 0;
   y: 20px; */
@@ -242,7 +241,7 @@ export default function Home() {
 
   return (
     <Container>
-      <HeaderBox />
+      <HeaderHome />
 
       <HeroContainer
         variants={heroContainerAnimation}
@@ -340,6 +339,7 @@ export default function Home() {
           </div>
         </section>
       </BodyContainer>
+      <Footer />
     </Container>
   );
 }
