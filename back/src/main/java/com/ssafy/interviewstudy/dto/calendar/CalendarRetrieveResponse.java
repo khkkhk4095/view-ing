@@ -46,6 +46,7 @@ public class CalendarRetrieveResponse {
         CalendarRetrieveResponse calendarRetrieveResponse
                 = CalendarRetrieveResponse
                 .builder()
+                .id(calendar.getId())
                 .author(new Author(calendar.getAuthor()))
                 .description(calendar.getDescription())
                 .startedAt(calendar.getStartedAt())
