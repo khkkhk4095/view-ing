@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import StudySideBar from "../Study/StudySideBar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Container = styled.div`
   display: flex;
@@ -81,7 +81,16 @@ const StyledLink = styled(Link)`
 export default function SideBar() {
   const [clicked, setClicked] = useState(document.location.pathname);
   const [subClicked, setSubClicked] = useState(false);
+
+  const navigate = useNavigate()
+  const location = useLocation()
   
+  useEffect( () => {
+    if (location.pathname === "/mypage") {
+      navigate("/mypage/edit");
+    }
+  }, [location, navigate])
+
   function handleClick(menu) {
     setSubClicked(false)
     setClicked(menu)

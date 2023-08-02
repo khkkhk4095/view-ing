@@ -62,6 +62,7 @@ export default function ArticleBox({
   commentCount,
   heartCount,
   url,
+  viewCount,
   width
 }) {
   const location = useLocation();
@@ -84,6 +85,9 @@ export default function ArticleBox({
 
       {isNotice ? null : (
         <MetaContainer>
+          <MetaItem>
+            {viewCount}
+          </MetaItem>
           <MetaItem>
             <BiCommentDetail size={14} />
             {commentCount}

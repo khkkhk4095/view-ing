@@ -84,6 +84,7 @@ export default function ArticleList({ data, width}) {
 
           {isNotice ? null : (
             <MetaContainer>
+              <MetaItem>조회수</MetaItem>
               <MetaItem>댓글</MetaItem>
               <MetaItem>하트</MetaItem>
             </MetaContainer>
@@ -108,6 +109,7 @@ export default function ArticleList({ data, width}) {
                 title={article.title}
                 commentCount={article.comment_count}
                 heartCount={article.like_count}
+                viewCount={article.view_count}
                 width={width}
               />
             ))}
