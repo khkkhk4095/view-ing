@@ -44,6 +44,7 @@ import MypageSendPk from "./pages/MypageSendPk";
 import KaKaoLogin from "./pages/KakaoLogin";
 import GoogleLogin from "./pages/GoogleLogin";
 import GitHubLogin from "./pages/GitHubLogin";
+import SideBar from "./components/MyPage/SideBar";
 
 const router = createBrowserRouter([
   {
@@ -55,52 +56,58 @@ const router = createBrowserRouter([
     element: <Root />,
     children: [
       {
-        path: "mypage/edit",
-        element: <MypageEdit />,
-      },
-      {
-        path: "mypage/like",
-        element: <MypageLike />,
-      },
-      {
-        path: "mypage/bookmark",
-        element: <MypageBookmark />,
-      },
-      {
-        path: "mypage/calendar",
-        element: <MypageCalendar />,
-      },
-      {
-        path: "mypage/comment",
-        element: <MypageComment />,
-      },
-      {
-        path: "mypage/get",
-        element: <MypageGet />,
-      },
-      {
-        path: "mypage/get/:messagePk",
-        element: <MypageGetPk />,
-      },
-      {
-        path: "mypage/myarticle",
-        element: <MypageMyarticle />,
-      },
-      {
-        path: "mypage/send",
-        element: <MypageSend />,
-      },
-      {
-        path: "mypage/send/:messagePk",
-        element: <MypageSendPk />,
-      },
-      {
-        path: "mypage/study",
-        element: <MypageStudy />,
-      },
-      {
-        path: "mypage/withdraw",
-        element: <MypageWithdraw />,
+        path: "mypage",
+        element: <SideBar/>,
+        children:[
+          {
+            path: "edit",
+            element: <MypageEdit />,
+          },
+          {
+            path: "like",
+            element: <MypageLike />,
+          },
+          {
+            path: "bookmark",
+            element: <MypageBookmark />,
+          },
+          {
+            path: "calendar",
+            element: <MypageCalendar />,
+          },
+          {
+            path: "comment",
+            element: <MypageComment />,
+          },
+          {
+            path: "get",
+            element: <MypageGet />,
+          },
+          {
+            path: "get/:messagePk",
+            element: <MypageGetPk />,
+          },
+          {
+            path: "myarticle",
+            element: <MypageMyarticle />,
+          },
+          {
+            path: "send",
+            element: <MypageSend />,
+          },
+          {
+            path: "send/:messagePk",
+            element: <MypageSendPk />,
+          },
+          {
+            path: "study",
+            element: <MypageStudy />,
+          },
+          {
+            path: "withdraw",
+            element: <MypageWithdraw />,
+          },
+        ]
       },
       {
         path: "study/:studyPk/admin",

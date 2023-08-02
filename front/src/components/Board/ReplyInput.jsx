@@ -22,7 +22,8 @@ const InputStyled = styled.textarea`
   border: 1px solid #ccc;  
   border-radius: 4px;  
   margin-right: 10px;  
-  resize: vertical;  
+  resize: none;
+  height: 16px;
   /* Higher specificity for the placeholder color */
 
   color: var(--gary-800);

@@ -8,13 +8,14 @@ import { FakeData } from "./FakeData";
 
 const Container = styled.div`
   .react-calendar {
-    width: 550px;
+    width: 500px;
     max-width: 100%;
     background: white;
     /* border: 1px solid #a0a096; */
     border-radius: 15px;
     /* font-family: Arial, Helvetica, sans-serif; */
     line-height: 2.125em;
+    box-shadow: 0px 0px 25px 1px #d9d9d9;
   }
 
   .react-calendar--doubleView {
@@ -111,7 +112,7 @@ const Container = styled.div`
     padding: 10px 6.6667px;
     background: none;
     text-align: center;
-    line-height: 60px; // 한 개의 사이즈
+    line-height: 40px; // 한 개의 사이즈
   }
 
   .react-calendar__tile:disabled {

@@ -5,7 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 import { BiCommentDetail, BiHeart } from "react-icons/bi";
 
 const Container = styled.div`
-  width: 1000px;
+  width: ${(props) => `${props.$width}px`};
   height: 35px;
   display: flex;
   align-items: center;
@@ -62,12 +62,14 @@ export default function ArticleBox({
   commentCount,
   heartCount,
   url,
+  viewCount,
+  width
 }) {
   const location = useLocation();
   const isNotice = location.pathname === "/board/notice";
 
   return (
-    <Container>
+    <Container $width={width}>
       <ProfileContainer>
         {isNotice ? (
           <div style={{ fontSize: "13px" }}>관리자</div>
@@ -83,6 +85,9 @@ export default function ArticleBox({
 
       {isNotice ? null : (
         <MetaContainer>
+          <MetaItem>
+            {viewCount}
+          </MetaItem>
           <MetaItem>
             <BiCommentDetail size={14} />
             {commentCount}
