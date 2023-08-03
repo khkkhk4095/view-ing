@@ -5,6 +5,8 @@ import Alarm from "../../Icons/Alarm";
 import { Link } from "react-router-dom";
 import DropProfile from "./DropProfile";
 import DropAlert from "./DropAlert";
+import { useSelector } from "react-redux";
+import { UserReducer } from './../../modules/UserReducer/UserReducer';
 
 const HeaderStyle = styled.div`
   display: flex;
@@ -13,6 +15,7 @@ const HeaderStyle = styled.div`
   width: 100%;
   height: 64px;
   background-color: white; /* Optional: Add a background color for the header */
+border-bottom: 0.5px var(--gray-200) solid;
 `;
 
 const FirstContainer = styled(Link)`
@@ -39,11 +42,14 @@ const MenuItem = styled(Link)`
   color: var(--gray-800);
 `;
 
-const ThirdContainer = styled.div`
+const ThirdContainer = styled(Link)`
   padding-right: 170px;
   display: flex;
   justify-content: center;
   align-items: center;
+  text-decoration: none;
+  cursor: pointer;
+  color: var(--gray-800);
 `;
 
 const RightMenu = styled.div`
@@ -56,7 +62,9 @@ const MarginRight = styled.div`
 `;
 
 export default function HeaderBox() {
-  const isSocialLogin = true; // true라고 가정하겠습니다. 실제 상태는 알맞게 설정해주세요.
+  const user = useSelector((state) => state.UserReducer)
+  console.log(user.userId)
+  const isSocialLogin = user.userId;
 
   return (
     <HeaderStyle>
@@ -75,11 +83,11 @@ export default function HeaderBox() {
             <MarginRight>
               <DropAlert />
             </MarginRight>
-            <DropProfile />
+            <DropProfile user={user}/>
           </RightMenu>
         </ThirdContainer>
       ) : (
-        <ThirdContainer>로그인/회원가입</ThirdContainer>
+        <ThirdContainer to={"/login"}>로그인/회원가입</ThirdContainer>
       )}
     </HeaderStyle>
   );
