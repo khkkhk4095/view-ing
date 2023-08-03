@@ -7,6 +7,8 @@ import { Logout } from "../../modules/UserReducer/Actions";
 const ProfileImgWrapper = styled.div`
   position: relative;
   cursor: pointer;
+  z-index: 99;
+
 `;
 
 const ProfileImg = styled.div`
