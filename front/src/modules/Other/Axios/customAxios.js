@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const SERVER = "http://localhost:8080/";
+const SERVER = "http://70.12.246.137:8080/";
 console.log(localStorage.getItem("access_token"));
 
 export const customAxios = () =>
