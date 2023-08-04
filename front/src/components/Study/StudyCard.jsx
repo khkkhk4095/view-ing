@@ -5,7 +5,7 @@ import Bookmark from "../../Icons/bookmark";
 import { BiUser } from "react-icons/bi";
 import UserProfile from "../Common/UserProfile";
 
-const Container = styled.div`
+const Container = styled(Link)`
   width: 280px;
   height: 320px;
   border-radius: 36px;
@@ -24,6 +24,9 @@ const Container = styled.div`
   }
 
   cursor: pointer;
+
+  text-decoration: none;
+  color: var(--gray-900);
 `;
 
 const BookmarkContainer = styled.div`
@@ -188,7 +191,7 @@ const CapacityContainer = styled.div`
 export default function StudyCard({ study }) {
   // console.log(study.tag);
   return (
-    <Container>
+    <Container to={`/study/${study.study_id}/detail`}>
       <BookmarkContainer>
         <Bookmark />
       </BookmarkContainer>

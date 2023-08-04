@@ -23,7 +23,7 @@ const data = [
         deadline: "2023-07-26T15:17", //마감날짜.
         recruitment: true,
         leader: {
-          id: 11,
+          member_id: 11,
           nickname: "jiwoo",
           background: "red",
           character: "cow",
@@ -32,7 +32,7 @@ const data = [
         tags: ["tag1", "tag2", "a", "b", "c"],
       },
       {
-        study_id: 2,
+        study_id: 3,
         title: "test2",
         description: null,
         applied_company: "삼성",
@@ -43,7 +43,7 @@ const data = [
         deadline: "2023-07-26T15:17", //마감날짜.
         recruitment: true,
         leader: {
-          id: 22,
+          member_id: 22,
           nickname: "jiwoo",
           background: "red",
           character: "cow",
@@ -52,7 +52,7 @@ const data = [
         tags: ["tag1", "tag2"],
       },
       {
-        study_id: 2,
+        study_id: 4,
         title: "test2",
         description: null,
         applied_company: "삼성",
@@ -63,7 +63,7 @@ const data = [
         deadline: "2023-07-26T15:17", //마감날짜.
         recruitment: true,
         leader: {
-          id: 33,
+          member_id: 33,
           nickname: "jiwoo",
           background: "red",
           character: "cow",
@@ -153,17 +153,15 @@ export default function Search() {
   console.log(searchData);
 
   //search 통신 보내기
-  // useEffect(
-  //   () => {
-  //   customAxios()
-  //     .get(
-  //       `studies?appliedCompany=${appliedCompany}&job=${job}&careerLevel=${careerLevel}`
-  //     )
-  //     .then((res) => {
-  //       SetsearchData(res.data);
-  //     });
-  // },
-  // []);
+  useEffect(() => {
+    customAxios()
+      .get(
+        `studies?appliedCompany=${appliedCompany}&job=${job}&careerLevel=${careerLevel}`
+      )
+      .then((res) => {
+        SetsearchData(res.data);
+      });
+  }, []);
 
   const handleClick = () => {};
 
@@ -196,7 +194,10 @@ export default function Search() {
 
       <HorizontalLine></HorizontalLine>
 
-      <TagContainer></TagContainer>
+      <TagContainer>
+         
+
+      </TagContainer>
 
       <BodyContainer>
         {data[0].content && data[0].content.length > 0 ? (
