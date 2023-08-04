@@ -4,7 +4,6 @@ import ReplyBox from "../ReplyBox";
 import ReplyInput from "../ReplyInput";
 
 export default function ReplyList({ reply, setReply }) {
-  console.log(reply)
   return (
     <>
       

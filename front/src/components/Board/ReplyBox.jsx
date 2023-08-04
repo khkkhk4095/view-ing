@@ -94,11 +94,11 @@ const ReplyCount = styled.div`
 
 const ButtonsContainer = styled.div`
   display: inline-block;
-`
+`;
 
 const ButtonsFlex = styled.div`
   display: flex;
-`
+`;
 
 export default function ReplyBox({
   comment_id,
@@ -121,18 +121,26 @@ export default function ReplyBox({
   const param = useLocation().pathname.split("/")[3];
   const [isUpdating, setIsUpdating] = useState(false);
   const text = (isUpdating, isDelete, content) => {
-    if(isDelete){
-      return "삭제된 메세지입니다."
+    if (isDelete) {
+      return "삭제된 메세지입니다.";
     } else if (isUpdating) {
-      return <ReplyInput commentId={comment_id} value={content} />
+      return (
+        <ReplyInput
+          commentId={comment_id}
+          value={content}
+          setReply={setReply}
+          update={true}
+          setIsUpdating={(a) => setIsUpdating(a)}
+        />
+      );
     } else {
-      return content
+      return content;
     }
-  }
+  };
 
   const handleLike = (isDelete) => {
-    if(isDelete){
-      return 
+    if (isDelete) {
+      return;
     } else {
       customAxios()
         .post(`members/${memberId}/likes/comments/${comment_id}`)
@@ -144,15 +152,15 @@ export default function ReplyBox({
   };
 
   const handleDislike = (isDelete) => {
-    if(isDelete){
-      return 
+    if (isDelete) {
+      return;
     } else {
-    customAxios()
-      .delete(`members/${memberId}/likes/comments/${comment_id}`)
-      .then((res) => {
-        CommentAxios(setReply, param);
-      })
-      .catch((err) => console.log(err));
+      customAxios()
+        .delete(`members/${memberId}/likes/comments/${comment_id}`)
+        .then((res) => {
+          CommentAxios(setReply, param);
+        })
+        .catch((err) => console.log(err));
     }
   };
 
@@ -176,12 +184,19 @@ export default function ReplyBox({
         </UserStyled>
         <Content isNestedReply={isNestedReply}>
           {text(isUpdating, isDelete, content)}
-          {author === memberId && !isDelete ? (<ButtonsContainer>
-            <ButtonsFlex>
-              <SubButton content="수정하기" onClick={() => setIsUpdating(true)}></SubButton>
-              <SubButton content="삭제하기" onClick={() => handleDelete()}></SubButton>
-            </ButtonsFlex>
-          </ButtonsContainer>
+          {author === memberId && !isDelete ? (
+            <ButtonsContainer>
+              <ButtonsFlex>
+                <SubButton
+                  content="수정하기"
+                  onClick={() => setIsUpdating(true)}
+                ></SubButton>
+                <SubButton
+                  content="삭제하기"
+                  onClick={() => handleDelete()}
+                ></SubButton>
+              </ButtonsFlex>
+            </ButtonsContainer>
           ) : (
             <></>
           )}
@@ -191,7 +206,10 @@ export default function ReplyBox({
           <CreatedAt> {created_at}</CreatedAt>
           <LikeCount>
             {isLike ? (
-              <SolidLikeIcon onClick={() => handleDislike(isDelete)} size={16} />
+              <SolidLikeIcon
+                onClick={() => handleDislike(isDelete)}
+                size={16}
+              />
             ) : (
               <LikeIcon onClick={() => handleLike(isDelete)} size={16} />
             )}
@@ -204,7 +222,9 @@ export default function ReplyBox({
             </ReplyCount>
           )}
         </BottomContainer>
-        {showInput && !isDelete && <ReplyInput commentId={comment_id} setReply={setReply} />}
+        {showInput && !isDelete && (
+          <ReplyInput commentId={comment_id} setReply={setReply} />
+        )}
       </ReplyContainer>
     </>
   );

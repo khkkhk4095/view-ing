@@ -56,7 +56,7 @@ const ButtonReply = styled.button`
   }
 `;
 
-export default function ReplyInput({commentId, setReply, value}) {
+export default function ReplyInput({commentId, setReply, value, update=false, setIsUpdating}) {
   const [text, setText] = useState("");
   const param = useLocation().pathname.split("/")[3];
   const navigate = useNavigate()
@@ -73,13 +73,24 @@ export default function ReplyInput({commentId, setReply, value}) {
   };
 
   const handleClick = () => {
-    const url = commentId ? `boards/${param}/comments/${commentId}/replies` : `boards/${param}/comments`
-    customAxios()
-      .post(url,{content : text})
-      .then((res) => {
-        setText("")
-        CommentAxios(setReply, param)
-      });
+    if (update) {
+      const url = `boards/${param}/comments/${commentId}/`
+      customAxios()
+        .put(url,{content : text})
+        .then((res) => {
+          CommentAxios(setReply, param)
+          setIsUpdating(false)
+        });
+
+    } else {
+      const url = commentId ? `boards/${param}/comments/${commentId}/replies` : `boards/${param}/comments`
+      customAxios()
+        .post(url,{content : text})
+        .then((res) => {
+          CommentAxios(setReply, param)
+          setText("")
+        });
+    }
   };
 
   return (
