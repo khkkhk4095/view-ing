@@ -95,7 +95,7 @@ export default function ArticleDetail({ data, setData }) {
   const param = useLocation().pathname.split("/")[3];
   const type = useLocation().pathname.split("/")[2];
   const location = useLocation();
-  const userId = useSelector((state) => state.UserReducer.userId);
+  const memberId = useSelector((state) => state.UserReducer.memberId);
   const url = location.pathname;
   let boardType = "";
   const pattern = /\/board\/(\w+)\/\d+/;
@@ -105,18 +105,18 @@ export default function ArticleDetail({ data, setData }) {
     // console.log(boardType); // "free"가 콘솔에 출력됩니다.
   }
 
-  const handleLike = (user_id, article_id) => {
+  const handleLike = (member_id, article_id) => {
     customAxios()
-      .post(`members/${user_id}/likes/boards/${article_id}`)
+      .post(`members/${member_id}/likes/boards/${article_id}`)
       .then((res) => {
         ArticleAxios(setData, param, type)
       })
       .catch((err) => console.log(err));
   };
 
-  const handleDislike = (user_id, article_id) => {
+  const handleDislike = (member_id, article_id) => {
     customAxios()
-      .delete(`members/${user_id}/likes/boards/${article_id}`)
+      .delete(`members/${member_id}/likes/boards/${article_id}`)
       .then((res) => {
         ArticleAxios(setData, param, type)
       })
@@ -191,12 +191,12 @@ export default function ArticleDetail({ data, setData }) {
             <IconWrapper>
               {data.is_like ? (
                 <BiSolidHeart
-                  onClick={() => handleDislike(userId, data.article_id)}
+                  onClick={() => handleDislike(memberId, data.article_id)}
                   size={16}
                 />
               ) : (
                 <BiHeart
-                  onClick={() => handleLike(userId, data.article_id)}
+                  onClick={() => handleLike(memberId, data.article_id)}
                   size={16}
                 />
               )}

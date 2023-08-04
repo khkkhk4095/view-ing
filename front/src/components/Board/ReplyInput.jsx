@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { BiLike, BiCommentDetail } from "react-icons/bi";
 import UserProfile from "../Common/UserProfile";
@@ -56,11 +56,16 @@ const ButtonReply = styled.button`
   }
 `;
 
-export default function ReplyInput({commentId, setReply}) {
+export default function ReplyInput({commentId, setReply, value}) {
   const [text, setText] = useState("");
   const param = useLocation().pathname.split("/")[3];
   const navigate = useNavigate()
   const location = useLocation().pathname
+
+
+  useEffect(() => {
+    setText(value)
+  }, [])
 
 
   const handleInput = (e) => {
