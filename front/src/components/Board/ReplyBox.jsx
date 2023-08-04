@@ -108,7 +108,7 @@ export default function ReplyBox({
 }) {
   const [showInput, setShowInput] = useState(false); // Use parentheses instead of square brackets
   const toggleShowInput = () => setShowInput(!showInput);
-  const userId = useSelector((state) => state.UserReducer.userId);
+  const memberId = useSelector((state) => state.UserReducer.memberId);
   const param = useLocation().pathname.split("/")[3];
 
   const handleLike = () => {
@@ -139,7 +139,7 @@ export default function ReplyBox({
             nickname={nickname}
           />
         </UserStyled>
-        <Content isNestedReply={isNestedReply}>{content} {author===userId ? <button>수정하기</button> : <></>}</Content>
+        <Content isNestedReply={isNestedReply}>{content} {author===memberIdId ? <button>수정하기</button> : <></>}</Content>
 
         <BottomContainer isNestedReply={isNestedReply}>
           <CreatedAt> {created_at}</CreatedAt>
