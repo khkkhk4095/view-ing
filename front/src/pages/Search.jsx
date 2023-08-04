@@ -7,6 +7,7 @@ import StyledButton from "../components/Button/StyledButton";
 import { customAxios } from "../modules/Other/Axios/customAxios";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import Tag from "../components/Study/Tag";
 
 const data = [
   {
@@ -153,15 +154,15 @@ export default function Search() {
   console.log(searchData);
 
   //search 통신 보내기
-  useEffect(() => {
-    customAxios()
-      .get(
-        `studies?appliedCompany=${appliedCompany}&job=${job}&careerLevel=${careerLevel}`
-      )
-      .then((res) => {
-        SetsearchData(res.data);
-      });
-  }, []);
+  // useEffect(() => {
+  //   customAxios()
+  //     .get(
+  //       `studies?appliedCompany=${appliedCompany}&job=${job}&careerLevel=${careerLevel}`
+  //     )
+  //     .then((res) => {
+  //       SetsearchData(res.data);
+  //     });
+  // }, []);
 
   const handleClick = () => {};
 
@@ -195,8 +196,7 @@ export default function Search() {
       <HorizontalLine></HorizontalLine>
 
       <TagContainer>
-         
-
+        <Tag />
       </TagContainer>
 
       <BodyContainer>

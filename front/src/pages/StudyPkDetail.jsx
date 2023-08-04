@@ -23,7 +23,7 @@ const studyData = {
     background: null,
     character: null,
   },
-  career_level: null,
+  career_level: "ALL",
   tags: ["tag1", "tag2", "tag3"],
 };
 
