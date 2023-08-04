@@ -48,7 +48,7 @@ const MenuItem = styled(Link)`
   }
 `;
 
-export default function DropProfile({user}) {
+export default function DropProfile({member}) {
   const [menuOpen, setMenuOpen] = useState(false);
   const profileImgRef = useRef(null);
   const dispatch = useDispatch()
@@ -82,8 +82,8 @@ export default function DropProfile({user}) {
     <ProfileImgWrapper ref={profileImgRef}>
       <ProfileImg
         onClick={handleProfileImgClick}
-        $backgroundcolor={user.backgroundColor}
-        $backgroundimg = {user.backgroundImg}
+        $backgroundcolor={member.backgroundColor}
+        $backgroundimg = {member.backgroundImg}
       />
       <DropdownMenu open={menuOpen}>
         <MenuItem to="/mypage/edit" style={{ fontWeight: "600" }}>
