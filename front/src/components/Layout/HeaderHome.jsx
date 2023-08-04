@@ -84,7 +84,7 @@ const MarginRight = styled.div`
 
 export default function HeaderHome() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const user = useSelector((state) => state.UserReducer)
+  const member = useSelector((state) => state.UserReducer)
 
   // Handle scroll event and update isScrolled state
   const handleScroll = () => {
@@ -105,7 +105,7 @@ export default function HeaderHome() {
     };
   }, []);
 
-  const isSocialLogin = user.memberId; // true라고 가정하겠습니다. 실제 상태는 알맞게 설정해주세요.
+  const isSocialLogin = member.memberId; // true라고 가정하겠습니다. 실제 상태는 알맞게 설정해주세요.
 
   return (
     <HeaderStyle isScrolled={isScrolled}>
@@ -124,7 +124,7 @@ export default function HeaderHome() {
             <MarginRight>
               <DropAlert />
             </MarginRight>
-            <DropProfile user={user}/>
+            <DropProfile member={member}/>
           </RightMenu>
         </ForthContainer>
       ) : (

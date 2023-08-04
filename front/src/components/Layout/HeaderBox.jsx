@@ -72,9 +72,8 @@ const MarginRight = styled.div`
 `;
 
 export default function HeaderBox() {
-  const user = useSelector((state) => state.UserReducer)
-  console.log(user.userId)
-  const isSocialLogin = user.userId;
+  const member = useSelector((state) => state.UserReducer)
+  const isSocialLogin = member.memberId;
 
   return (
     <HeaderStyle>
@@ -93,7 +92,7 @@ export default function HeaderBox() {
             <MarginRight>
               <DropAlert />
             </MarginRight>
-            <DropProfile user={user}/>
+            <DropProfile member={member}/>
           </RightMenu>
         </ForthContainer>
       ) : (
