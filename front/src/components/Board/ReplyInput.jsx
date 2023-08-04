@@ -4,6 +4,7 @@ import { BiLike, BiCommentDetail } from "react-icons/bi";
 import UserProfile from "../Common/UserProfile";
 import { customAxios } from "../../modules/Other/Axios/customAxios";
 import { useLocation, useNavigate } from "react-router-dom";
+import CommentAxios from "../../modules/Other/Axios/CommentAxios";
 
 const ReplyContainer = styled.div`
   max-width: 800px;
@@ -55,7 +56,7 @@ const ButtonReply = styled.button`
   }
 `;
 
-export default function ReplyInput({commentId}) {
+export default function ReplyInput({commentId, setReply}) {
   const [text, setText] = useState("");
   const param = useLocation().pathname.split("/")[3];
   const navigate = useNavigate()
@@ -71,7 +72,8 @@ export default function ReplyInput({commentId}) {
     customAxios()
       .post(url,{content : text})
       .then((res) => {
-        navigate(location)
+        setText("")
+        CommentAxios(setReply, param)
       });
   };
 
@@ -80,6 +82,7 @@ export default function ReplyInput({commentId}) {
       <InputStyled
         as="textarea"
         placeholder="댓글을 입력하세요."
+        value={text}
         onChange={handleInput}
       />
       <ButtonReply onClick={handleClick}>등록</ButtonReply>

@@ -1,5 +1,5 @@
 const INITIAL_DATA = {
-  userId: "",
+  memberId: "",
   nickname: "",
   backgroundColor: "",
   backgroundImg: "",

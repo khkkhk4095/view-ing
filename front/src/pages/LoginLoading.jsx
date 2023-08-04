@@ -25,7 +25,7 @@ export default function LoginLoading() {
         const payload = JWTDecoder(access_token).payload; //복호화 email, 만료시간, userId
 
         customAxios()
-          .get(`users/${payload.memberId}/`)
+          .get(`members/${payload.memberId}/`)
           .then((res) => {
             dispatch(Login(res.data)); // 리덕스에 적용
             console.log(res.data);

@@ -15,6 +15,7 @@ import { PiSirenLight } from "react-icons/pi";
 import { customAxios } from "../../modules/Other/Axios/customAxios";
 import { useSelector } from "react-redux";
 import { UserReducer } from "./../../modules/UserReducer/UserReducer";
+import ArticleAxios from "../../modules/Other/Axios/ArticleAxios";
 
 const ArticleContainer = styled.div`
   max-width: 800px;
@@ -92,7 +93,7 @@ export default function ArticleDetail({ data, setData }) {
   // console.log(boardType);
 
   const param = useLocation().pathname.split("/")[3];
-
+  const type = useLocation().pathname.split("/")[2];
   const location = useLocation();
   const userId = useSelector((state) => state.UserReducer.userId);
   const url = location.pathname;
@@ -106,32 +107,18 @@ export default function ArticleDetail({ data, setData }) {
 
   const handleLike = (user_id, article_id) => {
     customAxios()
-      .post(`users/${user_id}/likes/boards/${article_id}`)
+      .post(`members/${user_id}/likes/boards/${article_id}`)
       .then((res) => {
-        customAxios()
-          .get(`boards/qna/${param}`)
-          .then((res) => {
-            setData(res.data);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        ArticleAxios(setData, param, type)
       })
       .catch((err) => console.log(err));
   };
 
   const handleDislike = (user_id, article_id) => {
     customAxios()
-      .delete(`users/${user_id}/likes/boards/${article_id}`)
+      .delete(`members/${user_id}/likes/boards/${article_id}`)
       .then((res) => {
-        customAxios()
-          .get(`boards/qna/${param}`)
-          .then((res) => {
-            setData(res.data);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        ArticleAxios(setData, param, type)
       })
       .catch((err) => console.log(err));
   };

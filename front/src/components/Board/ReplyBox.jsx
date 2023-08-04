@@ -8,6 +8,7 @@ import { customAxios } from "../../modules/Other/Axios/customAxios";
 import { useSelector } from "react-redux";
 import { UserReducer } from "./../../modules/UserReducer/UserReducer";
 import { useLocation } from "react-router-dom";
+import CommentAxios from "../../modules/Other/Axios/CommentAxios";
 
 // const Container = styled.div`
 //   width: 800px;
@@ -103,6 +104,7 @@ export default function ReplyBox({
   isLike,
   isNestedReply,
   setReply,
+  author
 }) {
   const [showInput, setShowInput] = useState(false); // Use parentheses instead of square brackets
   const toggleShowInput = () => setShowInput(!showInput);
@@ -111,32 +113,18 @@ export default function ReplyBox({
 
   const handleLike = () => {
     customAxios()
-      .post(`users/${userId}/likes/comments/${comment_id}`)
+      .post(`members/${userId}/likes/comments/${comment_id}`)
       .then((res) => {
-        customAxios()
-          .get(`boards/${param}/comments`)
-          .then((res) => {
-            setReply(res.data);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        CommentAxios(setReply, param)
       })
       .catch((err) => console.log(err));
   };
 
   const handleDislike = () => {
     customAxios()
-      .delete(`users/${userId}/likes/comments/${comment_id}`)
+      .delete(`members/${userId}/likes/comments/${comment_id}`)
       .then((res) => {
-        customAxios()
-          .get(`boards/${param}/comments`)
-          .then((res) => {
-            setReply(res.data);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        CommentAxios(setReply, param)
       })
       .catch((err) => console.log(err));
   };
@@ -151,7 +139,7 @@ export default function ReplyBox({
             nickname={nickname}
           />
         </UserStyled>
-        <Content isNestedReply={isNestedReply}>{content}</Content>
+        <Content isNestedReply={isNestedReply}>{content} {author===userId ? <button>수정하기</button> : <></>}</Content>
 
         <BottomContainer isNestedReply={isNestedReply}>
           <CreatedAt> {created_at}</CreatedAt>
@@ -170,7 +158,7 @@ export default function ReplyBox({
             </ReplyCount>
           )}
         </BottomContainer>
-        {showInput && <ReplyInput commentId={comment_id} />}
+        {showInput && <ReplyInput commentId={comment_id} setReply={setReply} />}
       </ReplyContainer>
     </>
   );

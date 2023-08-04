@@ -3,7 +3,9 @@ import styled from "styled-components";
 import ArticleDetail from "../components/Board/ArticleDetail";
 import ReplyList from "../components/Board/Organisms/ReplyList";
 import { useLocation } from "react-router-dom";
-import { customAxios } from "../modules/Other/Axios/customAxios";
+import ArticleAxios from "../modules/Other/Axios/ArticleAxios";
+import CommentAxios from "../modules/Other/Axios/CommentAxios";
+
 
 export default function BoardPk() {
   const [data, setData] = useState([]);
@@ -14,22 +16,8 @@ export default function BoardPk() {
 	
 
   useEffect(() => {
-    customAxios()
-      .get(`boards/qna/${param}`)
-      .then((res) => {
-        setData(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    customAxios()
-      .get(`boards/${param}/comments`)
-      .then((res) => {
-        setReply(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    ArticleAxios(setData, param, type)
+    CommentAxios(setReply, param)
   }, []);
 
   return (
