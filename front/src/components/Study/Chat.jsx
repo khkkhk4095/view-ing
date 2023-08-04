@@ -103,7 +103,6 @@ export default function Chat() {
         if (data.length < 100) {
           setOldMsgState((prev) => false);
         }
-        console.log(data);
         const oldMessage = data;
         setMsgList((arr) => [...oldMessage, ...arr]);
         scrollRef.current.scrollTop = 100;
