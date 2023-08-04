@@ -51,7 +51,7 @@ const Input = styled.input`
   display: none;
 `;
 
-export default function DownloadFiles({ width, height, setFiles, files }) {
+export default function UploadFile({ width, height, setFiles, files }) {
   const handleFileChange = (e) => {
     setFiles(e.target.files);
   };

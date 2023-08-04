@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import InputBox from "../Common/InputBox";
-import DownloadFiles from "../Common/UploadFile";
+import UploadFile from "../Common/UploadFile";
 import MainButton from "../Button/MainButton";
 import StudyCard from "./../Study/StudyCard";
 import CompanyJobTag from "../Study/CompanyJobTag";
@@ -51,33 +51,29 @@ export default function ApplyModal({ isModalOpen, onClose, studyData }) {
   const [text, setText] = useState("");
   const [files, setFiles] = useState([]);
   const nickname = useSelector((state) => state.UserReducer.nickname);
+  // const userId = useSelector((state) => state.UserReducer.)
 
   const handleInputChange = (event) => {
     setText(event.target.value);
   };
 
   const handleApply = () => {
-    
     const applicationData = {
-      study_id: studyData.study_id,
-      text: text,
-      files: files,
+      member_id: 8,
+      content: text,
+      request_files: [],
     };
 
-    const axiosInstance = customAxios();
-
-    axiosInstance
-      .post(`studies/${studyData.study_id}/requests`, applicationData)
-      .then((response) => {
-        console.log("Application submitted successfully!");
+    customAxios()
+      .post(`studies/1/requests`, applicationData)
+      .then(function (response) {
+        console.log(response);
         handleCloseModal();
       })
       .catch((error) => {
-        console.error("Error submitting application:", error);
+        console.error("에러가 발생했습니다.:", error);
       });
   };
-
-
 
   const handleCloseModal = () => {
     onClose();
@@ -111,10 +107,9 @@ export default function ApplyModal({ isModalOpen, onClose, studyData }) {
               height={150}
               setText={setText}
               text={text}
-              onChange={handleInputChange} 
-
+              onChange={handleInputChange}
             ></InputBox>
-            <DownloadFiles setFiles={setFiles} files={files}></DownloadFiles>
+            <UploadFile setFiles={setFiles} files={files}></UploadFile>
             <ButtonContainer>
               <MainButton
                 content="취소하기"
@@ -126,7 +121,7 @@ export default function ApplyModal({ isModalOpen, onClose, studyData }) {
               &nbsp;&nbsp;
               <MainButton
                 content="신청하기"
-                onClick={handleApply} {/* Call handleApply function when button is clicked */}
+                onClick={handleApply}
                 fontSize={14}
                 marginRight={20}
                 width={80}
