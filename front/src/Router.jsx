@@ -165,7 +165,7 @@ const router = createBrowserRouter([
       },
       {
         path: "board/free/:articlePk",
-        element: <BoardFreePk />,
+        element: <BoardPk />,
       },
       {
         path: "board/interview",

@@ -6,11 +6,12 @@ import ReplyInput from "../ReplyInput";
 export default function ReplyList({ reply, setReply }) {
   return (
     <>
-      <ReplyInput></ReplyInput>
+      
       {reply.map((comment, idx) => (
         <React.Fragment key={idx}>
           <ReplyBox
             comment_id={comment.comment_id}
+            author = {comment.member_id}
             nickname={comment.author.nickname}
             character={comment.author.member_profile_image}
             background={comment.author.member_profile_background}
@@ -31,6 +32,7 @@ export default function ReplyList({ reply, setReply }) {
               key={replyIdx}
               comment_id={reply.comment_id}
               nickname={reply.author.nickname}
+              author = {reply.author.member_id}
               character={reply.author.member_profile_image}
               background={reply.author.member_profile_background}
               content={reply.content}
@@ -45,6 +47,7 @@ export default function ReplyList({ reply, setReply }) {
           ))}
         </React.Fragment>
       ))}
+      <ReplyInput setReply={setReply}></ReplyInput>
     </>
   );
 }
