@@ -70,6 +70,8 @@ const Tag = styled.div``;
 
 const Description = styled.div`
   margin: 30px 0px;
+  padding: 30px;
+  border: 1px solid var(--gray-200);
 `;
 
 const ButtonContainer = styled.div`
@@ -130,7 +132,7 @@ export default function StudyPkDetail() {
       </DateContainer>
       <Tag>
         {studyData.tags.map((tag, idx) => {
-          <Tag></Tag>;
+          <Tag>{tag}</Tag>;
         })}
       </Tag>
       <Description>{studyData.description}</Description>
