@@ -3,35 +3,69 @@ FROM openjdk:11-jre-slim
 
 ARG JAR_FILE=InterviewStudy-0.0.1-SNAPSHOT.jar
 
+ENV SPRING_DATASOURCE_DRIVER_CLASS_NAME=${spring_datasource_driver_class_name}
+
 ARG spring_datasource_driver_class_name
+
+ENV SPRING_DATASOURCE_DRIVER_CLASS_NAME=${spring_datasource_driver_class_name}
 
 ARG spring_datasource_password
 
+ENV SPRING_DATASOURCE_PASSWORD=${spring_datasource_password}
+
 ARG spring_datasource_url
+
+ENV SPRING_DATASOURCE_URL=${spring_datasource_url}
 
 ARG spring_datasource_username
 
+ENV SPRING_DATASOURCE_USERNAME=${spring_datasource_username}
+
 ARG spring_jpa_hibernate_ddl_auto
+
+ENV SPRING_JPA_HIBERNATE_DDL_AUTO=${spring_jpa_hibernate_ddl_auto}
 
 ARG spring_jpa_properties_hibernate_dialect
 
+ENV SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=${spring_jpa_properties_hibernate_dialect}
+
 ARG spring_jpa_properties_hibernate_format_sql
+
+ENV SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL=${spring_jpa_properties_hibernate_format_sql}
 
 ARG spring_jpa_show_sql
 
+ENV SPRING_JPA_SHOW_SQL=${spring_jpa_show_sql}
+
 ARG spring_redis_host
+
+ENV SPRING_REDIS_HOST=${spring_redis_host}
 
 ARG spring_redis_lettuce_pool_max_active
 
+ENV SPRING_REDIS_LETTUCE_POOL_MAX_ACTIVE=${spring_redis_lettuce_pool_max_active}
+
 ARG spring_redis_lettuce_pool_max_idle
+
+ENV SPRING_REDIS_LETTUCE_POOL_MAX_IDLE=${spring_redis_lettuce_pool_max_idle}
 
 ARG spring_redis_lettuce_pool_min_idle
 
+ENV SPRING_REDIS_LETTUCE_POOL_MIN_IDLE=${spring_redis_lettuce_pool_min_idle}
+
 ARG spring_redis_port
+
+ENV SPRING_REDIS_PORT=${spring_redis_port}
 
 ARG OPENVIDU_URL
 
+ENV OPENVIDUURL=${OPENVIDU_URL}
+
 ARG OPENVIDU_SECRET
+
+ENV OPENVIDUSECRET=${OPENVIDU_SECRET}
+
+
 
 COPY ${JAR_FILE} app.jar
 
@@ -39,18 +73,18 @@ EXPOSE 8090
 
 RUN mkdir -p viewing
 
-CMD java -Dspring.datasource.driver-class-name=${spring_datasource_driver_class_name} \
- -Dspring.datasource.password=${spring_datasource_password} \
- -Dspring.datasource.url=${spring_datasource_url} \
- -Dspring.datasource.username=${spring_datasource_username} \
- -Dspring.jpa.hibernate.ddl-auto=${spring_jpa_hibernate_ddl_auto} \
- -Dspring.jpa.properties.hibernate.dialect=${spring_jpa_properties_hibernate_dialect} \
- -Dspring.jpa.show-sql=${spring_jpa_show_sql} \
- -Dspring.redis.host=${spring_redist_host} \
- -Dspring.redis.lettuce.pool.max-active=${spring_redis_lettuce_pool_max_active} \
- -Dspring.redis.lettuce.pool.max-idle=${spring_redis_lettuce_pool_max_idle} \
- -Dspring.redis.lettuce.pool.min-idle=${spring_redis_lettuce_pool_min_idle} \
- -Dspring.redis.port=${spring_redis_port} \
- -DOPENVIDU_URL=${OPENVIDU_URL} \
- -DOPENVIDU_SECRET=${OPENVIDU_SECRET} \
+CMD java -Dspring.datasource.driver-class-name=${SPRING_DATASOURCE_DRIVER_CLASS_NAME} \
+ -Dspring.datasource.password=${SPRING_DATASOURCE_PASSWORD} \
+ -Dspring.datasource.url=${SPRING_DATASOURCE_URL} \
+ -Dspring.datasource.username=${SPRING_DATASOURCE_USERNAME} \
+ -Dspring.jpa.hibernate.ddl-auto=${SPRING_JPA_HIBERNATE_DDL_AUTO} \
+ -Dspring.jpa.properties.hibernate.dialect=${SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT} \
+ -Dspring.jpa.show-sql=${SPRING_JPA_SHOW_SQL} \
+ -Dspring.redis.host=${SPRING_REDIS_HOST} \
+ -Dspring.redis.lettuce.pool.max-active=${SPRING_REDIS_LETTUCE_POOL_MAX_ACTIVE} \
+ -Dspring.redis.lettuce.pool.max-idle=${SPRING_REDIS_LETTUCE_POOL_MAX_IDLE} \
+ -Dspring.redis.lettuce.pool.min-idle=${SPRING_REDIS_LETTUCE_POOL_MIN_IDLE} \
+ -Dspring.redis.port=${SPRING_REDIS_PORT} \
+ -DOPENVIDU_URL=${OPENVIDUURL} \
+ -DOPENVIDU_SECRET=${OPENVIDUSECRET} \
  -jar app.jar >>/viewing/application.log 2>/dev/null
