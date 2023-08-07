@@ -5,7 +5,6 @@ import SearchBoxBoard from "../components/Board/SearchBoxBoard";
 import { useEffect, useState } from "react";
 import { customAxios } from "../modules/Other/Axios/customAxios";
 import MainButton from "../components/Button/MainButton";
-import { useNavigate } from "react-router-dom";
 
 //자유게시판
 // const data = [
@@ -48,7 +47,6 @@ const Container = styled.div`
 
 export default function BoardFree() {
   const [data, setData] = useState([]);
-  const navigate = useNavigate()
 
   useEffect(()=>{
     customAxios().get("boards/general")
@@ -64,7 +62,7 @@ export default function BoardFree() {
       <BoardNavBar />
       <ArticleList data={data} width={1000} type={"free"}/>
       <SearchBoxBoard></SearchBoxBoard>
-      <MainButton content={"글쓰기"} width={80} height={35} onClick={() => navigate("/board/write")}></MainButton>
+      <MainButton content={"글쓰기"} width={100} height={30}></MainButton>
     </Container>
   );
 }
