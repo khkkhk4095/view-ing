@@ -13,12 +13,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URLEncoder;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +42,7 @@ public class StudyController {
     //스터디 조회
     @JWTRequired
     @GetMapping
-    public ResponseEntity<?> studyList(@MemberInfo JWTMemberInfo memberInfo, @RequestParam(name = "option", required = false) Boolean option, @RequestParam(name = "appliedCompany", required = false) Integer appliedCompany, @RequestParam(name = "appliedJob", required = false) String appliedJob, @RequestParam(name = "careerLevel", required = false)CareerLevel careerLevel, @PageableDefault(size = 12)Pageable pageable){
+    public ResponseEntity<?> studyList(@MemberInfo JWTMemberInfo memberInfo, @RequestParam(name = "option", required = false) Boolean option, @RequestParam(name = "appliedCompany", required = false) String appliedCompany, @RequestParam(name = "appliedJob", required = false) String appliedJob, @RequestParam(name = "careerLevel", required = false)CareerLevel careerLevel, @PageableDefault(size = 12)Pageable pageable){
         Page<StudyDtoResponse> page = studyService.findStudiesBySearch(memberInfo, option, appliedCompany, appliedJob, careerLevel, pageable);
         return ResponseEntity.ok().body(page);
     }
@@ -45,6 +51,13 @@ public class StudyController {
     @GetMapping("/{study_id}")
     public ResponseEntity<?> studyDetail(@MemberInfo JWTMemberInfo memberInfo, @PathVariable("study_id") int studyId){
         StudyDtoResponse study = studyService.findStudyById(memberInfo, studyId);
+        return ResponseEntity.ok().body(study);
+    }
+
+    @JWTRequired(required = true)
+    @GetMapping("/{study_id}/detail")
+    public ResponseEntity<?> studyInfoDetail(@MemberInfo JWTMemberInfo memberInfo, @PathVariable("study_id") int studyId){
+        StudyDetailDtoResponse study = studyService.findStudyDetailById(memberInfo, studyId);
         return ResponseEntity.ok().body(study);
     }
 
@@ -83,10 +96,10 @@ public class StudyController {
 
     @JWTRequired(required = true)
     @PostMapping("/{study_id}/requests")
-    public ResponseEntity<?> studyRequestAdd(@PathVariable("study_id") Integer studyId,     @Valid @RequestBody RequestDto request){
+    public ResponseEntity<?> studyRequestAdd(@PathVariable("study_id") Integer studyId, @RequestPart(value = "request", required = false) RequestDto request, @RequestPart(value = "request_files", required = false)List<MultipartFile> requestFiles){
         Integer madeRequest = null;
         try{
-            madeRequest = studyService.addRequest(studyId, request);
+            madeRequest = studyService.addRequest(studyId, request, requestFiles);
         }
         catch(ConstraintViolationException ce){
             return ResponseEntity.internalServerError().body("신청 실패");
@@ -117,6 +130,22 @@ public class StudyController {
     public ResponseEntity<?> studyRequest(@PathVariable("study_id") Integer studyId, @PathVariable("request_id") Integer requestId){
         RequestDtoResponse response = studyService.findRequestById(requestId);
         return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping("/{study_id}/requests/{request_id}/files/{file_id}")
+    public ResponseEntity<?> studyRequestFile(@PathVariable("study_id") Integer studyId, @PathVariable("request_id") Integer requestId, @PathVariable("file_id") Integer fileId){
+        RequestFile file = studyService.requestFileDownload(studyId, requestId, fileId);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        String fileName = null;
+        try {
+            fileName = URLEncoder.encode(file.getName(), "UTF-8").replaceAll("\\+", "%20");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+        httpHeaders.setContentType(MediaType.parseMediaType(file.getFileType()));
+        httpHeaders.setContentLength(file.getFileData().length);
+        httpHeaders.setContentDispositionFormData("attachment", fileName);
+        return new ResponseEntity<>(file.getFileData(), httpHeaders, HttpStatus.OK);
     }
 
     @JWTRequired(required = true)

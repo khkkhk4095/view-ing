@@ -9,14 +9,20 @@ import com.ssafy.interviewstudy.exception.calendar.updateFailException;
 import com.ssafy.interviewstudy.exception.message.NotFoundException;
 import com.ssafy.interviewstudy.repository.member.MemberRepository;
 import com.ssafy.interviewstudy.repository.study.*;
+import com.ssafy.interviewstudy.support.file.FileManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -39,7 +45,7 @@ public class StudyService {
     private final StudyCalendarRepository studyCalendarRepository;
     private  final StudyBookmarkRepository studyBookmarkRepository;
 
-
+    private FileManager fm = FileManager.getInstance();
 
     //내 스터디 조회
     public List<StudyDtoResponse> findMyStudies(Integer id){
@@ -79,11 +85,19 @@ public class StudyService {
         return new StudyDtoResponse(study, sb != null, headCount);
     }
 
+    //참가한 스터디 자세히보기
+    public StudyDetailDtoResponse findStudyDetailById(JWTMemberInfo memberInfo, Integer id){
+        Integer memberId = memberInfo.getMemberId();
+        Study study = studyRepository.findStudyById(id);
+        studyMemberRepository.findMembersByStudy(study);
+        return new StudyDetailDtoResponse(study);
+    }
+
     //스터디 검색 결과 조회
-    public Page<StudyDtoResponse> findStudiesBySearch(JWTMemberInfo memberInfo, Boolean option, Integer appliedCompanyId, String appliedJob, CareerLevel careerLevel, Pageable pageable){
+    public Page<StudyDtoResponse> findStudiesBySearch(JWTMemberInfo memberInfo, Boolean option, String appliedCompany, String appliedJob, CareerLevel careerLevel, Pageable pageable){
         Integer memberId = memberInfo != null ? memberInfo.getMemberId() : null;
         //검색 결과 (study_id, Study, 북마크여부, 인원)
-        Page<Tuple> studies = studyRepository.findStudiesBySearch(option, appliedCompanyId, appliedJob, careerLevel, memberId, pageable);
+        Page<Tuple> studies = studyRepository.findStudiesBySearch(option, appliedCompany, appliedJob, careerLevel, memberId, pageable);
         List<StudyDtoResponse> result = new ArrayList<>();
         List<Integer> studyids = new ArrayList<>();
         for (Tuple study : studies) {
@@ -150,7 +164,7 @@ public class StudyService {
 
     //스터디 가입 신청
     @Transactional
-    public Integer addRequest(Integer studyId, RequestDto requestDto){
+    public Integer addRequest(Integer studyId, RequestDto requestDto, List<MultipartFile> files) {
         Optional<Study> studyOptional = studyRepository.findById(studyId);
         if(studyOptional.isEmpty() || studyOptional.get().getIsDelete()){//존재하지 않는 스터디
             return -3;
@@ -173,10 +187,17 @@ public class StudyService {
 
         studyRequestRepository.save(studyRequest);
 
-        List<RequestFile> files = requestDto.getRequestFiles();
-        for (RequestFile file : files) {
-            StudyRequestFile studyRequestFile = new StudyRequestFile(file, studyRequest);
-            studyRequestFileRepository.save(studyRequestFile);
+        if(files != null) {
+            for (MultipartFile file : files) {
+                try{
+                    String saveFileName = requestDto.getMemberId()+ "_" + String.valueOf(System.currentTimeMillis());
+                    fm.upload(file.getInputStream(), saveFileName, file.getContentType(), file.getSize());
+                    StudyRequestFile studyRequestFile = new StudyRequestFile(file, studyRequest, saveFileName);
+                    studyRequestFileRepository.save(studyRequestFile);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
 
         return studyRequest.getId();
@@ -206,6 +227,20 @@ public class StudyService {
             reponseFiles.add(new RequestFile(file));
         }
         return new RequestDtoResponse(request.getId(), new StudyMemberDto(request.getApplicant()), request.getIntroduction(), request.getRequestedAt(), reponseFiles);
+    }
+
+    //스터디 신청 파일 다운로드
+    public RequestFile requestFileDownload(Integer studyId, Integer requestId, Integer fileId){
+        StudyRequestFile studyRequestFile = studyRequestFileRepository.findById(fileId).get();
+        byte[] file = null;
+        RequestFile result = new RequestFile(studyRequestFile);
+        try {
+            file = fm.download(studyRequestFile.getSaveFileName());
+            result.setFileData(file);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
     }
 
     //가입 신청 승인
@@ -366,7 +401,6 @@ public class StudyService {
         Optional<Study> study = studyRepository.findById(studyId);
         return study.isPresent() && !study.get().getIsDelete();
     }
-
 
     //****************************내부 사용 함수*******************************//
 
