@@ -258,7 +258,7 @@ class StudyServiceTest {
     public void addRequestTest(){
         Study s = studyRepository.findById(1).get();
         RequestDto requestDto = new RequestDto();
-        requestDto.setUserId(1);
+        requestDto.setMemberId(1);
         requestDto.setContent("1232313213131");
 
         studyService.addRequest(s.getId(), requestDto);
@@ -270,16 +270,16 @@ class StudyServiceTest {
     public void requestTest(){
         Study s = studyRepository.findById(1).get();
         RequestDto requestDto = new RequestDto();
-        requestDto.setUserId(1);
+        requestDto.setMemberId(1);
         requestDto.setContent("1232313213131");
         RequestDto requestDto2 = new RequestDto();
-        requestDto2.setUserId(2);
+        requestDto2.setMemberId(2);
         requestDto2.setContent("1232313213131");
         RequestDto requestDto3 = new RequestDto();
-        requestDto3.setUserId(3);
+        requestDto3.setMemberId(3);
         requestDto3.setContent("1232313213131");
         RequestDto requestDto4 = new RequestDto();
-        requestDto4.setUserId(4);
+        requestDto4.setMemberId(4);
         requestDto4.setContent("1232313213131");
 
         requestDto4.getRequestFiles().add(new RequestFile());
@@ -362,14 +362,14 @@ class StudyServiceTest {
 
     @Test
     public void calendarTest(){
-        studyService.addStudyCalendar(1, StudyCalendarDtoRequest.builder().userId(1).build());
-        studyService.addStudyCalendar(1, StudyCalendarDtoRequest.builder().userId(1).build());
-        studyService.addStudyCalendar(1, StudyCalendarDtoRequest.builder().userId(1).build());
-        studyService.addStudyCalendar(1, StudyCalendarDtoRequest.builder().userId(1).build());
+        studyService.addStudyCalendar(1, StudyCalendarDtoRequest.builder().memberId(1).build());
+        studyService.addStudyCalendar(1, StudyCalendarDtoRequest.builder().memberId(1).build());
+        studyService.addStudyCalendar(1, StudyCalendarDtoRequest.builder().memberId(1).build());
+        studyService.addStudyCalendar(1, StudyCalendarDtoRequest.builder().memberId(1).build());
 
         List<StudyCalendarDtoResponse> result = studyService.findStudyCalendarsByStudy(1);
 
-        studyService.modifyStudyCalendar(1, 1, StudyCalendarDtoRequest.builder().userId(1).description("12345").build());
+        studyService.modifyStudyCalendar(1, 1, StudyCalendarDtoRequest.builder().memberId(1).description("12345").build());
 
         studyService.removeStudyCalendar(1, 2);
 
