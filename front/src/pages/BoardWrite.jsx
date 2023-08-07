@@ -60,7 +60,7 @@ export default function BoardWrite() {
       <Content>내용</Content>
       <TextArea onChange={(e) => handleContent(e)}></TextArea>
       <ButtonsContainer>
-        <div onClick={()=>}>
+        <div>
           <MainButton
             width={80}
             height={35}
