@@ -15,7 +15,6 @@ import java.util.Map;
 @CrossOrigin(origins = "*")
 @RestController
 @RequiredArgsConstructor
-@PropertySource("classpath:openvidu.properties")
 public class ConferenceController {
 
     @Value("${OPENVIDU_URL}")
