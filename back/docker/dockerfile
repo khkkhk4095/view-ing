@@ -3,7 +3,7 @@ FROM openjdk:11-jre-slim
 
 ARG JAR_FILE=InterviewStudy-0.0.1-SNAPSHOT.jar
 
-ARG spring_datasource_drvier-class-name
+ARG spring_datasource_driver_class_name
 
 ARG spring_datasource_password
 
@@ -11,21 +11,21 @@ ARG spring_datasource_url
 
 ARG spring_datasource_username
 
-ARG spring_jpa_hibernate_ddl-auto
+ARG spring_jpa_hibernate_ddl_auto
 
 ARG spring_jpa_properties_hibernate_dialect
 
 ARG spring_jpa_properties_hibernate_format_sql
 
-ARG spring_jpa_show-sql
+ARG spring_jpa_show_sql
 
 ARG spring_redis_host
 
-ARG spring_redis_lettuce_pool_max-active
+ARG spring_redis_lettuce_pool_max_active
 
-ARG spring_redis_lettuce_pool_max-idle
+ARG spring_redis_lettuce_pool_max_idle
 
-ARG spring_redis_lettuce_pool_min-idle
+ARG spring_redis_lettuce_pool_min_idle
 
 ARG spring_redis_port
 
@@ -39,17 +39,17 @@ EXPOSE 8090
 
 RUN mkdir -p viewing
 
-CMD java -Dspring.datasource.driver-class-name=${spring_datasource_drvier-class-name} \
+CMD java -Dspring.datasource.driver-class-name=${spring_datasource_driver_class_name} \
  -Dspring.datasource.password=${spring_datasource_password} \
  -Dspring.datasource.url=${spring_datasource_url} \
  -Dspring.datasource.username=${spring_datasource_username} \
- -Dspring.jpa.hibernate.ddl-auto=${spring_jpa_hibernate_ddl-auto} \
+ -Dspring.jpa.hibernate.ddl-auto=${spring_jpa_hibernate_ddl_auto} \
  -Dspring.jpa.properties.hibernate.dialect=${spring_jpa_properties_hibernate_dialect} \
- -Dspring.jpa.show-sql=${spring_jpa_show-sql} \
+ -Dspring.jpa.show-sql=${spring_jpa_show_sql} \
  -Dspring.redis.host=${spring_redist_host} \
- -Dspring.redis.lettuce.pool.max-active=${spring_redis_lettuce_pool_max-active} \
- -Dspring.redis.lettuce.pool.max-idle=${spring_redis_lettuce_pool_max-idle} \
- -Dspring.redis.lettuce.pool.min-idle=${spring_redis_lettuce_pool_min-idle} \
+ -Dspring.redis.lettuce.pool.max-active=${spring_redis_lettuce_pool_max_active} \
+ -Dspring.redis.lettuce.pool.max-idle=${spring_redis_lettuce_pool_max_idle} \
+ -Dspring.redis.lettuce.pool.min-idle=${spring_redis_lettuce_pool_min_idle} \
  -Dspring.redis.port=${spring_redis_port} \
  -DOPENVIDU_URL=${OPENVIDU_URL} \
  -DOPENVIDU_SECRET=${OPENVIDU_SECRET} \
