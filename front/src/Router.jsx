@@ -49,6 +49,7 @@ import LoginLoading from "./pages/LoginLoading";
 import BoardPk from "./pages/BoardPk";
 import StudyPk from "./pages/StudyPk";
 import StudySideBar from "./components/Study/StudySideBar";
+import MakeStudy from "./pages/Makestudy";
 
 const router = createBrowserRouter([
   {
@@ -113,6 +114,7 @@ const router = createBrowserRouter([
           },
         ],
       },
+      { path: "makestudy", element: <MakeStudy /> },
       {
         path: "study/:studyPk/detail",
         element: <StudyPkDetail />,
