@@ -49,7 +49,11 @@ import LoginLoading from "./pages/LoginLoading";
 import BoardPk from "./pages/BoardPk";
 import StudyPk from "./pages/StudyPk";
 import StudySideBar from "./components/Study/StudySideBar";
-import MakeStudy from "./pages/Makestudy";
+import ConferencePage from "./testWebRTC/Pages/ConferencePage";
+import ReadyPage from "./testWebRTC/Pages/ReadyPage";
+import StudyPage from "./testWebRTC/Pages/StudyPage";
+import BoardCommon from "./pages/BoardCommon";
+import BoardUpdate from "./pages/BoardUpdate";
 
 const router = createBrowserRouter([
   {
@@ -176,19 +180,27 @@ const router = createBrowserRouter([
       },
       {
         path: "board/free",
-        element: <BoardFree />,
+        element: <BoardCommon />,
       },
       {
         path: "board/free/:articlePk",
         element: <BoardPk />,
       },
       {
+        path: "board/free/:articlePk/update",
+        element: <BoardUpdate />,
+      },
+      {
         path: "board/interview",
-        element: <BoardInterview />,
+        element: <BoardCommon />,
       },
       {
         path: "board/interview/:articlePk",
         element: <BoardPk />,
+      },
+      {
+        path: "board/interview/:articlePk/update",
+        element: <BoardUpdate />,
       },
       {
         path: "board/notice",
@@ -200,11 +212,15 @@ const router = createBrowserRouter([
       },
       {
         path: "board/question",
-        element: <BoardQuestion />,
+        element: <BoardCommon />,
       },
       {
         path: "board/question/:articlePk",
         element: <BoardPk />,
+      },
+      {
+        path: "board/question/:articlePk/update",
+        element: <BoardUpdate />,
       },
       {
         path: "board/write",
@@ -252,6 +268,18 @@ const router = createBrowserRouter([
   {
     path: "login/loading",
     element: <LoginLoading />,
+  },
+  {
+    path: "test/main",
+    element: <ConferencePage />,
+  },
+  {
+    path: "test",
+    element: <StudyPage />,
+  },
+  {
+    path: "test/ready",
+    element: <ReadyPage />,
   },
 ]);
 
