@@ -52,6 +52,8 @@ import StudySideBar from "./components/Study/StudySideBar";
 import ConferencePage from "./testWebRTC/Pages/ConferencePage";
 import ReadyPage from "./testWebRTC/Pages/ReadyPage";
 import StudyPage from "./testWebRTC/Pages/StudyPage";
+import BoardCommon from "./pages/BoardCommon";
+import BoardUpdate from "./pages/BoardUpdate";
 
 const router = createBrowserRouter([
   {
@@ -177,19 +179,27 @@ const router = createBrowserRouter([
       },
       {
         path: "board/free",
-        element: <BoardFree />,
+        element: <BoardCommon />,
       },
       {
         path: "board/free/:articlePk",
         element: <BoardPk />,
       },
       {
+        path: "board/free/:articlePk/update",
+        element: <BoardUpdate />,
+      },
+      {
         path: "board/interview",
-        element: <BoardInterview />,
+        element: <BoardCommon />,
       },
       {
         path: "board/interview/:articlePk",
         element: <BoardPk />,
+      },
+      {
+        path: "board/interview/:articlePk/update",
+        element: <BoardUpdate />,
       },
       {
         path: "board/notice",
@@ -201,11 +211,15 @@ const router = createBrowserRouter([
       },
       {
         path: "board/question",
-        element: <BoardQuestion />,
+        element: <BoardCommon />,
       },
       {
         path: "board/question/:articlePk",
         element: <BoardPk />,
+      },
+      {
+        path: "board/question/:articlePk/update",
+        element: <BoardUpdate />,
       },
       {
         path: "board/write",
