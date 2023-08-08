@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { PiBellThin } from "react-icons/pi";
 import { useSelector } from "react-redux";
 import { UserReducer } from "./../../modules/UserReducer/UserReducer";
-import { EventSourcePolyfill } from "event-source-polyfill";
+import { EventSourcePolyfill, NativeEventSource } from "event-source-polyfill";
 
 const Container = styled.div`
   cursor: pointer;
@@ -96,7 +96,7 @@ export default function DropAlert() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [showItems, setShowItems] = useState(4); // Number of items to show initially
   const AlertRef = useRef(null);
-  const SERVER = "http://70.12.246.87:8080/";
+  const SERVER = "http://70.12.246.137:8080/";
   const memberId = useSelector((state) => state.UserReducer.memberId);
   const token = localStorage.getItem("access_token");
 
@@ -118,7 +118,7 @@ export default function DropAlert() {
     let eventSource;
     const fetchSse = () => {
       eventSource = new EventSource(
-        SERVER + `member/${memberId}/notification`,
+        SERVER + `members/${memberId}/notification`,
         {
           headers: {
             Authorization: "Bearer " + token,
@@ -126,24 +126,24 @@ export default function DropAlert() {
         }
       );
 
-      eventSource.onmessage = async (event)=>{
-          const res = await event.data
-          console.log(res)
-      }
+      eventSource.onmessage = (event) => {
+        const res = event.data;
+        console.log(res);
+      };
 
-      eventSource.onerror = async (event) => {
-        console.log(event)
-        eventSource.close()
-      }
+      eventSource.onerror = (event) => {
+        console.log(event);
+        eventSource.close();
+      };
     };
-    fetchSse()
+    fetchSse();
 
     window.addEventListener("click", handleClickOutside);
     return () => {
       window.removeEventListener("click", handleClickOutside);
       // Reset showItems to 4 when the dropdown is closed
       setShowItems(4);
-      eventSource.close()
+      eventSource.close();
     };
   }, []);
 
