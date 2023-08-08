@@ -49,6 +49,9 @@ import LoginLoading from "./pages/LoginLoading";
 import BoardPk from "./pages/BoardPk";
 import StudyPk from "./pages/StudyPk";
 import StudySideBar from "./components/Study/StudySideBar";
+import ConferencePage from "./testWebRTC/Pages/ConferencePage";
+import ReadyPage from "./testWebRTC/Pages/ReadyPage";
+import StudyPage from "./testWebRTC/Pages/StudyPage";
 
 const router = createBrowserRouter([
   {
@@ -250,6 +253,18 @@ const router = createBrowserRouter([
   {
     path: "login/loading",
     element: <LoginLoading />,
+  },
+  {
+    path: "test/main",
+    element: <ConferencePage />,
+  },
+  {
+    path: "test",
+    element: <StudyPage />,
+  },
+  {
+    path: "test/ready",
+    element: <ReadyPage />,
   },
 ]);
 
