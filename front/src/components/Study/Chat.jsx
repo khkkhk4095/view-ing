@@ -68,7 +68,7 @@ export default function Chat() {
   const member = useSelector((state) => state.UserReducer);
   const [msg, setMsg] = useState("");
   const [msgList, setMsgList] = useState([]);
-  const sockJS = new SockJS("http://70.12.246.107:8080/studyChat");
+  const sockJS = new SockJS("https://i9a205.p.ssafy.io:8080/studyChat");
   const stompClient = stompjs.over(sockJS);
   const studyId = useLocation().pathname.split("/")[2];
   const [oldMsgState, setOldMsgState] = useState(true);
@@ -221,11 +221,15 @@ export default function Chat() {
           return (
             <ChatBox key={m.chat_id}>
               <ChatProfile>
-                <UserProfile
-                  nickname={m.member.nickname}
-                  backgroundcolor={m.member.background}
-                  characterimg={m.member.character}
-                />
+                {m.member.nickname != null ? (
+                  <UserProfile
+                    nickname={m.member.nickname}
+                    backgroundcolor={m.member.background}
+                    characterimg={m.member.character}
+                  />
+                ) : (
+                  <UserProfile nickname={"알 수 없음"} />
+                )}
               </ChatProfile>
               <ChatText>{m.content}</ChatText>
               <ChatTime>{m.created_at}</ChatTime>
