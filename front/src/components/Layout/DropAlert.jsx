@@ -131,7 +131,7 @@ export default function DropAlert() {
         console.log(res);
       };
 
-      eventSource.onerror = (event) => {
+      eventSource.onerror = async (event) => {
         console.log(event);
         eventSource.close();
       };
