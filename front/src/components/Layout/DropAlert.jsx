@@ -123,13 +123,14 @@ export default function DropAlert() {
           headers: {
             Authorization: "Bearer " + token,
           },
+          heartbeatTimeout: 12000000,
         }
       );
 
-      eventSource.onmessage = (event) => {
-        const res = event.data;
+      eventSource.addEventListener('notification', (event) => {
+        const res = JSON.parse(event.data);
         console.log(res);
-      };
+      });
 
       eventSource.onerror = (event) => {
         console.log(event);
