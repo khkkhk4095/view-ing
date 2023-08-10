@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MemberService {
 
@@ -24,11 +25,11 @@ public class MemberService {
         return member;
     }
 
+    @Transactional
     public void register(Member member){
         memberRepository.save(member);
     }
 
-    @Transactional(readOnly = true)
     public Member checkDuplicateNickname(String nickname){
         return memberRepository.findMemberByNickname(nickname);
     }
@@ -40,7 +41,6 @@ public class MemberService {
     }
 
     //디버깅용
-    @Transactional(readOnly = true)
     public Member findMemberByMemberId(Integer memberId){
         return memberRepository.findMemberById(memberId);
     }
@@ -57,7 +57,7 @@ public class MemberService {
         return member;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public void changeMemberProfile(MemberProfileChangeDto memberProfileChangeDto){
         Member member = findMemberByMemberId(memberProfileChangeDto.getMemberId());
         if(member==null) throw new NotFoundException("유저가 존재하지 않습니다");
