@@ -150,7 +150,7 @@ public class NotificationService {
     @Transactional
     public void sendMissingData(Integer lastEventId,Integer memberId,String emitterId,SseEmitter sseEmitter){
         List<Notification> missingNotificationList =
-                notificationRepository.findNotificationsByIdGreaterThanAndAuthorId(lastEventId,memberId);
+                notificationRepository.findTop20ByIdGreaterThanAndAuthorIdOrderByCreatedAtDesc(lastEventId,memberId);
 
         NotificationListDto notificationListDto =
                 NotificationListDto.noticiationListDtoFromListNotification(missingNotificationList);

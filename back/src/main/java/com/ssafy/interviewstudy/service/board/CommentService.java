@@ -70,8 +70,8 @@ public class CommentService {
                                 .builder()
                                 .memberId(commentRequest.getMemberId())
                                 .content("댓글에 대댓글이 달렸습니다.")
-                                .url(commentId.toString())
-                                .notificationType(NotificationType.StudyComment)
+                                .url(comment.getArticle().getId().toString()+" "+comment.getId().toString())
+                                .notificationType(NotificationType.BoardReply)
                                 .build()
                 );
 
