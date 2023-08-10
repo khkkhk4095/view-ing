@@ -109,13 +109,12 @@ const SelectedContainer = styled.div`
   background-position: center; /* Center the background image */
 `;
 
-export default function SetProfileImage() {
-  const [selectedColor, setSelectedColor] = useState("var(--gray-100)");
-  const [selectedImage, setSelectedImage] = useState("/profile/default.png");
+export default function SetProfileImage(selectedColor, setSelectedColor, selectedImage, setSelectedImage) {
+  console.log(selectedColor, setSelectedColor, selectedImage, setSelectedImage)
 
   const handleReset = () => {
-    setSelectedColor("var(--gray-100)");
-    setSelectedImage("/profile/default.png");
+    setSelectedColor(selectedColor);
+    setSelectedImage(`/profile/${selectedImage}.png`);
   };
 
   const handleColorClick = (color) => {

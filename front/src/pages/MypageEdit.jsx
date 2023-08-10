@@ -2,11 +2,12 @@ import { styled } from "styled-components";
 import MainButton from "../components/Button/MainButton";
 import SubButton from "./../components/Button/SubButton";
 import SetProfileImage from "../components/MyPage/SetProfileImage";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { customAxios } from "./../modules/Other/Axios/customAxios";
 import Error from "../components/Common/Error";
 import { useState } from "react";
+import { Login } from "../modules/UserReducer/Actions";
 
 const EditContainer = styled.div``;
 
@@ -102,15 +103,18 @@ const ButtonContainer = styled.div`
 
 export default function MypageEdit() {
   //
-  const [modifiedNickname, setModifiedNickname] = useState("");
 
   //유저정보
   const member_id = useSelector((state) => state.UserReducer.memberId);
-  const nickname = useSelector((state) => state.UserReducer.nickname);
-  const backgroundColor = useSelector(
-    (state) => state.UserReducer.backgroundColor
-  );
-  const backgroundImg = useSelector((state) => state.UserReducer.backgroundImg);
+  const nick = useSelector((state) => state.UserReducer.nickname);
+  const color = useSelector((state) => state.UserReducer.backgroundColor);
+  const img = useSelector((state) => state.UserReducer.backgroundImg);
+
+  const dispatch = useDispatch();
+  const [nickChecked, setNickChecked] = useState(false);
+  const [nickname, setNickname] = useState(nick);
+  const [backgroundColor, setBackgroundColor] = useState(color);
+  const [backgroundImg, setBackgourndImg] = useState(img);
 
   // react-hook-form에서 사용되는 함수
   const {
@@ -121,19 +125,21 @@ export default function MypageEdit() {
     formState: { isSubmitting },
   } = useForm();
 
+  const handleNickname = (e) => {
+    setNickname(e.target.value);
+    setNickChecked(false);
+  };
+
   const handleCheck = () => {
-    customAxios
-      .get(`/login/nickname/check/${nickname}`)
+    customAxios()
+      .get(`login/nickname/check/${nickname}`)
       .then((response) => {
         console.log(response.data);
-        if (response.status === 200) {
-          alert("사용 가능한 닉네임입니다.");
-        } else if (response.status === 400) {
-          alert("중복된 닉네임입니다.");
-        }
+        alert("사용 가능한 닉네임입니다.");
+        setNickChecked(true);
       })
       .catch((error) => {
-        console.error("Error fetching data:", error);
+        alert("중복된 닉네임입니다.");
       });
   };
 
@@ -143,10 +149,26 @@ export default function MypageEdit() {
       nickname: nickname,
     };
 
+    if (nickChecked === false) {
+      return alert("중복확인해주세요.");
+    }
+
     customAxios()
-      .put(`/members/${member_id}/nickname`, data)
+      .put(`members/${member_id}/nickname`, data)
       .then(function (response) {
         console.log(response);
+
+        alert("닉네임 변경이 완료되었습니다.");
+        setNickChecked(false);
+        customAxios()
+          .get(`members/${member_id}/`)
+          .then((res) => {
+            dispatch(Login(res.data)); // 리덕스에 적용
+            console.log(res.data);
+          })
+          .catch((err) => {
+            console.log(err, 1);
+          });
       })
       .catch((error) => {
         console.error("에러가 발생했습니다.:", error);
@@ -164,21 +186,11 @@ export default function MypageEdit() {
           <NicknameInput
             id="userId"
             defaultValue={nickname}
-            {...register("userId", {
-              required: " 필수 입력입니다.",
-              minLength: {
-                value: 2,
-                message: "닉네임은 2자 이상이어야 합니다.",
-              },
-              maxLength: {
-                value: 45,
-                message: "닉네임은 45자 이하여야 합니다.",
-              },
-            })}
+            onChange={handleNickname}
           />
           <Error>{errors?.userId?.message}</Error>
           <SubButton
-            onClick={handleCheck}
+            onClick={() => handleCheck()}
             width={50}
             height={20}
             content={"중복확인"}
@@ -194,7 +206,12 @@ export default function MypageEdit() {
           </ButtonContainer>
         </form>
       </FlexContainer>
-      <SetProfileImage></SetProfileImage>
+      <SetProfileImage
+        selectedColor={backgroundColor}
+        setSelectedColor={setBackgroundColor}
+        selectedImage={backgroundImg}
+        setSelectedImage={setBackgourndImg}
+      ></SetProfileImage>
     </EditContainer>
   );
 }

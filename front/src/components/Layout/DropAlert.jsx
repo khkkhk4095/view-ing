@@ -96,7 +96,7 @@ export default function DropAlert() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [showItems, setShowItems] = useState(4); // Number of items to show initially
   const AlertRef = useRef(null);
-  const SERVER = "http://localhost:8080/";
+  const SERVER = "http://70.12.246.137:8080/";
   const memberId = useSelector((state) => state.UserReducer.memberId);
   const token = localStorage.getItem("access_token");
 
@@ -146,10 +146,6 @@ export default function DropAlert() {
         }
       });
 
-      eventSource.addEventListener('notification', (event) => {
-        const res = JSON.parse(event.data);
-        console.log(res);
-      });
 
       eventSource.onerror = (event) => {
         console.log(event);
