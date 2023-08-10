@@ -42,7 +42,7 @@ public class CommentService {
     public Integer saveComment(Integer articleId, CommentRequest commentRequest){
         commentRequest.setArticleId(articleId);
         ArticleComment comment = articleCommentRepository.save(commentDtoService.toEntity(commentRequest));
-        
+
         //댓글이 달릴 게시글 작성자에게 알림을 보내줘야함
        if(comment.getId()!=null) {
            notificationService.sendNotificationToMember(
