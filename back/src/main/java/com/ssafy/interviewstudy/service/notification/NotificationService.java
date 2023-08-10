@@ -108,7 +108,6 @@ public class NotificationService {
         }
         catch(IOException e){
             emitterRepository.deleteSseEmitterById(emitterId);
-            sseEmitter.complete();
         }
     }
 
