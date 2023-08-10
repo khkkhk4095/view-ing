@@ -7,7 +7,11 @@ import { useForm } from "react-hook-form";
 import { customAxios } from "./../modules/Other/Axios/customAxios";
 import Error from "../components/Common/Error";
 import { useState } from "react";
-import { Login } from "../modules/UserReducer/Actions";
+import {
+  ChangeNickname,
+  ChangeProfile,
+  Login,
+} from "../modules/UserReducer/Actions";
 
 const EditContainer = styled.div``;
 
@@ -113,8 +117,8 @@ export default function MypageEdit() {
   const dispatch = useDispatch();
   const [nickChecked, setNickChecked] = useState(false);
   const [nickname, setNickname] = useState(nick);
-  const [backgroundColor, setBackgroundColor] = useState(color);
-  const [backgroundImg, setBackgourndImg] = useState(img);
+  const [selectedColor, setSelectedColor] = useState(color);
+  const [selectedImage, setSelectedImage] = useState(img);
 
   // react-hook-form에서 사용되는 함수
   const {
@@ -143,32 +147,41 @@ export default function MypageEdit() {
       });
   };
 
-  const onSubmit = () => {
-    const data = {
-      member_id: member_id,
-      nickname: nickname,
+  const onSubmit = (type) => {
+    const data = () => {
+      if (type === "nickname") {
+        return { member_id: member_id, nickname: nickname };
+      } else if (type === "profile") {
+        return {
+          member_id: member_id,
+          background: selectedColor,
+          character: selectedImage,
+        };
+      }
     };
 
-    if (nickChecked === false) {
+    if (nickChecked === false && type === "nickname") {
       return alert("중복확인해주세요.");
     }
 
     customAxios()
-      .put(`members/${member_id}/nickname`, data)
+      .put(`members/${member_id}/${type}`, data())
       .then(function (response) {
         console.log(response);
 
-        alert("닉네임 변경이 완료되었습니다.");
-        setNickChecked(false);
-        customAxios()
-          .get(`members/${member_id}/`)
-          .then((res) => {
-            dispatch(Login(res.data)); // 리덕스에 적용
-            console.log(res.data);
-          })
-          .catch((err) => {
-            console.log(err, 1);
-          });
+        if (type === "nickname") {
+          setNickChecked(false);
+          dispatch(ChangeNickname(nickname));
+          alert("프로필 변경이 완료되었습니다.");
+        } else if (type === "profile") {
+          dispatch(
+            ChangeProfile({
+              backgroundImg: selectedImage,
+              backgroundColor: selectedColor,
+            })
+          );
+          alert("프로필 변경이 완료되었습니다.");
+        }
       })
       .catch((error) => {
         console.error("에러가 발생했습니다.:", error);
@@ -201,17 +214,25 @@ export default function MypageEdit() {
               width={100}
               height={40}
               content={"저장하기"}
-              onClick={onSubmit}
+              onClick={() => onSubmit("nickname")}
             ></MainButton>
           </ButtonContainer>
         </form>
       </FlexContainer>
       <SetProfileImage
-        selectedColor={backgroundColor}
-        setSelectedColor={setBackgroundColor}
-        selectedImage={backgroundImg}
-        setSelectedImage={setBackgourndImg}
+        selectedColor={selectedColor}
+        setSelectedColor={setSelectedColor}
+        selectedImage={selectedImage}
+        setSelectedImage={setSelectedImage}
       ></SetProfileImage>
+      <ButtonContainer>
+        <MainButton
+          width={100}
+          height={40}
+          content={"저장하기"}
+          onClick={() => onSubmit("profile")}
+        ></MainButton>
+      </ButtonContainer>
     </EditContainer>
   );
 }
