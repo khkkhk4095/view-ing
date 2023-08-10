@@ -34,7 +34,6 @@ import static com.ssafy.interviewstudy.domain.study.QStudyTagType.*;
 
 @Repository
 public class StudyRepositoryImpl implements StudyRepositoryCustom{
-
     private final EntityManager em;
     private final JPAQueryFactory queryFactory;
 

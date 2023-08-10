@@ -32,7 +32,6 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class NotificationService {
 
@@ -59,10 +58,20 @@ public class NotificationService {
         SseEmitter sseEmitter = emitterRepository.save(timeIncludeId,new SseEmitter(sseEmitterTimeOut));
 
         //연결 완료시 삭제 (연결 시간이 끝남)
-        sseEmitter.onCompletion(()->emitterRepository.deleteSseEmitterById(timeIncludeId));
+        sseEmitter.onCompletion(
+                ()->{
+                    emitterRepository.deleteSseEmitterById(timeIncludeId);
+                }
+        );
 
         //타임 아웃시 삭제 (데이터를 안보냄)
-        sseEmitter.onTimeout(()->emitterRepository.deleteSseEmitterById(timeIncludeId));
+        sseEmitter.onTimeout(
+                ()->emitterRepository.deleteSseEmitterById(timeIncludeId)
+        );
+
+        sseEmitter.onError(
+                (e)-> emitterRepository.deleteSseEmitterById(timeIncludeId)
+        );
 
         //SSE는 초기에 메세지를 보내지 않으면 오류발생 (더미 이벤트 만들자)
         sendEventByEmitter(
@@ -102,7 +111,6 @@ public class NotificationService {
     }
 
     //특정 멤버에게 이벤트 보내기
-    @Transactional
     public void sendNotificationToMember(NotificationDto notificationDto){
 
         Notification notification = dtoToEntity(notificationDto);
@@ -120,7 +128,6 @@ public class NotificationService {
 
     }
 
-    @Transactional
     public void sendNotificationToStudyMember(NotificationStudyDto notificationStudyDto){
         List<StudyMember> studyMembers = studyMemberRepository.findMembersByStudyId(notificationStudyDto.getStudyId());
         NotificationDto notificationDto = notificationStudyDto.getNotificationDto();
@@ -134,7 +141,6 @@ public class NotificationService {
         );
     }
 
-    @Transactional
     public Notification dtoToEntity(@Valid NotificationDto notificationDto){
         Member author = memberRepository.findMemberById(notificationDto.getMemberId());
         Notification notification =
@@ -148,7 +154,6 @@ public class NotificationService {
         return notification;
     }
 
-    @Transactional
     public void sendMissingData(Integer lastEventId,Integer memberId,String emitterId,SseEmitter sseEmitter){
         List<Notification> missingNotificationList =
                 notificationRepository.findTop20ByIdGreaterThanAndAuthorIdOrderByCreatedAtDesc(lastEventId,memberId);
@@ -159,7 +164,6 @@ public class NotificationService {
         sendEventByEmitter(sseEmitter,notificationListDto,emitterId,lastEventId,"lastNotification");
     }
 
-    @Transactional
     public Boolean checkNotification(Integer notificationId){
         Notification notification = notificationRepository.findNotificationById(notificationId);
         if(notification==null) return false;
