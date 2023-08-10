@@ -133,6 +133,10 @@ ARG spring_datasource_hikari_maximum_pool_size
 
 ENV SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE=${spring_datasource_hikari_maximum_pool_size}
 
+ARG oauth_redirecturi
+
+ENV OAUTH_REDIRECTURI=${oauth_redirecturi}
+
 COPY ${JAR_FILE} app.jar
 
 EXPOSE 8090
@@ -163,4 +167,5 @@ CMD java -Dspring.datasource.driver-class-name=${SPRING_DATASOURCE_DRIVER_CLASS_
  -Dspring.servlet.multipart.max-request-size=${spring_servlet_multipart_max_request_size} \
  -Dspring.servlet.multipart.enabled=${spring_servlet_multipart_enabled} \
  -Dspring.datasource.hikari.maximum-pool-size=${SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE} \
+ -Doauth.redirectUri=${OAUTH_REDIRECTURI} \
  -jar app.jar >>/viewing/application.log 2>/dev/null
