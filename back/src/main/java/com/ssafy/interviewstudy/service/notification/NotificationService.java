@@ -53,6 +53,7 @@ public class NotificationService {
     //SSE 연결시간
     private final Long sseEmitterTimeOut= 3600L*60L*60L*24L;
 
+
     public SseEmitter connect(Integer memberId, Integer lastEventId){
         String timeIncludeId = memberId+"_"+System.currentTimeMillis();
         SseEmitter sseEmitter = emitterRepository.save(timeIncludeId,new SseEmitter(sseEmitterTimeOut));
@@ -66,7 +67,9 @@ public class NotificationService {
 
         //타임 아웃시 삭제 (데이터를 안보냄)
         sseEmitter.onTimeout(
-                ()->emitterRepository.deleteSseEmitterById(timeIncludeId)
+                ()->{
+                    emitterRepository.deleteSseEmitterById(timeIncludeId);
+                }
         );
 
         sseEmitter.onError(
@@ -95,7 +98,6 @@ public class NotificationService {
 
     public void sendEventByEmitter(SseEmitter sseEmitter,Object notificationDto, String emitterId, Integer eventId,String eventName){
         try{
-            if(sseEmitter==null) return;
             sseEmitter.send(
                     SseEmitter
                             .event()
@@ -105,11 +107,12 @@ public class NotificationService {
             );
         }
         catch(IOException e){
-            System.out.println("???????");
             emitterRepository.deleteSseEmitterById(emitterId);
+            sseEmitter.complete();
         }
     }
 
+    @Transactional
     //특정 멤버에게 이벤트 보내기
     public void sendNotificationToMember(NotificationDto notificationDto){
 
@@ -128,6 +131,7 @@ public class NotificationService {
 
     }
 
+    @Transactional
     public void sendNotificationToStudyMember(NotificationStudyDto notificationStudyDto){
         List<StudyMember> studyMembers = studyMemberRepository.findMembersByStudyId(notificationStudyDto.getStudyId());
         NotificationDto notificationDto = notificationStudyDto.getNotificationDto();
@@ -141,6 +145,7 @@ public class NotificationService {
         );
     }
 
+    @Transactional
     public Notification dtoToEntity(@Valid NotificationDto notificationDto){
         Member author = memberRepository.findMemberById(notificationDto.getMemberId());
         Notification notification =
@@ -154,6 +159,7 @@ public class NotificationService {
         return notification;
     }
 
+    @Transactional
     public void sendMissingData(Integer lastEventId,Integer memberId,String emitterId,SseEmitter sseEmitter){
         List<Notification> missingNotificationList =
                 notificationRepository.findTop20ByIdGreaterThanAndAuthorIdOrderByCreatedAtDesc(lastEventId,memberId);
@@ -164,6 +170,7 @@ public class NotificationService {
         sendEventByEmitter(sseEmitter,notificationListDto,emitterId,lastEventId,"lastNotification");
     }
 
+    @Transactional
     public Boolean checkNotification(Integer notificationId){
         Notification notification = notificationRepository.findNotificationById(notificationId);
         if(notification==null) return false;
@@ -172,6 +179,7 @@ public class NotificationService {
     }
 
 
+    @Transactional
     public Boolean checkNotificationByMemberId(Integer memberId,Integer notificationId){
         return notificationRepository.findNotificationByAuthorIdAndId(memberId,notificationId) != null;
     }
