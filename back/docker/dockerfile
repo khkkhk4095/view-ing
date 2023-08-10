@@ -65,6 +65,7 @@ ARG OPENVIDU_SECRET
 
 ENV OPENVIDUSECRET=${OPENVIDU_SECRET}
 
+<<<<<<< Updated upstream
 ARG cloud_aws_s3_bucket
 
 ENV cloud_aws_s3_bucket=${cloud_aws_s3_bucket}
@@ -96,7 +97,45 @@ ENV spring_servlet_multipart_max_request_size=${spring_servlet_multipart_max_req
 ARG spring_servlet_multipart_enabled
 
 ENV spring_servlet_multipart_enabled=${spring_servlet_multipart_enabled}
+=======
+<<<<<<< HEAD
+ARG SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE
+=======
+ARG cloud_aws_s3_bucket
+>>>>>>> Stashed changes
 
+ENV cloud_aws_s3_bucket=${cloud_aws_s3_bucket}
+
+ARG cloud_aws_region_static
+
+ENV cloud_aws_region_static=${cloud_aws_region_static}
+
+ARG cloud_aws_stack_auto
+
+ENV cloud_aws_stack_auto=${cloud_aws_stack_auto}
+
+ARG cloud_aws_credentials_access_key
+
+ENV cloud_aws_credentials_access_key=${cloud_aws_credentials_access_key}
+
+ARG cloud_aws_credentials_secret_key
+
+ENV cloud_aws_credentials_secret_key=${cloud_aws_credentials_secret_key}
+
+ARG spring_servlet_multipart_max_file_size
+
+ENV spring_servlet_multipart_max_file_size=${spring_servlet_multipart_max_file_size}
+
+ARG spring_servlet_multipart_max_request_size
+
+ENV spring_servlet_multipart_max_request_size=${spring_servlet_multipart_max_request_size}
+
+ARG spring_servlet_multipart_enabled
+
+ENV spring_servlet_multipart_enabled=${spring_servlet_multipart_enabled}
+>>>>>>> 612281293e41fbab5a44fcc85ae85587c3611d4f
+
+ENV SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE=${spring_datasource_hikari_maximum_pool_size}
 
 COPY ${JAR_FILE} app.jar
 
@@ -118,6 +157,12 @@ CMD java -Dspring.datasource.driver-class-name=${SPRING_DATASOURCE_DRIVER_CLASS_
  -Dspring.redis.port=${SPRING_REDIS_PORT} \
  -DOPENVIDU_URL=${OPENVIDUURL} \
  -DOPENVIDU_SECRET=${OPENVIDUSECRET} \
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+ -Dspring.datasource.hikari.maximum.pool.size=${SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE} \
+=======
+>>>>>>> Stashed changes
  -Dcloud.aws.s3.bucket=${cloud_aws_s3_bucket} \
  -Dcloud.aws.region.static=${cloud_aws_region_static} \
  -Dcloud.aws.stack.auto=${cloud_aws_stack_auto} \
@@ -126,4 +171,8 @@ CMD java -Dspring.datasource.driver-class-name=${SPRING_DATASOURCE_DRIVER_CLASS_
  -Dspring.servlet.multipart.max-file-size=${spring_servlet_multipart_max_file_size} \
  -Dspring.servlet.multipart.max-request-size=${spring_servlet_multipart_max_request_size} \
  -Dspring.servlet.multipart.enabled=${spring_servlet_multipart_enabled} \
+<<<<<<< Updated upstream
+=======
+>>>>>>> 612281293e41fbab5a44fcc85ae85587c3611d4f
+>>>>>>> Stashed changes
  -jar app.jar >>/viewing/application.log 2>/dev/null
