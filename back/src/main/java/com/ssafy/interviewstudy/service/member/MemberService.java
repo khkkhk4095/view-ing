@@ -7,9 +7,9 @@ import com.ssafy.interviewstudy.repository.member.MemberRepository;
 import com.ssafy.interviewstudy.support.member.SocialLoginType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +28,7 @@ public class MemberService {
         memberRepository.save(member);
     }
 
+    @Transactional(readOnly = true)
     public Member checkDuplicateNickname(String nickname){
         return memberRepository.findMemberByNickname(nickname);
     }
@@ -39,7 +40,7 @@ public class MemberService {
     }
 
     //디버깅용
-    @Transactional
+    @Transactional(readOnly = true)
     public Member findMemberByMemberId(Integer memberId){
         return memberRepository.findMemberById(memberId);
     }
@@ -50,12 +51,13 @@ public class MemberService {
         em.flush();
     }
 
+    @Transactional(readOnly = true)
     public Member findByIdAndPlatform(String id, SocialLoginType socialLoginType){
         Member member = memberRepository.findMemberBySocialLoginIdAndSocialLoginType(id,socialLoginType);
         return member;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public void changeMemberProfile(MemberProfileChangeDto memberProfileChangeDto){
         Member member = findMemberByMemberId(memberProfileChangeDto.getMemberId());
         if(member==null) throw new NotFoundException("유저가 존재하지 않습니다");

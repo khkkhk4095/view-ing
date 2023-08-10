@@ -25,7 +25,7 @@ public class MemberCommentService {
         this.boardDtoService = boardDtoService;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<BoardResponse> getCommentedArticle(BoardRequest boardRequest, BoardType boardType){
         List<BoardResponse> boardResponses = new ArrayList<>();
         List<Board> boardList = new ArrayList<>();
