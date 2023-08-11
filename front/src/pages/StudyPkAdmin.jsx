@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { customAxios } from "./../modules/Other/Axios/customAxios";
@@ -7,13 +7,30 @@ import UserProfile from "./../components/Common/UserProfile";
 import { BiCrown } from "react-icons/bi";
 import StudyToggle from "../components/Study/StudyToggle";
 import { useNavigate } from "react-router-dom";
+import MainButton from "../components/Button/MainButton";
 
 const Container = styled.div`
   width: 500px;
 `;
 
+const FlexContainer = styled.div`
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+`;
+
 const Title = styled.div`
   font-size: 30px;
+  font-weight: 700;
+
+  margin-bottom: 20px;
+`;
+
+const HorizontalLine = styled.div`
+  width: 100%;
+  height: 3px;
+  background-color: var(--gray-100);
+  margin-bottom: 20px;
 `;
 
 const MemberArea = styled.div``;
@@ -100,7 +117,7 @@ export default function StudyPkAdmin() {
 
   const navigate = useNavigate();
 
-  const studyId = location.pathname.split("/")[2];
+  const studyId = useParams().studyPk;
 
   const date = new Date();
   const minDate = date.toISOString().split("T")[0];
@@ -370,11 +387,7 @@ export default function StudyPkAdmin() {
   return (
     <Container>
       <Title>스터디 관리</Title>
-      <StudyManage>
-        <StudyToggle state={recruit} setState={setRecruit}></StudyToggle>
-        <DeleteButton onClick={() => deleteStudy()}>스터디 삭제</DeleteButton>
-        <UpdateButton onClick={() => updateStudy()}>변경사항 저장</UpdateButton>
-      </StudyManage>
+      <HorizontalLine></HorizontalLine>
       <MemberArea>
         <Category>회원 목록</Category>
         {MemberListDoms}
@@ -436,6 +449,29 @@ export default function StudyPkAdmin() {
           min={minDate}
         ></DeadLineInputBox>
       </DeadLine>
+      <StudyManage>
+        <StudyToggle state={recruit} setState={setRecruit}></StudyToggle>
+
+        <FlexContainer>
+          <MainButton
+            width={120}
+            height={35}
+            marginright={10}
+            content={"스터디삭제"}
+            onClick={() => deleteStudy()}
+          />
+          <MainButton
+            width={120}
+            height={35}
+            marginright={10}
+            content={"변경사항 저장"}
+            onClick={() => updateStudy()}
+          />
+        </FlexContainer>
+
+        {/* <DeleteButton onClick={() => deleteStudy()}>스터디 삭제</DeleteButton> */}
+        {/* <UpdateButton onClick={() => updateStudy()}>변경사항 저장</UpdateButton> */}
+      </StudyManage>
     </Container>
   );
 }
