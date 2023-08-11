@@ -11,7 +11,7 @@ const Title = styled.div`
   margin-bottom: 30px;
 `
 
-export default function MypageSend() {
+export default function MypageMessages() {
   const member_id = useSelector((state) => state.UserReducer.memberId);
   const [data, setData] = useState([]);
   const param = useLocation().pathname.split('/')[2]
@@ -33,7 +33,7 @@ export default function MypageSend() {
 
   return (
     <>
-      <Title>보낸 메세지함</Title>
+      {param === "send" ? <Title>보낸 쪽지함</Title> : <Title>받은 쪽지함</Title>}
       <MessageList messages={data} />
       
     </>

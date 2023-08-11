@@ -57,6 +57,7 @@ import BoardUpdate from "./pages/BoardUpdate";
 import MakeStudy from "./pages/Makestudy";
 import Message from "./pages/Message";
 import MypageArticles from "./pages/MypageArticles";
+import MypageMessages from "./pages/MypageMessages";
 
 const router = createBrowserRouter([
   {
@@ -93,7 +94,7 @@ const router = createBrowserRouter([
           },
           {
             path: "get",
-            element: <MypageGet />,
+            element: <MypageMessages />,
           },
           {
             path: "get/:messagePk",
@@ -105,7 +106,7 @@ const router = createBrowserRouter([
           },
           {
             path: "send",
-            element: <MypageSend />,
+            element: <MypageMessages />,
           },
           {
             path: "send/:messagePk",
