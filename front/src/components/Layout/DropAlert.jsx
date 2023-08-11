@@ -191,13 +191,16 @@ export default function DropAlert() {
   }, []);
   
   console.log(data)
-  for (let alarm of data) {
-    if (alarm.isRead === false) {
-      console.log(12341234132)
-      read = true;
-      break;
+  if (data.length > 0) {
+    for (let alarm of data) {
+      if (alarm.isRead === false) {
+        console.log(12341234132)
+        read = true;
+        break;
+      }
     }
   }
+  
 
   const sortedAlertList = [...data].sort((a, b) =>
     a.is_read === b.is_read ? 0 : a.is_read ? 1 : -1
