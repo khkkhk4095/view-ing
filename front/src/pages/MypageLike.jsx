@@ -1,38 +1,49 @@
+import { useSelector } from "react-redux";
 import ArticleList from "../components/Board/Organisms/ArticleList";
+import { useEffect, useState } from "react";
+import { customAxios } from "../modules/Other/Axios/customAxios";
+import { styled } from "styled-components";
+import { useLocation } from "react-router-dom";
 
-const data = [
-  {
-    author: {
-      id: 1,
-      nickname: "배고파요",
-      hat: "모자",
-      character: "cow",
-      background: "#ff6767",
-    },
-    article_id: 123,
-    title: "제목입니다",
-    view_count: 124,
-    comment_count: 123,
-    like_count: 25,
-    board_type: "free",
-  },
-  {
-    author: {
-      id: 1,
-      nickname: "배고파요",
-      hat: "모자",
-      character: "cow",
-      background: "#ff6767",
-    },
-    article_id: 123,
-    title: "제목입니다",
-    view_count: 1266,
-    comment_count: 123,
-    like_count: 25,
-    board_type: "free",
-  },
-];
+const Title = styled.div`
+  font-size: 30px;
+  margin-bottom: 10px;
+  margin-top: 20px;
+`;
 
 export default function MypageLike() {
-  return <ArticleList data={data} width={800}></ArticleList>;
+  const member_id = useSelector((state) => state.UserReducer.memberId);
+  const [free, setFree] = useState([]);
+  const [interview, setInterview] = useState([]);
+  const [qna, setQna] = useState([]);
+
+  useEffect(() => {
+    customAxios()
+      .get(`members/${member_id}/article?board=general&searchType=favor`)
+      .then((res) => setFree(res.data))
+      .catch((err) => console.log(err));
+
+    customAxios()
+      .get(`members/${member_id}/article?board=review&searchType=favor`)
+      .then((res) => setInterview(res.data))
+      .catch((err) => console.log(err));
+
+    customAxios()
+      .get(`members/${member_id}/article?board=qna&searchType=favor`)
+      .then((res) => setQna(res.data))
+      .catch((err) => console.log(err));
+  }, []);
+
+  
+  return (
+    <>
+    
+      <Title>자유게시판</Title>
+      <ArticleList data={free} width={800}></ArticleList>
+      <Title>면접게시판</Title>
+      <ArticleList data={interview} width={800}></ArticleList>
+      <Title>질문게시판</Title>
+      <ArticleList data={qna} width={800}></ArticleList>
+    </>
+  );
 }

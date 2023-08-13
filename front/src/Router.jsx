@@ -49,8 +49,14 @@ import LoginLoading from "./pages/LoginLoading";
 import BoardPk from "./pages/BoardPk";
 import StudyPk from "./pages/StudyPk";
 import StudySideBar from "./components/Study/StudySideBar";
+import ConferencePage from "./testWebRTC/Pages/ConferencePage";
+import ReadyPage from "./testWebRTC/Pages/ReadyPage";
+import StudyPage from "./testWebRTC/Pages/StudyPage";
 import BoardCommon from "./pages/BoardCommon";
 import BoardUpdate from "./pages/BoardUpdate";
+import MakeStudy from "./pages/Makestudy";
+import Message from "./pages/Message";
+import MypageArticles from "./pages/MypageArticles";
 
 const router = createBrowserRouter([
   {
@@ -71,7 +77,7 @@ const router = createBrowserRouter([
           },
           {
             path: "like",
-            element: <MypageLike />,
+            element: <MypageArticles />,
           },
           {
             path: "bookmark",
@@ -83,7 +89,7 @@ const router = createBrowserRouter([
           },
           {
             path: "comment",
-            element: <MypageComment />,
+            element: <MypageArticles />,
           },
           {
             path: "get",
@@ -95,7 +101,7 @@ const router = createBrowserRouter([
           },
           {
             path: "myarticle",
-            element: <MypageMyarticle />,
+            element: <MypageArticles />,
           },
           {
             path: "send",
@@ -115,6 +121,7 @@ const router = createBrowserRouter([
           },
         ],
       },
+      { path: "makestudy", element: <MakeStudy /> },
       {
         path: "study/:studyPk/detail",
         element: <StudyPkDetail />,
@@ -129,7 +136,7 @@ const router = createBrowserRouter([
           },
           {
             path: "admin",
-            element: <StudyPkAdmin />,
+            element: <StudyPk />,
           },
           {
             path: "applicant",
@@ -158,7 +165,7 @@ const router = createBrowserRouter([
 
           {
             path: "info",
-            element: <StudyPkInfo />,
+            element: <StudyPk />,
           },
           {
             path: "meeting",
@@ -176,7 +183,7 @@ const router = createBrowserRouter([
       },
       {
         path: "board/free",
-        element: <BoardCommon/>,
+        element: <BoardCommon />,
       },
       {
         path: "board/free/:articlePk",
@@ -188,7 +195,7 @@ const router = createBrowserRouter([
       },
       {
         path: "board/interview",
-        element: <BoardCommon/>,
+        element: <BoardCommon />,
       },
       {
         path: "board/interview/:articlePk",
@@ -264,6 +271,22 @@ const router = createBrowserRouter([
   {
     path: "login/loading",
     element: <LoginLoading />,
+  },
+  {
+    path: "test/main",
+    element: <ConferencePage />,
+  },
+  {
+    path: "test",
+    element: <StudyPage />,
+  },
+  {
+    path: "test/ready",
+    element: <ReadyPage />,
+  },
+  {
+    path: "message",
+    element: <Message />,
   },
 ]);
 

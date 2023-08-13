@@ -104,7 +104,7 @@ export default function SideBar() {
     "내 캘린더",
     "내가 쓴 글",
     "내가 좋아요 한 글",
-    "내가 댓들 단 게시글",
+    "내가 댓글 단 게시글",
     "탈퇴하기",
   ];
   const linkList = [
@@ -121,11 +121,11 @@ export default function SideBar() {
   const menuListDoms = menuList.map((menu, idx) => {
     if (menu === "내 쪽지함") {
       return (
-        <>
+        <div key={idx}>
           <Menu
             $active={clicked === menu}
             onClick={() => setClicked(menu)}
-            key={idx}
+            
           >
             {menu}
           </Menu>
@@ -147,7 +147,7 @@ export default function SideBar() {
               보낸 쪽지함
             </SubMenu>
           </StyledLink>
-        </>
+        </div>
       );
     } else {
       return (

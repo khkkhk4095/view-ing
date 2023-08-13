@@ -3,15 +3,13 @@ import React, { useRef, useState, useEffect } from "react";
 import stompjs from "stompjs";
 import * as SockJS from "sockjs-client";
 import UserProfile from "../Common/UserProfile";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { customAxios } from "../../modules/Other/Axios/customAxios";
 import { BiCaretUp, BiCaretDown } from "react-icons/bi";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
-  border: "2px solid black";
-  padding: "16px";
-
   width: 1000px;
   height: 500px;
 `;
@@ -19,7 +17,8 @@ const Container = styled.div`
 const ChatArea = styled.div`
   width: 100%;
   height: 100%;
-  overflow: auto;
+  overflow-x: auto;
+  word-wrap: break-word;
 `;
 
 const ChatBox = styled.div``;
@@ -71,25 +70,30 @@ export default function Chat() {
   const member = useSelector((state) => state.UserReducer);
   const [msg, setMsg] = useState("");
   const [msgList, setMsgList] = useState([]);
-  const sockJS = new SockJS("http://70.12.246.107:8080/studyChat");
+  const sockJS = new SockJS(`${process.env.REACT_APP_SERVER_URL}studyChat`);
   const stompClient = stompjs.over(sockJS);
-  const studyId = useLocation().pathname.split("/")[2];
+  stompClient.debug = null;
+  const studyId = useParams().studyPk;
   const [oldMsgState, setOldMsgState] = useState(true);
   const scrollRef = useRef();
   const [newPage, setNewPage] = useState(0);
   const [newMsgState, setNewMsgState] = useState(false);
+  const [scrollState, setScrollState] = useState(true);
   const maxLength = 5000;
+  const navigate = useNavigate();
 
   //메시지 전송
   const sendMsg = () => {
     try {
-      stompClient.send(
-        "/app/chats/studies/" + studyId,
-        {},
-        JSON.stringify({ member_id: member.memberId, content: msg })
-      );
-      moveEnd();
-      setMsg("");
+      if (sockJS.readyState === 1) {
+        stompClient.send(
+          "/app/chats/studies/" + studyId,
+          {},
+          JSON.stringify({ member_id: member.memberId, content: msg })
+        );
+        moveEnd();
+        setMsg("");
+      }
     } catch (error) {
       console.log("전송 실패");
     }
@@ -106,7 +110,8 @@ export default function Chat() {
         const oldMessage = data;
         setMsgList((arr) => [...oldMessage, ...arr]);
         scrollRef.current.scrollTop = 100;
-      });
+      })
+      .catch(() => {});
   };
 
   //메시지 입력 값 변경
@@ -126,6 +131,7 @@ export default function Chat() {
   //마지막으로 스크롤이동
   const moveEnd = () => {
     scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    setNewMsgState((prev) => false);
   };
 
   //스크롤 이동에 따른 이벤트
@@ -146,17 +152,23 @@ export default function Chat() {
       if (newMsgState) {
         setNewMsgState((prev) => false);
       }
+      setScrollState(() => true);
+    } else {
+      setScrollState(() => false);
     }
   };
 
   //처음 접속 시
   useEffect(() => {
     customAxios()
-      .get(`studies/${studyId}/chats`) //유저가 스터디 멤버인지 체크 수정
+      .get(`studies/${studyId}/chats`)
       .then(({ data }) => {
         if (data.length < 100) setOldMsgState((prev) => false);
         const oldMessage = data;
         setMsgList((arr) => [...oldMessage, ...arr]);
+      })
+      .catch((err) => {
+        stompClient.disconnect();
       });
     stompClient.connect({}, () => {
       stompClient.subscribe("/topic/" + studyId, (data) => {
@@ -182,6 +194,10 @@ export default function Chat() {
       });
     });
     return () => {
+      if (sockJS.readyState === 1) {
+        sockJS.close();
+      }
+      stompClient.unsubscribe("/topic/" + studyId);
       stompClient.disconnect();
     };
   }, []);
@@ -201,14 +217,8 @@ export default function Chat() {
     );
 
     //스크롤이 높이 있는지
-    if (
-      Math.abs(
-        scrollRef.current.scrollHeight -
-          chatAreaHeight -
-          scrollRef.current.scrollTop
-      ) < 100
-    ) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    if (scrollState) {
+      moveEnd();
     }
   }, [msgList]);
 
@@ -224,11 +234,15 @@ export default function Chat() {
           return (
             <ChatBox key={m.chat_id}>
               <ChatProfile>
-                <UserProfile
-                  nickname={m.member.nickname}
-                  backgroundcolor={m.member.background}
-                  characterimg={m.member.character}
-                />
+                {m.member.nickname != null ? (
+                  <UserProfile
+                    nickname={m.member.nickname}
+                    backgroundcolor={m.member.background}
+                    characterimg={m.member.character}
+                  />
+                ) : (
+                  <UserProfile nickname={"알 수 없음"} />
+                )}
               </ChatProfile>
               <ChatText>{m.content}</ChatText>
               <ChatTime>{m.created_at}</ChatTime>
@@ -251,6 +265,9 @@ export default function Chat() {
         value={msg}
       ></MessageInputBox>
       <SendButton onClick={checkSendState}>전송</SendButton>
+      <div>
+        {msg.length}/{maxLength}
+      </div>
     </Container>
   );
 }
