@@ -28,19 +28,6 @@ const PageContainer = styled.div`
   justify-content: center;
 `
 
-const BottomContainer = styled.div`
-  display: flex;
-  align-items: center;
-`
-
-const MarginLeft = styled.div`
-  margin-left: 20px;
-`
-
-const PageContainer = styled.div`
-  display: flex;
-  justify-content: center;
-`
 
 export default function BoardCommon() {
   const [data, setData] = useState([]);
