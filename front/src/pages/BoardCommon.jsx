@@ -7,6 +7,7 @@ import { customAxios } from "../modules/Other/Axios/customAxios";
 import MainButton from "../components/Button/MainButton";
 import { useLocation, useNavigate } from "react-router-dom";
 import { BiChevronLeft, BiChevronRight, BiChevronsLeft, BiChevronsRight } from "react-icons/bi";
+import { BiChevronLeft, BiChevronRight, BiChevronsLeft, BiChevronsRight } from "react-icons/bi";
 
 const Container = styled.div`
   display: flex;
@@ -31,7 +32,23 @@ const PageContainer = styled.div`
   align-items: center;
 `;
 
+`;
 
+
+const PageButton = styled.div`
+  padding: 5px;
+  border-radius: 10px;
+  background-color: ${(props) => {
+    if (props.$now === props.$page) {
+      return "var(--gray-200)";
+    } else {
+      return "";
+    }
+  }};
+  &:hover {
+    background-color: var(--gray-200);
+  }
+`;
 const PageButton = styled.div`
   padding: 5px;
   border-radius: 10px;
@@ -54,9 +71,19 @@ const ArrowButton = styled.div`
     background-color: var(--gray-200);
   }
 `;
+const ArrowButton = styled.div`
+  padding: 3px;
+  border-radius: 10px;
+  &:hover {
+    background-color: var(--gray-200);
+  }
+`;
 
 export default function BoardCommon() {
   const [data, setData] = useState([]);
+  const [page, setPage] = useState(0);
+  const navigate = useNavigate();
+  const type = useLocation().pathname.split("/")[2];
   const [page, setPage] = useState(0);
   const navigate = useNavigate();
   const type = useLocation().pathname.split("/")[2];
@@ -68,6 +95,7 @@ export default function BoardCommon() {
     } else if (type === "question") {
       return "qna";
     }
+  };
   };
 
   useEffect(() => {
@@ -98,9 +126,16 @@ export default function BoardCommon() {
     <Container>
       <BoardNavBar />
       <ArticleList data={data} width={1000} type={type} />
+      <ArticleList data={data} width={1000} type={type} />
       <BottomContainer>
         <SearchBoxBoard></SearchBoxBoard>
         <MarginLeft>
+          <MainButton
+            content={"글쓰기"}
+            width={80}
+            height={35}
+            onClick={() => navigate(`/board/write?type=${type}`)}
+          ></MainButton>
           <MainButton
             content={"글쓰기"}
             width={80}
@@ -116,10 +151,10 @@ export default function BoardCommon() {
         <ArrowButton>
           <BiChevronLeft></BiChevronLeft>
         </ArrowButton>
-        <PageButton $now={page} $page={1} onClick={handlePage(1)}>
+        <PageButton $now={page} $page={1} onClick={() => handlePage(1)}>
           1
         </PageButton>
-        <PageButton $now={page} $page={2} onClick={handlePage(2)}>
+        <PageButton $now={page} $page={2} onClick={() => handlePage(2)}>
           2
         </PageButton>
         <ArrowButton>
