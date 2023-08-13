@@ -28,6 +28,20 @@ const PageContainer = styled.div`
   justify-content: center;
 `
 
+const BottomContainer = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+const MarginLeft = styled.div`
+  margin-left: 20px;
+`
+
+const PageContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`
+
 export default function BoardCommon() {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(0)
@@ -35,11 +49,11 @@ export default function BoardCommon() {
   const type = useLocation().pathname.split('/')[2]
   const param = (type) => {
     if (type === "free") {
-      return "general"
+      return "general";
     } else if (type === "interview") {
-      return "review"
+      return "review";
     } else if (type === "question") {
-      return "qna"
+      return "qna";
     }
   }
 
