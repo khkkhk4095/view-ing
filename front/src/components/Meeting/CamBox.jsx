@@ -1,9 +1,9 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { BiVolumeMute } from "react-icons/bi";
 import UserProfile from "./../Common/UserProfile";
 
-function CamBox({ streamManager }) {
+function CamBox({ streamManager, isVideoActive }) {
   const videoRef = useRef();
 
   useEffect(() => {
@@ -11,6 +11,10 @@ function CamBox({ streamManager }) {
       streamManager.addVideoElement(videoRef.current);
     }
   });
+
+  const [videoOn, setVideoOn] = useState(true);
+
+  const [audioOn, setAudioOn] = useState(true);
 
   const getUserData = () => {
     const data = streamManager
@@ -40,7 +44,7 @@ function CamBox({ streamManager }) {
     width: 100%;
     height: 100%;
     background-color: grey;
-    z-index: -100;
+    z-index: 50;
   `;
 
   const ProfileBox = styled.div`
@@ -50,34 +54,39 @@ function CamBox({ streamManager }) {
     transform: translate(-50%, -50%);
   `;
 
+  const InfoContainer = styled.div`
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    color: white;
+  `;
+
   return (
     <>
       <Container>
         {streamManager ? (
-          <CamContainer autoPlay={true} ref={videoRef}></CamContainer>
+          <CamContainer
+            autoPlay={true}
+            ref={videoRef}
+            hidden={!videoOn}
+          ></CamContainer>
         ) : null}
-        <ProfileContainer
-          hidden={streamManager ? streamManager.stream.videoActive : false}
-        >
+        <ProfileContainer hidden={videoOn}>
           <ProfileBox>
             <UserProfile
               nickname={getUserData().nickname}
-              backgroundcolor={getUserData().background}
-              characterimg={getUserData().character}
+              backgroundcolor={getUserData().backgroundColor}
+              characterimg={getUserData().backgroundImg}
             />
           </ProfileBox>
         </ProfileContainer>
         <BiVolumeMute
-          display={
-            streamManager
-              ? streamManager.stream.audioActive
-                ? "none"
-                : ""
-              : "none"
-          }
+          display={audioOn ? "none" : ""}
           size={50}
           color="red"
         ></BiVolumeMute>
+        <InfoContainer>{getUserData().nickname} </InfoContainer>
       </Container>
     </>
   );

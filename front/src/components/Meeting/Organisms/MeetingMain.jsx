@@ -19,11 +19,14 @@ const CamContainer = styled.div`
   height: 202.5px;
 `;
 
-export default function MeetingMain({ publisher, subscribers }) {
+export default function MeetingMain({ publisher, subscribers, isVideoActive }) {
   return (
     <Container>
       <CamContainer>
-        <CamBox streamManager={publisher}></CamBox>
+        <CamBox
+          streamManager={publisher}
+          isVideoActive={isVideoActive}
+        ></CamBox>
       </CamContainer>
       {subscribers.subs.map((sub, i) => {
         return (
