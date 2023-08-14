@@ -16,15 +16,13 @@ const Container = styled.div`
   align-items: center;
 `;
 
-
-
 export default function MypageCalendar() {
   const [modal, setModal] = useState(false)
   const [value, onChange] = useState(new Date());
 
   return (
     <Container>
-      <CalendarTemplate isFlex={false} value={value} onChange={onChange}></CalendarTemplate>
+      <CalendarTemplate isFlex={false} value={value} onChange={onChange} modal={modal}></CalendarTemplate>
       <MainButton content={"일정 추가"} width={100} height={30} onClick={() => setModal(true)}></MainButton>
       <AlertModal isOpen={modal} onClose={() => setModal(false)} type={"schedule"} value={value} onChange={onChange}></AlertModal>
     </Container>

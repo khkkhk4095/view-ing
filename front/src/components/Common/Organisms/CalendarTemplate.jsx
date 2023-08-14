@@ -20,7 +20,7 @@ const Container = styled.div`
   align-items: center;
 `;
 
-export default function CalendarTemplate({ isFlex, value, onChange }) {
+export default function CalendarTemplate({ isFlex, value, onChange, modal }) {
   const [data, dataChange] = useState([]);
   const memberId = useSelector((state) => state.UserReducer.memberId);
 
@@ -32,7 +32,7 @@ export default function CalendarTemplate({ isFlex, value, onChange }) {
         dataChange(res.data.data)
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [modal]);
   const data2 = data.filter((d) => {
     return (
       moment(value).format("YY.MM.DD") ===
