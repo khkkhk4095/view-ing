@@ -187,7 +187,7 @@ const StudyDot = styled.div`
   margin-left: 1px;
 `;
 
-export default function Calendar(props) {
+export default function StudyCalendar(props) {
   // const [value, onChange] = useState(new Date());
   // const [data, dataChange] = useState([]);
   const data = props.data

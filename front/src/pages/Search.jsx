@@ -313,7 +313,7 @@ export default function Search() {
 
       <TagContainer>
         {tags.map((tag, idx) => (
-          <>
+          <div key={idx}>
             <TagRadio
               type="radio"
               value={idx + 1}
@@ -328,14 +328,14 @@ export default function Search() {
               }}
               hidden
             ></TagRadio>
-            <TagLabel for={tag}>
+            <TagLabel htmlFor={tag}>
               {tag === tags[searchTag - 1] ? (
                 <TagStyledSelected key={idx} content={tag} />
               ) : (
                 <TagStyled key={idx} content={tag} />
               )}
             </TagLabel>
-          </>
+          </div>
         ))}
       </TagContainer>
 
@@ -390,7 +390,7 @@ export default function Search() {
               </PageNum>
             )
           ) : (
-            <NoneDiv />
+            <NoneDiv key={idx} />
           );
         })}
         {searchPage + 3 < pageSize ? (

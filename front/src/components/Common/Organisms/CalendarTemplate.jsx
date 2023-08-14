@@ -5,6 +5,8 @@ import { useState, useEffect } from "react";
 import { FakeData } from "../FakeData";
 import { FakeData2 } from "../FakeData2";
 import moment from "moment";
+import { useSelector } from "react-redux";
+import { customAxios } from "../../../modules/Other/Axios/customAxios";
 
 const Container = styled.div`
   display: ${(props) => {
@@ -18,12 +20,18 @@ const Container = styled.div`
   align-items: center;
 `;
 
-export default function CalendarTemplate({ isFlex }) {
+export default function CalendarTemplate({ isFlex, value, onChange }) {
   const [data, dataChange] = useState([]);
-  const [value, onChange] = useState(new Date());
+  const memberId = useSelector((state) => state.UserReducer.memberId);
 
   useEffect(() => {
-    dataChange(FakeData);
+    customAxios()
+      .get(`members/${memberId}/calendars`)
+      .then((res) => {
+        console.log(res.data.data);
+        dataChange(res.data.data)
+      })
+      .catch((err) => console.log(err));
   }, []);
   const data2 = data.filter((d) => {
     return (
