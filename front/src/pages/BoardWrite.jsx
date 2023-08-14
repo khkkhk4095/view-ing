@@ -107,12 +107,12 @@ export default function BoardWrite() {
   };
 
   const SendRequest = (e) => {
-    if (!title) {
-      alert("제목을 입력하세요.");
-      return;
-    } else if (!content) {
-      alert("내용을 입력하세요.");
-      return;
+    if (!title.trim()) {
+      alert("제목을 입력하세요.")
+      return
+    } else if (!content.trim()) {
+      alert("내용을 입력하세요.")
+      return
     }
 
     const formData = new FormData();
