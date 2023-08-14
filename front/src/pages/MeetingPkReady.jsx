@@ -167,14 +167,10 @@ export default function MeetingPkReady() {
 
   const [permit, setPermit] = useState(false);
 
-  const [permit, setPermit] = useState(false);
-
   const currVideo = useRef();
   const currAudio = useRef();
 
   // 미디어 권한을 얻고, 가용기기를 찾는다.
-  useEffect(async () => {
-    await getPermission();
   useEffect(async () => {
     await getPermission();
     findDevice();
@@ -188,15 +184,8 @@ export default function MeetingPkReady() {
       .then(() => {
         setPermit(true);
       })
-      .then(() => {
-        setPermit(true);
-      })
       .catch((error) => {
         console.error("미디어 액세스 권한을 허용하지 않았습니다:", error);
-        alert(
-          "'크롬설정 > 개인 정보 보호 및 보안 > 사이트 설정' 에서 당사이트에 대한 카메라,마이크 권한을 허용해주세요"
-        );
-        window.location.replace(`/study/${studyId}/meeting`);
         alert(
           "'크롬설정 > 개인 정보 보호 및 보안 > 사이트 설정' 에서 당사이트에 대한 카메라,마이크 권한을 허용해주세요"
         );
@@ -304,13 +293,6 @@ export default function MeetingPkReady() {
         testAudio();
         return;
       }
-      if (
-        currAudio.current.value &&
-        savedId !== JSON.parse(currAudio.current.value).deviceId
-      ) {
-        testAudio();
-        return;
-      }
 
       setTimeout(() => {
         analyser.getByteFrequencyData(dataArray);
@@ -342,9 +324,7 @@ export default function MeetingPkReady() {
       audio: audioDevice ? audioDevice : devices.audio[0],
     };
     sessionStorage.setItem("deviceInfo", JSON.stringify(deviceInfo));
-    sessionStorage.setItem("deviceInfo", JSON.stringify(deviceInfo));
     window.open(`/meeting/${studyId}`);
-    sessionStorage.removeItem("deviceInfo");
     sessionStorage.removeItem("deviceInfo");
     window.location.replace(`/study/${studyId}/meeting`);
   };
