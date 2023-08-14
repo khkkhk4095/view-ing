@@ -6,23 +6,46 @@ import { useEffect, useRef, useState } from "react";
 import { OpenVidu } from "openvidu-browser";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import { UserReducer } from "./../modules/UserReducer/UserReducer";
 
-const Container = styled.div``;
+const Container = styled.div`
+  background-color: var(--gray-100);
+`;
+
+const BeforePermit = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
+
+const AfterPermit = styled.div``;
 
 const BodyContainer = styled.div`
-  padding-left: 150px;
-  padding-right: 150px;
-  border: 1px solid black;
+  margin: 20px 150px;
+  background-color: white;
+  border-radius: 50px;
+  /* border: 1px solid black; */
+  padding: 5px;
+`;
+
+const SubTitle = styled.div`
+  margin-left: 50px;
+  /* margin-top: 50px; */
+  padding-top: 20px;
 `;
 
 const TitleContainer = styled.div`
-  border: 1px solid black;
-  text-align: center;
-  font-size: 30px;
+  /* border: 1px solid black; */
+  /* text-align: center; */
+  font-size: 25px;
+  font-weight: 700;
+  margin-left: 50px;
+  margin-top: 10px;
 `;
 
 const TestContainer = styled.div`
-  border: 1px solid black;
+  /* border: 1px solid black; */
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -35,6 +58,8 @@ const TestVideo = styled.video`
   height: 480px;
   margin-right: 5px;
   margin-right: 5px;
+  padding: 10px;
+  border-radius: 30px;
 `;
 
 const TestAudio = styled.div`
@@ -46,8 +71,36 @@ const TestAudio = styled.div`
   margin-top: auto;
 `;
 
+// const UtilContainer = styled.div`
+//   border: 1px solid black;
+//   padding: 10px;
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+// `;
+
+// const OptionContainer = styled.div`
+//   display: flex;
+//   align-items: center;
+// `;
+
+// const LabelContainer = styled.label`
+//   font-size: 15px;
+//   margin-right: 10px;
+// `;
+
+// const SelectContainer = styled.select`
+//   border: 1px solid black;
+//   font-size: 15px;
+// `;
+
+// const EntranceContainer = styled.div`
+//   display: inline;
+//   margin-right: 50px;
+// `;
+
 const UtilContainer = styled.div`
-  border: 1px solid black;
+  /* border: 1px solid black; */
   padding: 5px;
   width: auto;
   height: 50px;
@@ -57,12 +110,12 @@ const UtilContainer = styled.div`
 `;
 
 const SelectContainer = styled.select`
-  border: 1px solid black;
+  /* border: 1px solid black; */
   font-size: 15px;
 `;
 
 const OptionContainer = styled.option`
-  border: 1px solid black;
+  /* border: 1px solid black; */
 `;
 
 const LabelContainer = styled.label`
@@ -74,14 +127,27 @@ const LabelContainer = styled.label`
 const EntranceContainer = styled.div`
   display: inline;
   margin-left: auto;
-  border: 1px solid black;
+  margin-right: 30px;
+  /* border: 1px solid black; */
 `;
 
 export default function MeetingPkReady() {
   const studyId = useLocation().pathname.split("/")[2];
+  const user = useSelector((state) => state.UserReducer);
+
+  //userdata
+  const nickname = user.nickname;
+  const backgroundColor = user.backgroundColor;
+  const backgroundImg = user.backgroundImg;
 
   // 임시 유저 데이터
-  const userData = useSelector((state) => state.UserReducer);
+  // const userData = useSelector((state) => state.UserReducer);
+  // const userData = {
+  //   memberId: "5",
+  //   nickname: `nick${Math.ceil(Math.random() * 1000)}`,
+  //   backgroundColor: "red",
+  //   backgroundImg: "cow",
+  // };
 
   const OV = new OpenVidu();
 
@@ -99,12 +165,14 @@ export default function MeetingPkReady() {
 
   const [volume, setVolume] = useState("");
 
+  const [permit, setPermit] = useState(false);
+
   const currVideo = useRef();
   const currAudio = useRef();
 
   // 미디어 권한을 얻고, 가용기기를 찾는다.
-  useEffect(() => {
-    getPermission();
+  useEffect(async () => {
+    await getPermission();
     findDevice();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -113,9 +181,15 @@ export default function MeetingPkReady() {
   const getPermission = async () => {
     await navigator.mediaDevices
       .getUserMedia({ audio: true, video: true })
-      .then(() => {})
+      .then(() => {
+        setPermit(true);
+      })
       .catch((error) => {
         console.error("미디어 액세스 권한을 허용하지 않았습니다:", error);
+        alert(
+          "'크롬설정 > 개인 정보 보호 및 보안 > 사이트 설정' 에서 당사이트에 대한 카메라,마이크 권한을 허용해주세요"
+        );
+        window.location.replace(`/study/${studyId}/meeting`);
       });
   };
 
@@ -179,7 +253,7 @@ export default function MeetingPkReady() {
       : devices.video[0];
     if (savedId === "noDevice") {
       const img = document.createElement("img");
-      img.src = `/profile/${userData.character}.png`;
+      img.src = `/profile/${backgroundImg}.png`;
       const canvas = document.createElement("canvas");
       canvas.width = img.width;
       canvas.height = img.height;
@@ -208,12 +282,15 @@ export default function MeetingPkReady() {
     const dataArray = new Uint8Array(bufferLength);
 
     const updateVolume = () => {
-      if (savedId !== JSON.parse(currAudio.current.value).deviceId) {
-        testAudio();
-        return;
-      }
       if (savedId === "noDevice") {
         setVolume("");
+        return;
+      }
+      if (
+        currAudio.current.value &&
+        savedId !== JSON.parse(currAudio.current.value).deviceId
+      ) {
+        testAudio();
         return;
       }
 
@@ -246,69 +323,83 @@ export default function MeetingPkReady() {
       video: videoDevice ? videoDevice : devices.video[0],
       audio: audioDevice ? audioDevice : devices.audio[0],
     };
-    localStorage.setItem("deviceInfo", JSON.stringify(deviceInfo));
+    sessionStorage.setItem("deviceInfo", JSON.stringify(deviceInfo));
     window.open(`/meeting/${studyId}`);
+    sessionStorage.removeItem("deviceInfo");
     window.location.replace(`/study/${studyId}/meeting`);
   };
 
   return (
     <>
       <img
-        src={`/profile/${userData.character}.png`}
+        src={`/profile/${backgroundImg}.png`}
         alt="프로필이미지"
         hidden
       ></img>
       <Container>
-        <HeaderBox></HeaderBox>
-        <BodyContainer>
-          <TitleContainer>{"스터디 이름"}</TitleContainer>
-          <TestContainer>
-            <TestVideo id="videoTest" autoPlay={true}></TestVideo>
-            <TestAudio height={volume}></TestAudio>
-          </TestContainer>
-          <UtilContainer>
-            <LabelContainer htmlFor="choiceVideo">비디오 선택</LabelContainer>
-            <SelectContainer
-              id="choiceVideo"
-              value={JSON.stringify(videoDevice)}
-              ref={currVideo}
-              onChange={onChangeVideo}
-            >
-              {devices.video
-                ? devices.video.map((d) => (
-                    <OptionContainer value={JSON.stringify(d)} key={d.deviceId}>
-                      {d.label}
-                    </OptionContainer>
-                  ))
-                : undefined}
-            </SelectContainer>
-            <LabelContainer htmlFor="choiceAudio">오디오 선택</LabelContainer>
-            <SelectContainer
-              id="choiceAudio"
-              onChange={onChangeAudio}
-              value={JSON.stringify(audioDevice)}
-              ref={currAudio}
-            >
-              {devices.audio
-                ? devices.audio.map((d) => (
-                    <OptionContainer value={JSON.stringify(d)} key={d.deviceId}>
-                      {d.label}
-                    </OptionContainer>
-                  ))
-                : undefined}
-            </SelectContainer>
-            <EntranceContainer>
-              <MainButton
-                content={"입장"}
-                fontSize={30}
-                height={50}
-                width={80}
-                onClick={goToConferencePage}
-              ></MainButton>
-            </EntranceContainer>
-          </UtilContainer>
-        </BodyContainer>
-        <Footer></Footer>
+        <BeforePermit hidden={permit}>
+          {"카메라, 마이크 권한에 대한 접근 중입니다."}
+        </BeforePermit>
+        <AfterPermit hidden={!permit}>
+          <HeaderBox></HeaderBox>
+
+          <BodyContainer>
+            <SubTitle>💻화상회의 참여 준비하기</SubTitle>
+            <TitleContainer>🙋{nickname}</TitleContainer>
+            <TestContainer>
+              <TestVideo id="videoTest" autoPlay={true}></TestVideo>
+              <TestAudio height={volume}></TestAudio>
+            </TestContainer>
+            <UtilContainer>
+              <LabelContainer htmlFor="choiceVideo">비디오 선택</LabelContainer>
+              <SelectContainer
+                id="choiceVideo"
+                value={JSON.stringify(videoDevice)}
+                ref={currVideo}
+                onChange={onChangeVideo}
+              >
+                {devices.video
+                  ? devices.video.map((d) => (
+                      <OptionContainer
+                        value={JSON.stringify(d)}
+                        key={d.deviceId}
+                      >
+                        {d.label}
+                      </OptionContainer>
+                    ))
+                  : undefined}
+              </SelectContainer>
+              <LabelContainer htmlFor="choiceAudio">오디오 선택</LabelContainer>
+              <SelectContainer
+                id="choiceAudio"
+                onChange={onChangeAudio}
+                value={JSON.stringify(audioDevice)}
+                ref={currAudio}
+              >
+                {devices.audio
+                  ? devices.audio.map((d) => (
+                      <OptionContainer
+                        value={JSON.stringify(d)}
+                        key={d.deviceId}
+                      >
+                        {d.label}
+                      </OptionContainer>
+                    ))
+                  : undefined}
+              </SelectContainer>
+              <EntranceContainer>
+                <MainButton
+                  content={"입장"}
+                  fontSize={20}
+                  height={40}
+                  width={70}
+                  onClick={goToConferencePage}
+                ></MainButton>
+              </EntranceContainer>
+            </UtilContainer>
+          </BodyContainer>
+          <Footer></Footer>
+        </AfterPermit>
       </Container>
     </>
   );
