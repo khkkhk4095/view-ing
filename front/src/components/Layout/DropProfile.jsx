@@ -91,6 +91,7 @@ export default function DropProfile({ member }) {
       localStorage.removeItem("access_token");
       dispatch(Logout());
     }
+    window.alert("로그아웃 되었습니다.");
   };
 
   useEffect(() => {
