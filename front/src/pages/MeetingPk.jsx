@@ -119,7 +119,7 @@ export default function MeetingPk() {
   let currentVideoDevice = undefined;
   let currentAudioDevice = undefined;
   useEffect(() => {
-    deviceInfo = JSON.parse(localStorage.getItem("deviceInfo"));
+    deviceInfo = JSON.parse(sessionStorage.getItem("deviceInfo"));
     currentVideoDevice = deviceInfo ? deviceInfo.video : undefined;
     currentAudioDevice = deviceInfo ? deviceInfo.audio : undefined;
   });
@@ -140,7 +140,7 @@ export default function MeetingPk() {
       },
     })
       .then((res) => {
-        localStorage.setItem("sessionId", res.data);
+        sessionStorage.setItem("sessionId", res.data);
       })
       .catch((err) => {
         console.log("세션 생성 실패");
@@ -164,7 +164,7 @@ export default function MeetingPk() {
       },
     })
       .then((res) => {
-        localStorage.setItem("openviduToken", res.data);
+        sessionStorage.setItem("openviduToken", res.data);
       })
       .catch(() => {
         console.log("토큰 발급 실패");
@@ -212,9 +212,9 @@ export default function MeetingPk() {
     setPublisher(undefined);
     session.disconnect();
     setSession(undefined);
-    localStorage.removeItem("sessionId");
-    localStorage.removeItem("openviduToken");
-    localStorage.removeItem("deviceInfo");
+    sessionStorage.removeItem("sessionId");
+    sessionStorage.removeItem("openviduToken");
+    sessionStorage.removeItem("deviceInfo");
     if (!checkDownload) {
       if (
         // eslint-disable-next-line no-restricted-globals
@@ -304,7 +304,7 @@ export default function MeetingPk() {
     // 토큰 생성 및 스트림 등록
     getToken().then(() => {
       session
-        .connect(localStorage.getItem("openviduToken"), {
+        .connect(sessionStorage.getItem("openviduToken"), {
           clientData: userData,
         })
         .then(async () => {
@@ -405,7 +405,7 @@ export default function MeetingPk() {
       video: JSON.parse(e.target.value),
       audio: currentAudioDevice,
     };
-    localStorage.setItem("deviceInfo", JSON.stringify(newDeviceInfo));
+    sessionStorage.setItem("deviceInfo", JSON.stringify(newDeviceInfo));
     changeVideoUtil();
   };
 
@@ -425,13 +425,15 @@ export default function MeetingPk() {
       video: currentVideoDevice,
       audio: JSON.parse(e.target.value),
     };
-    localStorage.setItem("deviceInfo", JSON.stringify(newDeviceInfo));
+    sessionStorage.setItem("deviceInfo", JSON.stringify(newDeviceInfo));
     changeAudioUtil();
   };
 
   // 비디오 변경사항 적용
   const changeVideoUtil = async () => {
-    const newDeviceInfo = await JSON.parse(localStorage.getItem("deviceInfo"));
+    const newDeviceInfo = await JSON.parse(
+      sessionStorage.getItem("deviceInfo")
+    );
     const newStream = await OV.getUserMedia({
       videoSource:
         newDeviceInfo.video.deviceId === "noDevice"
@@ -456,7 +458,9 @@ export default function MeetingPk() {
 
   // 오디오 변경사항 적용
   const changeAudioUtil = async () => {
-    const newDeviceInfo = await JSON.parse(localStorage.getItem("deviceInfo"));
+    const newDeviceInfo = await JSON.parse(
+      sessionStorage.getItem("deviceInfo")
+    );
     const newStream = await OV.getUserMedia({
       audioSource:
         newDeviceInfo.audio.deviceId === "noDevice"
@@ -474,6 +478,18 @@ export default function MeetingPk() {
     const newTrack = newStream.getAudioTracks()[0];
     publisher.replaceTrack(newTrack);
   };
+
+  function getActive(streamId) {
+    const streams = [...subscribers.subs, publisher];
+    streams.forEach((s) => {
+      if (streamId === s.stream.streamId) {
+        return {
+          videoActive: s.stream.videoActive,
+          audioActive: s.stream.audioActive,
+        };
+      }
+    });
+  }
 
   //// 세션 설정
 
@@ -690,6 +706,7 @@ export default function MeetingPk() {
           <MeetingMain
             publisher={publisher}
             subscribers={subscribers}
+            getActive={getActive}
           ></MeetingMain>
         </MeetingMainContainer>
         <MeetingSideContainer hidden={closeSideBar}>

@@ -272,8 +272,9 @@ export default function MeetingPkReady() {
       video: videoDevice ? videoDevice : devices.video[0],
       audio: audioDevice ? audioDevice : devices.audio[0],
     };
-    localStorage.setItem("deviceInfo", JSON.stringify(deviceInfo));
+    sessionStorage.setItem("deviceInfo", JSON.stringify(deviceInfo));
     window.open(`/meeting/${studyId}`);
+    sessionStorage.removeItem("deviceInfo");
     window.location.replace(`/study/${studyId}/meeting`);
   };
 
