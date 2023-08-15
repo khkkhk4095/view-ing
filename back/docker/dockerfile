@@ -168,4 +168,5 @@ CMD java -Dspring.datasource.driver-class-name=${SPRING_DATASOURCE_DRIVER_CLASS_
  -Dspring.servlet.multipart.enabled=${spring_servlet_multipart_enabled} \
  -Dspring.datasource.hikari.maximum-pool-size=${SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE} \
  -Doauth.redirectUri=${OAUTH_REDIRECTURI} \
+ -Duser.timezone=asia/seoul \
  -jar app.jar >>/viewing/application.log 2>/dev/null
