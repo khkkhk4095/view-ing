@@ -39,18 +39,20 @@ export default function BoardCommon() {
       return "qna";
     }
   };
-
-  useEffect(() => {
-    setPage(0);
+  function handleData (e) {
     customAxios()
-      .get(`boards/${param(type)}?size=20&page=${0}`) // 페이지size, page
+      .get(`boards/${param(type)}?size=20&page=${e}`) // 페이지size, page
       .then((res) => {
-        console.log(res.data);
         setData(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
+  }
+
+  useEffect(() => {
+    setPage(0);
+    handleData(0)
   }, [type]);
 
   return (
@@ -72,7 +74,7 @@ export default function BoardCommon() {
           ></MainButton>
         </MarginLeft>
       </BottomContainer>
-      <Pagination setData={setData} page={page} setPage={setPage} maxPage={data.totalPages - 1}></Pagination>
+      <Pagination handleData={handleData} page={page} setPage={setPage} maxPage={data.totalPages - 1}></Pagination>
     </Container>
   );
 }
