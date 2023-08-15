@@ -108,8 +108,6 @@ export default function SearchBoxBoard() {
     window.location.href = queryString;
   };
 
-  const isInputEmpty = input.trim() === "";
-
   return (
     <SearchContainer>
       <SearchInput
@@ -127,7 +125,7 @@ export default function SearchBoxBoard() {
         <option value="author">작성자</option>
       </Dropdown>
       <ButtonContainer>
-        <SearchButton onClick={handleSearch} disabled={isInputEmpty}>
+        <SearchButton onClick={handleSearch}>
           <SearchIcon />
         </SearchButton>
       </ButtonContainer>

@@ -172,6 +172,7 @@ export default function SearchBox({ width, appliedCompany, job, careerLevel }) {
         type="text"
         name="input1"
         value={input1}
+        maxLength={30}
         onChange={(e) => {
           handleInputChange(e);
         }}
@@ -187,6 +188,7 @@ export default function SearchBox({ width, appliedCompany, job, careerLevel }) {
         type="text"
         name="input2"
         value={input2}
+        maxLength={20}
         onChange={(e) => {
           handleInputChange(e);
         }}
