@@ -184,10 +184,8 @@ public class BoardService {
     // 조회수+1
     @Transactional
     public void modifyViewCount(Board article) {
-        System.out.println(article.getViewCount());
         article.updateViewCount();
         boardRepository.save(article);
-        System.out.println(article.getViewCount());
     }
 
 
