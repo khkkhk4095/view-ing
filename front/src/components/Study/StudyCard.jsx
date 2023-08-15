@@ -8,6 +8,8 @@ import CompanyJobTag from "./CompanyJobTag";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { customAxios } from "../../modules/Other/Axios/customAxios";
+import { useNavigate } from "react-router-dom";
+
 const Container = styled(Link)`
   width: 280px;
   height: 320px;
@@ -36,6 +38,7 @@ const BookmarkContainer = styled.div`
   position: absolute;
   top: 15px;
   right: 20px;
+  z-index: 300;
 `;
 
 const CompanyContainer = styled.div`
@@ -144,23 +147,64 @@ const CapacityContainer = styled.div`
 
 export default function StudyCard({ study }) {
   // console.log(study.tag);
-  const [studyCardLink, setStudyCardLink] = useState("");
   const memberId = useSelector((state) => state.UserReducer.memberId);
+  const navigate = useNavigate();
+
+  const [bookmarked, isBookmarked] = useState();
 
   useEffect(() => {
+    isBookmarked(study.bookmark);
+  }, []);
+
+  const moveStudy = () => {
     customAxios()
-      .get(`/studies/${study.study_id}/member`)
+      .get(`studies/${study.study_id}/member`)
       .then(() => {
-        setStudyCardLink(`/study/${study.study_id}`);
+        navigate(`/study/${study.study_id}`);
       })
       .catch((error) => {
-        setStudyCardLink(`/study/${study.study_id}/detail`);
+        navigate(`/study/${study.study_id}/detail`);
       });
-  });
+  };
+
+  const addBookmark = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    customAxios()
+      .post(`members/${memberId}/studies/${study.study_id}/bookmark`)
+      .then(() => {
+        isBookmarked(true);
+      })
+      .catch(() => {
+        alert("이미 찜한 스터디입니다.");
+      });
+  };
+
+  const removeBookmark = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    customAxios()
+      .delete(`members/${memberId}/studies/${study.study_id}/bookmark`)
+      .then(() => {
+        isBookmarked(false);
+      })
+      .catch(() => {
+        alert("아직 찜하지 않은 스터디입니다.");
+      });
+  };
+
   return (
-    <Container to={`${studyCardLink}`}>
-      <BookmarkContainer>
-        <Bookmark />
+    <Container
+      onClick={() => {
+        moveStudy();
+      }}
+    >
+      <BookmarkContainer onClick={bookmarked ? removeBookmark : addBookmark}>
+        {bookmarked ? (
+          <Bookmark fill={"#453CF8"} />
+        ) : (
+          <Bookmark fill={"none"} />
+        )}
       </BookmarkContainer>
 
       <CompanyContainer>

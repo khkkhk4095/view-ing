@@ -6,7 +6,8 @@ import UserProfile from "./../Common/UserProfile";
 const Container = styled.div`
   width: 100%;
   height: 100%;
-  border: 1px solid black;
+  /* border: 1px solid ; */
+  /* border-radius: 100px; */
 `;
 
 const CamContainer = styled.video`
@@ -37,31 +38,18 @@ const InfoContainer = styled.div`
   bottom: 0;
   left: 0;
   z-index: 100;
+  background-color: var(--gray-200);
+  padding: 5px;
 `;
 
-function CamBox({ streamManager, getActive }) {
+function CamBox({ streamManager }) {
   const videoRef = useRef();
 
   useEffect(() => {
     if (streamManager && !!videoRef) {
       streamManager.addVideoElement(videoRef.current);
     }
-  }, []);
-
-  useEffect(() => {
-    if (streamManager) {
-      function loop() {
-        alert("루프");
-        setTimeout(() => {
-          const active = getActive(streamManager.stream.streamId);
-          setVideoActive(active.videoActive);
-          setAudioActive(active.audioActive);
-          loop();
-        }, 1000);
-      }
-      loop();
-    }
-  }, []);
+  }, [streamManager]);
 
   const getUserData = () => {
     const data = streamManager
@@ -82,20 +70,19 @@ function CamBox({ streamManager, getActive }) {
     setMouseOver(false);
   };
 
-  const [videoActive, setVideoActive] = useState(true);
-  const [audioActive, setAudioActive] = useState(true);
-
   return (
     <>
       <Container onMouseOver={hover} onMouseLeave={unhover}>
         {streamManager ? (
           <CamContainer
-            autoPlay={videoActive}
+            autoPlay={streamManager.stream.videoActive}
             ref={videoRef}
-            hidden={!videoActive}
+            hidden={!streamManager.stream.videoActive}
           ></CamContainer>
         ) : null}
-        <ProfileContainer hidden={videoActive}>
+        <ProfileContainer
+          hidden={streamManager ? streamManager.stream.videoActive : false}
+        >
           <ProfileBox>
             <UserProfile
               nickname={getUserData().nickname}
@@ -107,7 +94,13 @@ function CamBox({ streamManager, getActive }) {
         <BiVolumeMute
           size={50}
           color="red"
-          display={audioActive ? "none" : ""}
+          display={
+            streamManager
+              ? streamManager.stream.audioActive
+                ? "none"
+                : ""
+              : "none"
+          }
         ></BiVolumeMute>
         <InfoContainer hidden={!mouseOver}>
           {getUserData().nickname}{" "}
