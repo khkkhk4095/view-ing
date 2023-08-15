@@ -11,7 +11,9 @@ import { useLocation } from "react-router-dom";
 
 const Container = styled.div`
   width: 100%;
-  height: 100%;
+  max-height: 100vh;
+  height: 100vh;
+  /* height: 100s%; */
   overflow: hidden;
   /* 웹킷 기반 브라우저 스크롤바 숨기기 */
   &::-webkit-scrollbar {
@@ -27,14 +29,14 @@ const ModalContainer = styled.div`
   position: absolute;
   left: 50%;
   top: 50%;
-  border: 1px solid black;
+  /* border: 1px solid black; */
   transform: translate(-50%, -50%);
   z-index: 999;
 `;
 
 const HeaderContainer = styled.div`
   position: absolute;
-  border: 1px solid black;
+  /* border: 1px solid black; */
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -44,7 +46,7 @@ const HeaderContainer = styled.div`
 `;
 
 const TitleContainer = styled.div`
-  border: 1px solid black;
+  /* border: 1px solid black; */
   margin-left: auto;
 `;
 
@@ -53,14 +55,14 @@ const MainContainer = styled.div`
   display: flex;
   flex-direction: row;
   width: 99.9%;
-  height: 90%;
+  height: 89%;
   top: 5%;
   bottom: 5%;
 `;
 
 const MeetingMainContainer = styled.div`
   position: absolute;
-  border: 1px solid black;
+  /* border: 1px solid black; */
   right: ${(props) => `${props.right}%`};
   width: ${(props) => `${100 - props.right}%`};
   height: 100%;
@@ -68,31 +70,37 @@ const MeetingMainContainer = styled.div`
 
 const MeetingSideContainer = styled.div`
   position: absolute;
-  border: 1px solid black;
+  /* border: 1px solid black; */
   left: 80%;
   width: 19.9%;
   height: 100%;
 `;
 
 const ButtonContainer = styled.div`
-  border: 1px solid black;
+  /* border: 1px solid black; */
   margin-left: auto;
 `;
 
 const LayoutButton = styled.button`
-  border: 1px solid black;
-  margin: 1px;
+  padding: 5px 20px;
+  margin: 5px; 
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
 `;
 
 const FooterContainer = styled.div`
   position: absolute;
-  border: 1px solid black;
+  /* border: 1px solid black; */
   display: flex;
   flex-direction: row;
   align-items: center;
   top: 95%;
   width: 99.9%;
-  height: 4.8%;
+  height: 5%;
 `;
 
 export default function MeetingPk() {
@@ -115,14 +123,22 @@ export default function MeetingPk() {
   const OV = new OpenVidu();
 
   // 설정창에서 받아온 사용기기 정보
-  let deviceInfo = undefined;
-  let currentVideoDevice = undefined;
-  let currentAudioDevice = undefined;
+  const [deviceInfo, setDeviceInfo] = useState(undefined);
+  const [currentVideoDevice, setCurrentVideoDevice] = useState(undefined);
+  const [currentAudioDevice, setCurrentAudioDevice] = useState(undefined);
   useEffect(() => {
-    deviceInfo = JSON.parse(sessionStorage.getItem("deviceInfo"));
-    currentVideoDevice = deviceInfo ? deviceInfo.video : undefined;
-    currentAudioDevice = deviceInfo ? deviceInfo.audio : undefined;
-  });
+    setDeviceInfo(JSON.parse(sessionStorage.getItem("deviceInfo")));
+    setCurrentVideoDevice(
+      sessionStorage.getItem("deviceInfo")
+        ? JSON.parse(sessionStorage.getItem("deviceInfo")).video
+        : undefined
+    );
+    setCurrentAudioDevice(
+      sessionStorage.getItem("deviceInfo")
+        ? JSON.parse(sessionStorage.getItem("deviceInfo")).audio
+        : undefined
+    );
+  }, []);
 
   // 백엔드 통신을 통한 세션/토큰 발급
   const createSession = async () => {
@@ -308,21 +324,29 @@ export default function MeetingPk() {
           clientData: userData,
         })
         .then(async () => {
+          let audiodevice = JSON.parse(
+            sessionStorage.getItem("deviceInfo")
+          ).audio;
+          let videodevice = JSON.parse(
+            sessionStorage.getItem("deviceInfo")
+          ).video;
+          console.log(audiodevice);
+          console.log(videodevice);
           let newPublisher = await OV.initPublisherAsync(undefined, {
             audioSource:
-              currentAudioDevice.deviceId === "noDevice"
+              audiodevice.deviceId === "noDevice"
                 ? undefined
-                : currentAudioDevice.deviceId,
+                : audiodevice.deviceId,
             videoSource:
-              currentVideoDevice.deviceId === "noDevice"
+              videodevice.deviceId === "noDevice"
                 ? undefined
-                : currentVideoDevice.deviceId,
-            publishAudio: !(currentAudioDevice.deviceId === "noDevice"),
-            publishVideo: !(currentVideoDevice.deviceId === "noDevice"),
+                : videodevice.deviceId,
+            publishAudio: !(audiodevice.deviceId === "noDevice"),
+            publishVideo: !(videodevice.deviceId === "noDevice"),
             resolution: "1280x720",
             frameRate: 30,
             insertMode: "APPEND",
-            mirror: false,
+            mirror: true,
           });
           session.publish(newPublisher);
           setPublisher(newPublisher);
@@ -406,7 +430,8 @@ export default function MeetingPk() {
       audio: currentAudioDevice,
     };
     sessionStorage.setItem("deviceInfo", JSON.stringify(newDeviceInfo));
-    changeVideoUtil();
+    setDeviceInfo(newDeviceInfo);
+    changeDevice();
   };
 
   // 오디오 변경
@@ -426,70 +451,34 @@ export default function MeetingPk() {
       audio: JSON.parse(e.target.value),
     };
     sessionStorage.setItem("deviceInfo", JSON.stringify(newDeviceInfo));
-    changeAudioUtil();
+    setDeviceInfo(newDeviceInfo);
+    changeDevice();
   };
 
-  // 비디오 변경사항 적용
-  const changeVideoUtil = async () => {
-    const newDeviceInfo = await JSON.parse(
-      sessionStorage.getItem("deviceInfo")
-    );
-    const newStream = await OV.getUserMedia({
-      videoSource:
-        newDeviceInfo.video.deviceId === "noDevice"
-          ? undefined
-          : newDeviceInfo.video.deviceId,
-      publishVideo: !!!(newDeviceInfo.video.deviceId === "noDevice"),
-      resolution: "1280x720",
-      frameRate: 30,
-      insertMode: "APPEND",
-      mirror: false,
-    });
-    if (newDeviceInfo.video.deviceId === "noDevice") {
-      publisher.publishVideo(false);
-      return;
-    }
-    if (!publisher.stream.videoActive) {
-      publisher.publishVideo(true);
-    }
-    const newTrack = newStream.getVideoTracks()[0];
-    publisher.replaceTrack(newTrack);
-  };
-
-  // 오디오 변경사항 적용
-  const changeAudioUtil = async () => {
-    const newDeviceInfo = await JSON.parse(
-      sessionStorage.getItem("deviceInfo")
-    );
-    const newStream = await OV.getUserMedia({
+  // 비디오/오디오 변경사항 적용
+  const changeDevice = async () => {
+    const newDeviceInfo = JSON.parse(sessionStorage.getItem("deviceInfo"));
+    const newPublisher = await OV.initPublisherAsync(undefined, {
       audioSource:
         newDeviceInfo.audio.deviceId === "noDevice"
           ? undefined
           : newDeviceInfo.audio.deviceId,
+      videoSource:
+        newDeviceInfo.video.deviceId === "noDevice"
+          ? undefined
+          : newDeviceInfo.video.deviceId,
       publishAudio: !!!(newDeviceInfo.audio.deviceId === "noDevice"),
+      publishVideo: !!!(newDeviceInfo.video.deviceId === "noDevice"),
+      resolution: "1280x720",
+      frameRate: 30,
+      insertMode: "APPEND",
+      mirror: true,
     });
-    if (newDeviceInfo.audio.deviceId === "noDevice") {
-      publisher.publishAudio(false);
-      return;
-    }
-    if (!publisher.stream.audioActive) {
-      publisher.publishAudio(true);
-    }
-    const newTrack = newStream.getAudioTracks()[0];
-    publisher.replaceTrack(newTrack);
+    await session.unpublish(publisher).then(() => {
+      session.publish(newPublisher);
+      setPublisher(newPublisher);
+    });
   };
-
-  function getActive(streamId) {
-    const streams = [...subscribers.subs, publisher];
-    streams.forEach((s) => {
-      if (streamId === s.stream.streamId) {
-        return {
-          videoActive: s.stream.videoActive,
-          audioActive: s.stream.audioActive,
-        };
-      }
-    });
-  }
 
   //// 세션 설정
 
@@ -512,12 +501,15 @@ export default function MeetingPk() {
 
   // 녹화 시작
   const initRecord = () => {
-    if (
-      !!!recorder ||
-      (recorder.state !== LocalRecorderState.READY &&
-        recorder.state !== LocalRecorderState.FINISHED)
-    ) {
+    if (!!!recorder) {
       alert("카메라와 마이크가 없는 상태에서는 녹화를 할 수 없습니다.");
+      return "err";
+    }
+    if (
+      recorder.state !== LocalRecorderState.READY &&
+      recorder.state !== LocalRecorderState.FINISHED
+    ) {
+      alert("이미 녹화중인 상태입니다.");
       return "err";
     }
     recorder.clean();
@@ -681,6 +673,9 @@ export default function MeetingPk() {
   };
   //// 사이드바
 
+  //보기형식 state  1: 레이아웃  2: 발표자보기
+  const [view, setView] = useState("layout");
+
   return (
     // eslint-disable-next-line no-restricted-globals
     <Container>
@@ -696,9 +691,13 @@ export default function MeetingPk() {
       <HeaderContainer>
         <TitleContainer>{"스터디 제목"}</TitleContainer>
         <ButtonContainer>
-          <LayoutButton>보기1</LayoutButton>
-          <LayoutButton>보기2</LayoutButton>
-          <LayoutButton>보기3</LayoutButton>
+          <LayoutButton onClick={() => setView("layout")}>
+            레이아웃보기
+          </LayoutButton>
+          <LayoutButton onClick={() => setView("me")}>
+            나 중심 보기
+          </LayoutButton>
+          {/* <LayoutButton>보기3</LayoutButton> */}
         </ButtonContainer>
       </HeaderContainer>
       <MainContainer>
@@ -706,7 +705,7 @@ export default function MeetingPk() {
           <MeetingMain
             publisher={publisher}
             subscribers={subscribers}
-            getActive={getActive}
+            view={view}
           ></MeetingMain>
         </MeetingMainContainer>
         <MeetingSideContainer hidden={closeSideBar}>

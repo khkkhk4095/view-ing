@@ -9,15 +9,16 @@ import ChatButton from "../ChatButton";
 import FeedbackButton from "../FeedbackButton";
 
 const Container = styled.div`
-  border: 1px solid black;
+  /* border: 1px solid black; */
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   width: 100%;
+  /* height: 500px; */
 `;
 
 const GroupingContainer = styled.div`
-  border: 1px solid black;
+  /* border: 1px solid black; */
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -50,7 +51,9 @@ export default function MeetingFooter({
       <GroupingContainer>
         <SelectContainer
           onChange={changeVideo}
-          value={JSON.stringify(currentVideoDevice)}
+          value={JSON.stringify(
+            JSON.parse(sessionStorage.getItem("deviceInfo")).video
+          )}
           title="비디오 선택"
           id="choiceVideo"
         >
@@ -65,7 +68,9 @@ export default function MeetingFooter({
         {/* <VideoButton></VideoButton> */}
         <SelectContainer
           onChange={changeAudio}
-          value={JSON.stringify(currentAudioDevice)}
+          value={JSON.stringify(
+            JSON.parse(sessionStorage.getItem("deviceInfo")).audio
+          )}
           title="오디오 선택"
           id="choiceAudio"
         >
@@ -88,20 +93,24 @@ export default function MeetingFooter({
           stopRecord={stopRecord}
         ></RecordButton>
       </GroupingContainer>
+
       <GroupingContainer>
         <MembersButton
           toggleSideBar={toggleSideBar}
           changeOption={changeOption}
         ></MembersButton>
+
         <ChatButton
           toggleSideBar={toggleSideBar}
           changeOption={changeOption}
         ></ChatButton>
+
         <FeedbackButton
           toggleSideBar={toggleSideBar}
           changeOption={changeOption}
         ></FeedbackButton>
       </GroupingContainer>
+
       <ExitButton
         openModal={openModal}
         leaveSession={leaveSession}

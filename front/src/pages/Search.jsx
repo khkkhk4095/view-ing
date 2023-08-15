@@ -279,7 +279,6 @@ export default function Search() {
 
   useEffect(() => {
     setFilteredData(searchData.content);
-    console.log(searchData);
   }, [searchData]);
 
   // const handleToggle = () => {
@@ -306,7 +305,12 @@ export default function Search() {
             onClick={handleClick}
           />
         </Link>
-        <SearchBox width={950} />
+        <SearchBox
+          width={950}
+          appliedCompany={appliedCompany}
+          job={job}
+          careerLevel={careerLevel}
+        />
       </SearchContainer>
 
       <HorizontalLine></HorizontalLine>

@@ -26,6 +26,11 @@ const MarginLeft = styled.div`
 `;
 
 export default function BoardCommon() {
+  const url = new URL(document.URL);
+  const query = url.searchParams;
+  const searchBy = query.get("searchBy");
+  const keyword = query.get("keyword");
+
   const [data, setData] = useState([]);
   const [page, setPage] = useState(0);
   const navigate = useNavigate();
@@ -39,9 +44,16 @@ export default function BoardCommon() {
       return "qna";
     }
   };
-  function handleData (e) {
+
+  const getSearchUrl = () =>
+    `boards/${param(type)}?${searchBy ? "searchBy=" + searchBy : ""}&${
+      keyword ? "keyword=" + keyword : ""
+    }`;
+
+  useEffect(() => {
+    setPage(0);
     customAxios()
-      .get(`boards/${param(type)}?size=20&page=${e}`) // 페이지size, page
+      .get(getSearchUrl() + `&size=20&page=${0}`) // 페이지size, page
       .then((res) => {
         setData(res.data);
       })
