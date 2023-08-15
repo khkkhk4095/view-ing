@@ -68,6 +68,7 @@ public class BoardService {
     }
 
     // 글 detail 조회
+    @Transactional
     public BoardResponse findArticle(Integer memberId, Integer articleId, BoardType boardType) {
         Board article = boardRepository.findById(articleId).get();
         List<ArticleFile> files = article.getFiles();
@@ -183,8 +184,10 @@ public class BoardService {
     // 조회수+1
     @Transactional
     public void modifyViewCount(Board article) {
+        System.out.println(article.getViewCount());
         article.updateViewCount();
         boardRepository.save(article);
+        System.out.println(article.getViewCount());
     }
 
 
