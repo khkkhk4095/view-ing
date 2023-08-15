@@ -362,6 +362,7 @@ export default function MakeStudy() {
           type="text"
           value={studyName}
           onChange={(e) => setStudyName(e.target.value)}
+          maxLength={100}
         />
         <span className="input-border"></span>
       </InputContainer>
