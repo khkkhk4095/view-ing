@@ -282,6 +282,7 @@ export default function MakeStudy() {
 
   const clickSuggestion = (suggestion) => {
     setAppliedCompany(suggestion);
+    setIsVisible(false);
   };
 
   const clickTagBtn = (id) => {
