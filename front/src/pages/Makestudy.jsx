@@ -388,9 +388,6 @@ export default function MakeStudy() {
               setAppliedCompany(e.target.value);
             }}
             $state={studyCompanyState}
-            onBlur={() => {
-              setIsVisible(false);
-            }}
           />
           <Suggestions $visible={isVisible ? "block" : "none"}>
             {suggestion.map((s, idx) => {

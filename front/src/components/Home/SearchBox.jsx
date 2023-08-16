@@ -180,9 +180,6 @@ export default function SearchBox({ width, appliedCompany, job, careerLevel }) {
             handleSearch();
           }
         }}
-        onBlur={() => {
-          setIsVisible(false);
-        }}
       />
       <VerticalLine />
       <SearchInput
