@@ -19,6 +19,8 @@ const FlexContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 15px;
 `;
 
 const ButtonContainer = styled.div`
