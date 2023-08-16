@@ -46,7 +46,6 @@ export default function StudyPkBoard() {
     }`;
 
   function handleData(e) {
-    console.log(getSearchUrl());
     customAxios()
       .get(getSearchUrl() + `&size=20&page=${e}`) // 페이지size, page
       .then((res) => {
