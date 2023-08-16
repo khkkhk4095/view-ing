@@ -134,7 +134,7 @@ export default function SearchBox({ width, appliedCompany, job, careerLevel }) {
     // Construct the query string
     const queryString = `/search?appliedCompany=${encodeURIComponent(
       input1
-    )}&job=${encodeURIComponent(input2)}&careerLevel=${selectedOption}`;
+    )}&appliedJob=${encodeURIComponent(input2)}&careerLevel=${selectedOption}`;
     // Navigate to the search results page with the query string
     window.location.href = queryString;
   };
@@ -145,8 +145,6 @@ export default function SearchBox({ width, appliedCompany, job, careerLevel }) {
 
   useEffect(() => {
     if (suggestion.length === 0) setIsVisible(false);
-    else if (suggestion.length === 1 && input1 === suggestion[0])
-      setIsVisible(false);
     else setIsVisible(true);
   }, [suggestion]);
 

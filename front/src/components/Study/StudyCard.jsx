@@ -38,7 +38,7 @@ const BookmarkContainer = styled.div`
   position: absolute;
   top: 15px;
   right: 20px;
-  z-index: 300;
+  /* z-index: 300; */
 `;
 
 const CompanyContainer = styled.div`
@@ -232,6 +232,7 @@ export default function StudyCard({ study }) {
           nickname={study.leader.nickname}
           backgroundcolor={study.leader.background}
           characterimg={study.leader.character}
+          member_id={study.leader.member_id}
         />
       </ProfileContainer>
       <CapacityContainer>

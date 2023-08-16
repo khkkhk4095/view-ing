@@ -268,7 +268,6 @@ export default function MakeStudy() {
   const [studyDescription, setStudyDescription] = useState("");
   const [tagList, setTagList] = useState(TAG_LIST);
 
-  const [clickValue, setClickValue] = useState(false);
   const [filterTag, setFilterTag] = useState([]);
 
   const [suggestion, setSuggestion] = useState([]);
@@ -283,6 +282,7 @@ export default function MakeStudy() {
 
   const clickSuggestion = (suggestion) => {
     setAppliedCompany(suggestion);
+    setIsVisible(false);
   };
 
   const clickTagBtn = (id) => {
@@ -354,8 +354,6 @@ export default function MakeStudy() {
 
   useEffect(() => {
     if (suggestion.length === 0) setIsVisible(false);
-    else if (suggestion.length === 1 && appliedCompany === suggestion[0])
-      setIsVisible(false);
     else setIsVisible(true);
   }, [suggestion]);
 
