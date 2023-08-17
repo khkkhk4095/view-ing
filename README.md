@@ -14,7 +14,7 @@
 면접 관련 커뮤니티가 필요한 사람<br>
 면접 연습을 하며 피드백을 주고받고 싶은 사람
 
-### 사용방법
+### 💁 사용방법
 
 면접을 압둔 기업의 이름을 검색해보세요.
 원하는 스터디가 있다면 가입 신청을 해보세요.
@@ -31,6 +31,7 @@ https://i9a205.p.ssafy.io/
 ### ⏰ 개발 기간
 
 2023.07.10 ~ 2023.08.17
+<br>
 (2023.08.07 ~ 배포 중)
 
 <br>
@@ -54,6 +55,8 @@ https://i9a205.p.ssafy.io/
 
 
 ![MySQL](https://img.shields.io/badge/MySQL-4479A1.svg?&style=for-the-badge&logo=MySQL&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=PostgreSQL&logoColor=#4169E1/)
+
 ![Apache Maven](https://img.shields.io/badge/Apache%20Maven-C71A36.svg?&style=for-the-badge&logo=Apache%20Maven&logoColor=white)
 ![Spring Security](https://img.shields.io/badge/Spring%20Security-6DB33F.svg?&style=for-the-badge&logo=Spring%20Security&logoColor=white)
 ![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=JSON%20web%20tokens&logoColor=white)
