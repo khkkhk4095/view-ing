@@ -121,10 +121,8 @@ public class MemberService {
         }
 
         member.withdrawl();
-        List<ArticleComment> comments = articleCommentRepository.findArticleCommentByAuthor(member);
-        for (ArticleComment comment : comments) {
-            comment.deleteComment();
-        }
+        articleCommentRepository.deleteArticleCommentByAuthor(member);
+
         List<Board> articles = boardRepository.findAllByMember(member);
         for (Board article : articles) {
             boardService.removeArticle(article.getId());
