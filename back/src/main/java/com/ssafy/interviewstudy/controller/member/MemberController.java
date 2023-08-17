@@ -211,7 +211,7 @@ public class MemberController {
     public ResponseEntity withdrawl(@PathVariable Integer memberId){
         boolean result = memberService.withdrawl(memberId);
         if(!result)
-            ResponseEntity.badRequest().body("스터디장인 스터디가 존재합니다.");
+            return ResponseEntity.badRequest().body("스터디장인 스터디가 존재합니다.");
         return ResponseEntity.ok().build();
     }
 
