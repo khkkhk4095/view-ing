@@ -46,7 +46,7 @@ https://i9a205.p.ssafy.io/
 <details>
  <summary>열어서 확인하기</summary>
 
-  <img src="/uploads/3d937b597f5d08ab146b05d2e66e8de5/아키텍처_page-0001.jpg  width="700" >
+  ![아키텍처_page-0001](/uploads/3d937b597f5d08ab146b05d2e66e8de5/아키텍처_page-0001.jpg)
 
 
 ## ⚙️ 기술 스택
@@ -78,7 +78,6 @@ https://i9a205.p.ssafy.io/
 <details>
  <summary>메인화면</summary>
 
-  
 
  ### ✍ 홈 화면
  <img src="/uploads/c0034dc21776c2090d2f86d748370282/화면_기록_2023-08-18_오전_8.22.21.mov"  width="700" >
