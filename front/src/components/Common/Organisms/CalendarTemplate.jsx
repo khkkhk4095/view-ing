@@ -2,8 +2,6 @@ import { styled } from "styled-components";
 import Calendar from "../Calendar";
 import TimeBar from "../TimeBar";
 import { useState, useEffect } from "react";
-import { FakeData } from "../FakeData";
-import { FakeData2 } from "../FakeData2";
 import moment from "moment";
 import { useSelector } from "react-redux";
 import { customAxios } from "../../../modules/Other/Axios/customAxios";
