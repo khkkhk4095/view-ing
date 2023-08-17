@@ -66,3 +66,18 @@ https://i9a205.p.ssafy.io/
 
 <br>
 
+## 🖥️ 주요 화면 / 구현 예시
+
+<br>
+
+
+ # ✍ 홈 화면
+ <img src="/img/home.jpg" width="1000"/>
+
+
+ # ✍ 스터디 검색
+
+
+ # ✍ 홈 화면
+
+
