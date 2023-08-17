@@ -70,7 +70,7 @@ https://i9a205.p.ssafy.io/
 
 
  ### ✍ 홈 화면
- <img src="/img/home.jpg" width="1000"/>
+<img src="/uploads/65070ccf8a72f35a29dac61173cd72f2/화면_기록_2023-08-18_오전_8.05.06.gif"  width="700" >
 
 
  ### ✍ 스터디 검색
