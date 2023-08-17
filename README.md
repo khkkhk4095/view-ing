@@ -64,11 +64,6 @@ https://i9a205.p.ssafy.io/
 
 
 
-![IntelliJ IDEA](https://img.shields.io/badge/IntelliJ%20IDEA-000000.svg?&style=for-the-badge&logo=IntelliJ%20IDEA&logoColor=white)
-![visualstudiocode](https://img.shields.io/badge/visualstudiocode-007ACC&style=for-the-badge&logo=visualstudiocode&logoColor=white)
-![Figma](https://img.shields.io/badge/Figma-F24E1E.svg?&style=for-the-badge&logo=Figma&logoColor=white)
-![Notion](https://img.shields.io/badge/Notion-000000.svg?&style=for-the-badge&logo=Notion&logoColor=white)
-
 <br>
 
 ## 🖥️ 주요 화면 / 구현 예시
