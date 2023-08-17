@@ -42,7 +42,12 @@ https://i9a205.p.ssafy.io/
 [ERD](https://www.erdcloud.com/d/T43jjEq9d8XXDzow6)
 
 ### 시스템 아키텍처
-![아키텍처_page-0001](/uploads/3d937b597f5d08ab146b05d2e66e8de5/아키텍처_page-0001.jpg)
+
+<details>
+ <summary>열어서 확인하기</summary>
+
+  <img src="/uploads/3d937b597f5d08ab146b05d2e66e8de5/아키텍처_page-0001.jpg  width="700" >
+
 
 ## ⚙️ 기술 스택
 
