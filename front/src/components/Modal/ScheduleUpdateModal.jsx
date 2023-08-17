@@ -189,7 +189,6 @@ export default function ScheduleUpdateModal({
         started_at: `${date}T${start}`,
       })
       .then((res) => {
-        console.log(res);
         onClose(false);
       })
       .catch((err) => {

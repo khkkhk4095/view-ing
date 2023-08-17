@@ -166,7 +166,7 @@ export default function AlertModal({ isOpen, onClose, type, value, onChange }) {
           .delete(`members/${member_id}`)
           .then(() => {
             onClose(false);
-            console.log("확인버튼 입력");
+
             navigate(`/`);
             localStorage.clear();
           })
@@ -187,7 +187,6 @@ export default function AlertModal({ isOpen, onClose, type, value, onChange }) {
             started_at: `${date}T${start}`,
           })
           .then((res) => {
-            console.log(res);
             onClose(false);
           })
           .catch((err) => {
