@@ -12,6 +12,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { throttle } from "throttle-debounce-ts";
 import Footer from "../components/Layout/Footer";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   width: 100%;
@@ -77,6 +78,8 @@ const BodyContainer = styled.div`
   z-index: 9;
   overflow: hidden;
 
+  overflow-x: hidden;
+
   /* flex-direction: column; */
 `;
 
@@ -117,6 +120,8 @@ const CardContainer = styled.div`
   position: relative;
   overflow: hidden;
 
+  /* overflow-x: scroll; */
+
   /* Apply the filter property to the background image element */
   &::before {
     content: "";
@@ -139,7 +144,11 @@ const CardContainer = styled.div`
   }
 
   cursor: pointer;
+`;
 
+const StyledLink = styled(Link)`
+  text-decoration: none; /* Remove underline */
+  color: inherit; /* Inherit text color from parent */
 `;
 
 const bgData = [
@@ -157,6 +166,8 @@ const mentData = [
   "화상 스터디",
   "커뮤니티에서 정보 공유하기",
 ];
+
+const urlMain = ["/search", "/search", "/makestudy", "/search", "/board/free"];
 
 //메인 화면 애니메이션
 const heroContainerAnimation = {
@@ -189,7 +200,7 @@ const slideAnimation = {
     partial: { backgroundColor: "#808080" },
   },
   initial: "partial",
-  whileInView: "full",
+  whileinview: "full",
   viewport: { amount: 1, once: true },
   //  whileInView는 애니메이션 동작을 지정합니다. CardContainer가 뷰포트에 들어왔을 때, "full" 상태로 애니메이션이 작동하도록 합니다.
 };
@@ -256,7 +267,7 @@ export default function Home() {
         animate="animate"
       >
         <InnerContainer>
-        <SearchBox width={750} />
+          <SearchBox width={750} />
           <Hot10Container>
             <Hot10Box />
           </Hot10Container>
@@ -322,17 +333,18 @@ export default function Home() {
                 style={{ x, display: "flex", overflow: "hidden" }}
               >
                 {Array.from(Array(5).keys()).map((i) => (
-                  <CardContainer
-                    {...slideAnimation}
-                    key={i}
-                    className="carousel__slide"
-                    index={i}
-                  >
-                    {/* {i + 1} */}
-                    {/* 원하는 내용 */}
-                    {mentData[i]} {/* Display the content from mentData */}
-                  </CardContainer>
-
+                  <StyledLink to={urlMain[i]} key={i}>
+                    <CardContainer
+                      {...slideAnimation}
+                      key={i}
+                      className="carousel__slide"
+                      index={i}
+                    >
+                      {/* {i + 1} */}
+                      {/* 원하는 내용 */}
+                      {mentData[i]} {/* Display the content from mentData */}
+                    </CardContainer>
+                  </StyledLink>
                   // <motion.div
                   //   {...slideAnimation}
                   //   key={i}
