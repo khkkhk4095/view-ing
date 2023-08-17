@@ -51,12 +51,23 @@ export default function ScheduleUpdateModal({
   onClose,
   value,
   onChange,
+  data=[]
 }) {
   let width = 600;
   let height = 400;
+
+  const num = data.length
+  const numList = []
+  for (let i = 1 ; i<=num ; i++) {
+    console.log(i)
+    numList.push(i)
+  }
+
   const [title, setTitle] = useState("");
   const date = moment(value).format("YYYY-MM-DD");
   const setDate = onChange;
+
+  const [select, setSelect] = useState(0)
 
   // const [date, setDate] = useState(moment(value).format("YYYY-MM-DD"));
   const [start, setStart] = useState("00:00");
@@ -67,6 +78,7 @@ export default function ScheduleUpdateModal({
   const content = (
     <>
       <ModalText> 개인 일정 변경 </ModalText>
+      {numList.map((num, idx) => <button key={idx}>{num}</button>)}
       <ModalText>
         제목
         <input value={title} onChange={(e) => setTitle(e.target.value)}></input>
@@ -142,7 +154,7 @@ export default function ScheduleUpdateModal({
                 width={50}
                 height={30}
                 marginright={20}
-                onClick={() => confirm({ type })}
+                onClick={() => confirm()}
               ></MainButton>
               <MainButton
                 content={"취소"}
