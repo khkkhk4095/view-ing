@@ -84,6 +84,7 @@ const DetailContent = styled.div`
   font-weight: 500;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
 `;
 
 export default function StudyPkDetail() {
@@ -92,6 +93,13 @@ export default function StudyPkDetail() {
   const loginMember = useSelector((state) => state.UserReducer);
 
   const navigate = useNavigate();
+
+  const careerFilter = {
+    ALL: "무관",
+    INTERN: "인턴",
+    NEWCOMER: "신입",
+    EXPERIENCED: "경력",
+  };
 
   const emptyStudyData = {
     study_id: studyPk,
@@ -174,7 +182,7 @@ export default function StudyPkDetail() {
             <CompanyJobTag
               company={studyData.applied_company}
               position={studyData.applied_job}
-              career={studyData.career_level}
+              career={careerFilter[studyData.career_level]}
               style={{ marginTop: "0px" }}
             />
           </DetailContent>
@@ -185,6 +193,12 @@ export default function StudyPkDetail() {
             {studyData.tags.map((tag, idx) => (
               <TagStyled key={idx} content={tag} />
             ))}
+          </DetailContent>
+        </DetailTag>
+        <DetailTag>
+          모집여부&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+          <DetailContent>
+            {studyData.recruitment ? "모집 중" : "모집 마감"}
           </DetailContent>
         </DetailTag>
       </DetailContainer>
