@@ -2,6 +2,7 @@ package com.ssafy.interviewstudy.repository.board;
 
 import com.ssafy.interviewstudy.domain.board.ArticleComment;
 import com.ssafy.interviewstudy.domain.board.Board;
+import com.ssafy.interviewstudy.domain.member.Member;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -29,4 +30,6 @@ public interface ArticleCommentRepository extends JpaRepository<ArticleComment, 
     // 댓글ID로 가져오기
     @Query("select ac from ArticleComment ac where ac.comment.id=:commentId")
     List<ArticleComment> findArticleCommentsByComment_Id(Integer commentId);
+
+    List<ArticleComment> findArticleCommentByAuthor(Member member);
 }
