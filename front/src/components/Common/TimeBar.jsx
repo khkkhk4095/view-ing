@@ -84,8 +84,8 @@ const Schedule = styled.div`
   position: absolute;
 
   height: 100%;
-  width: ${(props) => `${(props.end - props.start) * 700}px`};
-  margin-left: ${(props) => `${props.start * 700}px`};
+  width: ${(props) => `${(props.end - props.start) * 600}px`};
+  margin-left: ${(props) => `${props.start * 600}px`};
   background-color: var(--primary);
 `;
 
@@ -134,7 +134,7 @@ export function involve(schedule, object) {
 
 export default function TimeBar(props) {
   const [updateData, setUpdateData] = useState([])
-  const [updating, setUpdating] = useState(false)
+  const [updating, setUpdating] = [props.update, props.setUpdate]
   const memberId = useSelector((state) => state.UserReducer.memberId);
   const studySchedules = [];
   const personalSchedules = {};
