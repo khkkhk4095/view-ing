@@ -39,6 +39,7 @@ const Buttons = styled.div`
 const XButtonContainer = styled.div`
   display: flex;
   justify-content: right;
+  cursor: pointer;
 `;
 
 export default function StudyCalendarModal({
@@ -54,6 +55,7 @@ export default function StudyCalendarModal({
   const [date, setDate] = useState("");
   const [start, setStart] = useState("");
   const [end, setEnd] = useState("");
+  const currentDate = new Date().toISOString().split("T")[0];
   let width = 600;
   let height = 400;
   let content = "";
@@ -90,6 +92,7 @@ export default function StudyCalendarModal({
                   return obj;
                 });
               }}
+              min={currentDate}
             ></input>
           </ModalText>
           <ModalText>
@@ -214,14 +217,18 @@ export default function StudyCalendarModal({
               height={30}
               marginright={20}
               disabled={!data.is_study_calendar}
-              onClick={() => updateSchedule()}
+              onClick={() => {
+                if (data.is_study_calendar) updateSchedule();
+              }}
             ></MainButton>
             <MainButton
               content={"삭제"}
               width={50}
               height={30}
               disabled={!data.is_study_calendar}
-              onClick={() => deleteSchedule()}
+              onClick={() => {
+                if (data.is_study_calendar) deleteSchedule();
+              }}
             ></MainButton>
           </Buttons>
         </>

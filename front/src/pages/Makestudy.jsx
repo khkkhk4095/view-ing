@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import { useEffect } from "react";
 import TagData from "../components/Study/TagData";
@@ -45,6 +45,7 @@ const Title = styled.div`
   margin-top: 50px;
 
   margin-bottom: 30px;
+  user-select: none;
 `;
 
 const HorizontalLine = styled.div`
@@ -52,6 +53,7 @@ const HorizontalLine = styled.div`
   height: 3px;
   background-color: var(--gray-100);
   margin-bottom: 20px;
+  user-select: none;
 `;
 
 const InputContainer = styled.div`
@@ -60,12 +62,14 @@ const InputContainer = styled.div`
   align-items: flex-start;
   margin: 20px 0px;
   position: relative;
+  user-select: none;
 `;
 
 const InputLabel = styled.label`
   font-size: 16px;
   font-weight: 600;
   margin-bottom: 5px;
+  user-select: none;
 `;
 
 const InputField = styled.input`
@@ -243,7 +247,7 @@ const Suggestions = styled.div`
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   max-width: 300px;
   width: 100%;
-  max-height: 100px;
+  max-height: 115px;
   position: absolute;
   top: 100%; /* 입력 필드 아래에 위치 */
   left: 10px;
@@ -251,9 +255,24 @@ const Suggestions = styled.div`
   word-wrap: break-word;
   z-index: 10; /* 다른 요소들보다 위에 위치 */
   display: ${(props) => props.$visible};
+  -ms-overflow-style: none; /* 인터넷 익스플로러 */
+  scrollbar-width: none; /* 파이어폭스 */
+  &::-webkit-scrollbar {
+    display: none; /* 크롬, 사파리, 오페라, 엣지 */
+  }
 `;
 
-const SuggestionValue = styled.div``;
+const SuggestionValue = styled.div`
+  color: var(--gray-500);
+  padding-top: 5px;
+  padding-bottom: 5px;
+  &:hover {
+    background-color: var(--secondary);
+    cursor: pointer;
+  }
+  background-color: ${(props) =>
+    props.$selected ? "var(--secondary)" : "none"};
+`;
 
 export default function MakeStudy() {
   const currentDate = new Date().toISOString().split("T")[0]; // Get the current date in YYYY-MM-DD format
@@ -277,12 +296,66 @@ export default function MakeStudy() {
   const [studyJobState, setStudyJobState] = useState(false);
   const [studyNameState, setStudyNameState] = useState(false);
   const [studyDescState, setStudyDescState] = useState(false);
+  const [isClick, setIsClick] = useState({ value: "", click: false });
 
   const maxContentLength = 2000;
 
+  const [suggestionSelect, setSuggestionSelect] = useState(null);
+  const suggestionRef = useRef(null);
+  const parentRef = useRef(null);
+
   const clickSuggestion = (suggestion) => {
-    setAppliedCompany(suggestion);
-    setIsVisible(false);
+    setIsClick((prev) => {
+      const result = { ...prev };
+      result.click = true;
+      result.value = suggestion;
+      return result;
+    });
+  };
+
+  const enterKeySelect = () => {
+    if (suggestionSelect != null) {
+      setIsClick((prev) => {
+        const result = { ...prev };
+        result.click = true;
+        result.value = suggestion[suggestionSelect];
+        return result;
+      });
+      return;
+    }
+  };
+
+  const pressDown = () => {
+    if (suggestionSelect === null) {
+      setSuggestionSelect(0);
+    } else {
+      setSuggestionSelect(suggestionSelect + 1);
+    }
+  };
+
+  const pressUp = () => {
+    if (suggestionSelect === null) {
+      setSuggestionSelect(() => suggestion.length - 1);
+    } else {
+      setSuggestionSelect((prev) => {
+        return prev - 1;
+      });
+    }
+  };
+
+  const handleFocus = (e) => {
+    if (e.target.value.length > 0) {
+      if (suggestion.length > 0) setIsVisible(true);
+      else {
+        customAxios()
+          .get(`companies/${appliedCompany}`)
+          .then(({ data }) => {
+            setSuggestion((prev) => {
+              return [...data];
+            });
+          });
+      }
+    }
   };
 
   const clickTagBtn = (id) => {
@@ -358,6 +431,18 @@ export default function MakeStudy() {
   }, [suggestion]);
 
   useEffect(() => {
+    setSuggestionSelect(null);
+    if (isClick.click) {
+      setIsClick((prev) => {
+        const result = { ...prev };
+        result.click = false;
+        result.value = "";
+        return result;
+      });
+      setIsVisible(false);
+      return;
+    }
+
     if (appliedCompany.length > 0) {
       customAxios()
         .get(`companies/${appliedCompany}`)
@@ -374,6 +459,37 @@ export default function MakeStudy() {
     }
   }, [appliedCompany]);
 
+  useEffect(() => {
+    if (isClick.click) {
+      if (appliedCompany === isClick.value) {
+        setIsVisible(false);
+        setSuggestionSelect(null);
+        setIsClick((prev) => {
+          const result = { ...prev };
+          result.click = false;
+          result.value = "";
+          return result;
+        });
+      } else {
+        setAppliedCompany(() => isClick.value);
+      }
+    }
+  }, [isClick]);
+
+  useEffect(() => {
+    if (suggestionSelect < 0) {
+      setSuggestionSelect(suggestion.length - 1);
+    } else if (suggestionSelect >= suggestion.length) {
+      setSuggestionSelect(0);
+    }
+    const selectedChild = suggestionRef.current;
+    const parentElement = parentRef.current;
+    // Scroll the parent element to bring the selected child into view
+    if (selectedChild != null && parentElement != null) {
+      parentElement.scrollTop = selectedChild.offsetTop;
+    }
+  }, [suggestionSelect]);
+
   return (
     <Container>
       <Title>✍ 스터디 기본 정보를 입력해주세요.</Title>
@@ -389,15 +505,47 @@ export default function MakeStudy() {
               setAppliedCompany(e.target.value);
             }}
             $state={studyCompanyState}
+            onBlur={() => {
+              setIsVisible(false);
+            }}
+            onFocus={(e) => {
+              handleFocus(e);
+            }}
+            onKeyUp={(e) => {
+              if (e.key === "Enter") {
+                enterKeySelect();
+              }
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Down" || e.key === "ArrowDown") {
+                e.preventDefault();
+                pressDown();
+              } else if (e.key === "Up" || e.key === "ArrowUp") {
+                e.preventDefault();
+                pressUp();
+              }
+            }}
           />
-          <Suggestions $visible={isVisible ? "block" : "none"}>
+          <Suggestions $visible={isVisible ? "block" : "none"} ref={parentRef}>
             {suggestion.map((s, idx) => {
-              return (
+              return suggestionSelect === idx ? (
                 <SuggestionValue
                   key={idx}
-                  onClick={() => {
+                  onMouseDown={() => {
                     clickSuggestion(s);
                   }}
+                  $selected={true}
+                  ref={suggestionRef}
+                >
+                  {s}
+                </SuggestionValue>
+              ) : (
+                <SuggestionValue
+                  key={idx}
+                  onMouseDown={() => {
+                    clickSuggestion(s);
+                  }}
+                  $selected={false}
                 >
                   {s}
                 </SuggestionValue>

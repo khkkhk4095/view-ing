@@ -39,6 +39,7 @@ const BookmarkContainer = styled.div`
   top: 15px;
   right: 20px;
   /* z-index: 300; */
+  cursor: pointer;
 `;
 
 const CompanyContainer = styled.div`
@@ -193,6 +194,21 @@ export default function StudyCard({ study }) {
       });
   };
 
+  switch (study.career_level) {
+    case "NEWCOMER":
+      study.career_level = "신입";
+      break;
+    case "INTERN":
+      study.career_level = "인턴";
+      break;
+    case "ALL":
+      study.career_level = "무관";
+      break;
+    case "EXPERIENCED":
+      study.career_level = "경력";
+      break;
+  }
+
   return (
     <Container
       onClick={() => {
@@ -215,7 +231,7 @@ export default function StudyCard({ study }) {
         />
       </CompanyContainer>
 
-      <DateContainer>마감일 | {study.deadline}</DateContainer>
+      <DateContainer>마감일 | {study.deadline.split(" ")[0]}</DateContainer>
 
       <TitleContainer>{study.title}</TitleContainer>
 

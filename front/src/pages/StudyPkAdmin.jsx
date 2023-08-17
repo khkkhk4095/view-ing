@@ -69,7 +69,9 @@ const TagArea = styled.div`
   padding-bottom: 5px;
 `;
 
-const TagBox = styled.span``;
+const TagBox = styled.span`
+  cursor: pointer;
+`;
 
 const SelectedTagBox = styled.span`
   background: #7952e2;
@@ -606,7 +608,7 @@ export default function StudyPkAdmin() {
             width={120}
             height={35}
             marginright={10}
-            content={"스터디삭제"}
+            content={"스터디 삭제"}
             onClick={() => deleteStudy()}
           />
           <MainButton
