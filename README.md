@@ -62,6 +62,7 @@ https://i9a205.p.ssafy.io/
 ![jenkins](https://img.shields.io/badge/jenkins-D24939?style=for-the-badge&logo=jenkins&logoColor=white)
 ![docker](https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 
+![webrtc](https://img.shields.io/badge/webrtc-333333?style=for-the-badge&logo=webrtc&logoColor=white)
 
 
 <br>
@@ -71,13 +72,13 @@ https://i9a205.p.ssafy.io/
 <br>
 
 
- # ✍ 홈 화면
+ ## ✍ 홈 화면
  <img src="/img/home.jpg" width="1000"/>
 
 
- # ✍ 스터디 검색
+ ## ✍ 스터디 검색
 
 
- # ✍ 홈 화면
+ ## ✍ 홈 화면
 
 
