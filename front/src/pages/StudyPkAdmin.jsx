@@ -50,17 +50,13 @@ const MemberArea = styled.div``;
 
 const Profile = styled.span`
   display: inline-flex;
-`;
-
-const MemberName = styled.span`
-  display: inline-flex;
-  align-items: center;
-  width: 200px;
+  width: 300px;
 `;
 
 const MemberBox = styled.div`
   display: flex;
   align-items: center;
+  margin-top: 25px;
 `;
 
 const StudyName = styled.div``;
@@ -69,7 +65,9 @@ const TagArea = styled.div`
   padding-bottom: 5px;
 `;
 
-const TagBox = styled.span``;
+const TagBox = styled.span`
+  cursor: pointer;
+`;
 
 const SelectedTagBox = styled.span`
   background: #7952e2;
@@ -303,6 +301,13 @@ export default function StudyPkAdmin() {
     tags: [],
   });
 
+  const filterCareer = {
+    ALL: "경력무관",
+    EXPERIENCED: "경력",
+    INTERN: "인턴",
+    NEWCOMER: "신입",
+  };
+
   const changeTitle = (e) => {
     setStudyTitle(() => e.target.value);
   };
@@ -476,9 +481,9 @@ export default function StudyPkAdmin() {
             backgroundcolor={member.background}
             characterimg={member.character}
             member_id={member.member_id}
+            nickname={member.nickname}
           ></UserProfile>
         </Profile>
-        <MemberName>{member.nickname}</MemberName>
         {member.member_id === studyLeaderId ? (
           <BiCrown />
         ) : (
@@ -547,7 +552,7 @@ export default function StudyPkAdmin() {
         </Job>
         <CareerLevel>
           <Category>경력</Category>
-          <div>{careerLevel}</div>
+          <div>{filterCareer[careerLevel]}</div>
           {/* <CareerLevelInputBox value={careerLevel} onChange={changeCareerLevel}>
             <CareerLevelType></CareerLevelType>
           </CareerLevelInputBox> */}
@@ -606,7 +611,7 @@ export default function StudyPkAdmin() {
             width={120}
             height={35}
             marginright={10}
-            content={"스터디삭제"}
+            content={"스터디 삭제"}
             onClick={() => deleteStudy()}
           />
           <MainButton

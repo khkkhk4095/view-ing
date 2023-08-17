@@ -43,6 +43,7 @@ const TextArea = styled.textarea`
   font-size: 15px;
 
   line-height: 150%;
+  resize: none;
 
   ::placeholder {
     font-family: "Pretendard";
@@ -75,7 +76,6 @@ export default function StudyPkBoardUpdate() {
   const SendRequest = () => {
     const formData = new FormData();
     const request = { member_id, content, title, files_deleted: deleted };
-    console.log(request, files);
     // formData.append("member_id", member_id);
     // formData.append("content", text);
     files.forEach((file) => formData.append("request_files", file));
@@ -88,11 +88,10 @@ export default function StudyPkBoardUpdate() {
       .put(`studies/${param[2]}/boards/${param[4]}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          "Authorization": "Bearer " + token,
+          Authorization: "Bearer " + token,
         },
       })
       .then((res) => {
-        // console.log(res);
         navigate(`/study/${param[2]}/board/${param[4]}`);
       })
       .catch((error) => {
@@ -125,6 +124,7 @@ export default function StudyPkBoardUpdate() {
       <TextArea
         defaultValue={content}
         onChange={(e) => handleContent(e)}
+        maxLength={5000}
       ></TextArea>
       <UploadFile
         width={200}

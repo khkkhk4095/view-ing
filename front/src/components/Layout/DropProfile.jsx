@@ -20,6 +20,7 @@ const ProfileImg = styled.div`
   background-size: 70%;
   background-repeat: no-repeat;
   background-position: center;
+  cursor: pointer;
 `;
 
 const DropdownMenu = styled.div`
@@ -78,9 +79,7 @@ export default function DropProfile({ member }) {
       const KAKAO_LOGOUT_PARAMS = new URLSearchParams(queries).toString();
       axios
         .get(`${KAKAO_LOGOUT_URL}?${KAKAO_LOGOUT_PARAMS}`)
-        .then((res) => {
-          console.log(res);
-        })
+        .then((res) => {})
         .catch
         //로그아웃 실패시?
         ();

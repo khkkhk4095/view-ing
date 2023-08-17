@@ -55,6 +55,7 @@ const TextArea = styled.textarea`
   font-size: 15px;
 
   line-height: 150%;
+  resize: none;
 
   ::placeholder {
     font-family: "Pretendard";
@@ -69,7 +70,8 @@ const ButtonsContainer = styled.div`
 `;
 
 export default function BoardWrite() {
-  const [category, setCategory] = useState("");
+  const maxLen = 5;
+
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [files, setFiles] = useState([]);
@@ -84,6 +86,7 @@ export default function BoardWrite() {
       return "qna";
     }
   };
+  const [category, setCategory] = useState(board_type());
   const member_id = useSelector((state) => state.UserReducer.memberId);
   const navigate = useNavigate();
 
@@ -116,7 +119,7 @@ export default function BoardWrite() {
     }
 
     const formData = new FormData();
-    const request = { member_id, content, title, board_type: board_type() };
+    const request = { member_id, content, title, board_type: category };
     // formData.append("member_id", member_id);
     // formData.append("content", text);
     files.forEach((file) => formData.append("request_files", file));
@@ -130,11 +133,10 @@ export default function BoardWrite() {
       .post(`boards/${category}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          "Authorization": "Bearer " + token,
+          Authorization: "Bearer " + token,
         },
       })
       .then(function (res) {
-        console.log(res);
         navigate(`/board/${param}/${res.data}`);
       })
       .catch((error) => {
@@ -142,15 +144,15 @@ export default function BoardWrite() {
       });
   };
 
-  useEffect(() => {
-    setCategory(board_type());
-  }, []);
-
   return (
     <Container>
       <Category>
         {/* 카테고리{" "} */}
-        <CategorySelect onChange={(e) => handleCategory(e)}>
+        <CategorySelect
+          onChange={(e) => {
+            handleCategory(e);
+          }}
+        >
           {param === "free" ? (
             <option value={"general"} selected>
               자유게시판
@@ -170,7 +172,7 @@ export default function BoardWrite() {
               면접게시판
             </option>
           ) : (
-            <option value={"reivew"}>면접게시판</option>
+            <option value={"review"}>면접 후기</option>
           )}
         </CategorySelect>
       </Category>
@@ -183,8 +185,10 @@ export default function BoardWrite() {
       </Title>
       {/* <Content>내용</Content> */}
       <TextArea
-        placeholder="내용을 입력해주세요."
+        placeholder=" 내용을 입력해주세요.
+        내용은 최대 5000자까지 입력 가능합니다."
         onChange={(e) => handleContent(e)}
+        maxLength={5000}
       ></TextArea>
       <UploadFile
         width={200}

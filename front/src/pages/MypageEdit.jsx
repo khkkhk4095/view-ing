@@ -108,7 +108,7 @@ const ButtonContainer = styled.div`
   justify-content: center;
 `;
 
-const maxLength = 40;
+const maxLen = 40;
 
 export default function MypageEdit() {
   //
@@ -125,7 +125,7 @@ export default function MypageEdit() {
   const [selectedColor, setSelectedColor] = useState(color);
   const [selectedImage, setSelectedImage] = useState(img);
   const [nickLength, setNickLength] = useState(nick.length);
-  const [checkLength, setCheckLength] = useState(nick.length < maxLength);
+  const [checkLength, setCheckLength] = useState(nick.length < maxLen);
 
   // react-hook-form에서 사용되는 함수
   const {
@@ -143,7 +143,7 @@ export default function MypageEdit() {
   };
 
   const handleCheck = () => {
-    if (nickname.length > maxLength) {
+    if (nickname.length > maxLen) {
       alert("닉네임은 40자를 넘길 수 없습니다.");
       return;
     }
@@ -151,7 +151,6 @@ export default function MypageEdit() {
     customAxios()
       .get(`login/nickname/check/${nickname}`)
       .then((response) => {
-        // console.log(response.data);
         alert("사용 가능한 닉네임입니다.");
         setNickChecked(true);
       })
@@ -161,7 +160,7 @@ export default function MypageEdit() {
   };
 
   const onSubmit = (type) => {
-    if (nickname.length > maxLength) {
+    if (nickname.length > maxLen) {
       alert("닉네임은 40자를 넘길 수 없습니다.");
       return;
     }
@@ -185,8 +184,6 @@ export default function MypageEdit() {
     customAxios()
       .put(`members/${member_id}/${type}`, data())
       .then(function (response) {
-        console.log(response);
-
         if (type === "nickname") {
           setNickChecked(false);
 
@@ -226,9 +223,10 @@ export default function MypageEdit() {
               id="userId"
               defaultValue={nickname}
               onChange={handleNickname}
+              maxLength={maxLen}
             />
             <div style={{ color: "gray", fontSize: "14px", marginTop: "11px" }}>
-              {nickLength}/{maxLength}
+              {nickLength}/{maxLen}
             </div>
           </NicnameInputContainer>
           <Error>{errors?.userId?.message}</Error>

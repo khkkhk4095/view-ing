@@ -19,6 +19,8 @@ const FlexContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 15px;
 `;
 
 const ButtonContainer = styled.div`
@@ -40,13 +42,17 @@ export default function StudyPkBoard() {
     handleData(0);
   }, []);
 
+  useEffect(() => {
+    setPage(0);
+    handleData(0);
+  }, [keyword]);
+
   const getSearchUrl = () =>
     `studies/${study_id}/boards?${searchBy ? "searchBy=" + searchBy : ""}&${
       keyword ? "keyword=" + keyword : ""
     }`;
 
   function handleData(e) {
-    console.log(getSearchUrl());
     customAxios()
       .get(getSearchUrl() + `&size=20&page=${e}`) // 페이지size, page
       .then((res) => {

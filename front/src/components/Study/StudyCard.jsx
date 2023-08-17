@@ -39,6 +39,7 @@ const BookmarkContainer = styled.div`
   top: 15px;
   right: 20px;
   /* z-index: 300; */
+  cursor: pointer;
 `;
 
 const CompanyContainer = styled.div`
@@ -71,6 +72,18 @@ const DateContainer = styled.div`
   bottom: 190px;
 `;
 
+const RecruitContainer = styled.div`
+  position: absolute;
+  /* top: 50px; */
+
+  font-size: 11px;
+  color: var(--gray-400);
+  font-weight: 300;
+
+  left: 10px;
+  bottom: 260px;
+`;
+
 const TitleContainer = styled.div`
   position: absolute;
   top: 140px;
@@ -86,7 +99,7 @@ const TitleContainer = styled.div`
 const TagContainer = styled.div`
   position: absolute;
   /* top: 30px; */
-  top: 200px;
+  top: 185px;
   left: 5px;
 
   display: flex;
@@ -146,7 +159,6 @@ const CapacityContainer = styled.div`
 `;
 
 export default function StudyCard({ study }) {
-  // console.log(study.tag);
   const memberId = useSelector((state) => state.UserReducer.memberId);
   const navigate = useNavigate();
 
@@ -193,6 +205,21 @@ export default function StudyCard({ study }) {
       });
   };
 
+  switch (study.career_level) {
+    case "NEWCOMER":
+      study.career_level = "신입";
+      break;
+    case "INTERN":
+      study.career_level = "인턴";
+      break;
+    case "ALL":
+      study.career_level = "무관";
+      break;
+    case "EXPERIENCED":
+      study.career_level = "경력";
+      break;
+  }
+
   return (
     <Container
       onClick={() => {
@@ -215,7 +242,11 @@ export default function StudyCard({ study }) {
         />
       </CompanyContainer>
 
-      <DateContainer>마감일 | {study.deadline}</DateContainer>
+      <DateContainer>마감일 | {study.deadline.split(" ")[0]}</DateContainer>
+
+      <RecruitContainer>
+        {study.recruitment ? "모집 중" : "모집 마감"}
+      </RecruitContainer>
 
       <TitleContainer>{study.title}</TitleContainer>
 

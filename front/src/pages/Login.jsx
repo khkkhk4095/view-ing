@@ -32,6 +32,9 @@ const ButtonsContainer = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 15px;
+  &:hover{
+    cursor : pointer;
+  }
 `;
 
 export default function Login() {

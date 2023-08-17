@@ -60,6 +60,7 @@ const ChatInput = styled.input`
 
 const SendChatButton = styled.div`
   display: inline;
+  cursor: pointer;
 `;
 
 const FeedbackContainer = styled.div`
@@ -116,6 +117,7 @@ export default function MeetingSideBar({
     <Container>
       <TabBarContainer>
         <MeetingTabBar
+          currentOption={option}
           changeOption={changeOption}
           toggleSideBar={toggleSideBar}
         ></MeetingTabBar>

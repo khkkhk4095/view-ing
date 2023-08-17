@@ -161,7 +161,9 @@ const TagContainer = styled.div`
   padding-bottom: 20px;
 `;
 
-const TagRadio = styled.input``;
+const TagRadio = styled.input`
+  cursor: pointer;
+`;
 
 const BodyContainer = styled.div`
   display: flex;
@@ -223,10 +225,9 @@ const NoneDiv = styled.div`
 export default function Search() {
   const url = new URL(document.URL);
   const query = url.searchParams; //?appliedCompany=%E3%85%87%E3%85%87&job=hh&careerLevel=ALL
-  // console.log(query.get("appliedCompany"));
 
   const appliedCompany = query.get("appliedCompany");
-  const job = query.get("job");
+  const job = query.get("appliedJob");
   const careerLevel = query.get("careerLevel");
 
   const [searchPage, setSearchPage] = useState(0);
