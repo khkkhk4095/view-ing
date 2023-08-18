@@ -368,32 +368,43 @@ export default function MakeStudy() {
     setFilterTag(tagList.filter((tag) => tag.isChecked === true));
   }, [tagList]);
 
-  const tagAxios = () => filterTag.map((item) => item.id);
+  const tagAxios = () => filterTag.map((item) => item.id + 1);
   //redux
   const leaderId = useSelector((state) => state.UserReducer.memberId);
 
   const validation = (body) => {
     let result = true;
+
     if (body.title) setStudyNameState(false);
     else {
       setStudyNameState(true);
       result = false;
     }
+
     if (body.description) setStudyDescState(false);
     else {
       setStudyDescState(true);
       result = false;
     }
+
     if (body.applied_company) setStudyCompanyState(false);
     else {
       setStudyCompanyState(true);
       result = false;
     }
+
     if (body.applied_job) setStudyJobState(false);
     else {
       setStudyJobState(true);
       result = false;
     }
+
+    if (suggestion.includes(appliedCompany)) setStudyCompanyState(false);
+    else {
+      setStudyCompanyState(true);
+      result = false;
+    }
+
     return result;
   };
 
@@ -489,6 +500,10 @@ export default function MakeStudy() {
       parentElement.scrollTop = selectedChild.offsetTop;
     }
   }, [suggestionSelect]);
+
+  useEffect(() => {
+    setFilterTag([]);
+  }, []);
 
   return (
     <Container>

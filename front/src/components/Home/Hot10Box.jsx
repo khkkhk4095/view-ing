@@ -52,37 +52,40 @@ const RankContainer = styled(Link)`
   // padding-right: 10px; /* Add padding to create space between rank number and study name */
 `;
 
-const FirstContainer = styled.div``;
+const FirstContainer = styled.div`
+  margin-top: 7px;
+`;
 
-const SecondContainer = styled.div``;
+const SecondContainer = styled.div`
+  margin-top: 7px;
+`;
 
 export default function Hot10Box() {
   // Sample data for rankings
   const rankings = [
     "삼성전자",
-    "카카오",
-    "네이버",
-    "멀캠",
-    "싸피",
-    "애플",
-    "동원",
-    "AWS",
-    "Intel",
-    "아모레",
+    "123푸드",
+    "삼성에스디에스",
+    "47컴퍼니",
+    "가야미",
+    "멀티캠퍼스",
+    "삼성물산",
+    "삼성생명",
+    "주원산업개발",
+    "착한사람들컴퍼니",
   ];
 
   return (
     <Container>
-      <TitleContainer>실시간 인기 스터디</TitleContainer>
-      <DateContainer>2020.02.02 기준</DateContainer>
+      <TitleContainer>추천 스터디</TitleContainer>
       <BodyContainer>
         <FirstContainer>
           {rankings.slice(0, 5).map((study, index) => (
             <RankContainer
-              to={`/search?appliedCompany=${study}&job=&careerLevel=option1`}
+              to={`/search?appliedCompany=${study}&appliedJob=&careerLevel=ALL`}
               key={index}
             >
-              {`${index + 1}`}
+              {/* {`${index + 1}`} */}
               &nbsp;&nbsp;&nbsp; {study}
             </RankContainer>
           ))}
@@ -90,10 +93,11 @@ export default function Hot10Box() {
         <SecondContainer>
           {rankings.slice(5, 10).map((study, index) => (
             <RankContainer
-              to={`/search?appliedCompany=${study}&job=&careerLevel=option1`}
+              to={`/search?appliedCompany=${study}&appliedJob=&careerLevel=ALL`}
               key={index}
             >
-              {`${index + 6}`} &nbsp;&nbsp;&nbsp; {study}
+              {/* {`${index + 6}`}  */}
+              &nbsp;&nbsp;&nbsp; {study}
             </RankContainer>
           ))}
         </SecondContainer>

@@ -219,28 +219,27 @@ export default function DropAlert() {
       .put(`members/${memberId}/notification/${alert.notificationId}`)
       .then((res) => {
         dispatch(HandleRead(alert));
-        console.log(alert);
+
         switch (alert.notificationType) {
           case "Message":
-            navigate("mypage/get");
+            navigate("/mypage/get");
             return;
           case "StudyRequest_Approve":
             if (alert.url) {
-              navigate(`study/${alert.url}`);
+              navigate(`/study/${alert.url}`);
             }
             return;
           case "StudyRequest":
             if (alert.url) {
-              navigate(`study/${alert.url}/applicant`);
+              navigate(`/study/${alert.url}/applicant`);
             }
             return;
           case "StudyRequest_Reject":
             return;
           case "StudyArticle":
             if (alert.url) {
-              console.log(alert.url.split);
               navigate(
-                `study/${alert.url.split(" ")[0]}/board/${
+                `/study/${alert.url.split(" ")[0]}/board/${
                   alert.url.split(" ")[1]
                 }`
               );
@@ -251,7 +250,7 @@ export default function DropAlert() {
           case "StudyComment":
             if (alert.url) {
               navigate(
-                `study/${alert.url.split(" ")[0]}/board/${
+                `/study/${alert.url.split(" ")[0]}/board/${
                   alert.url.split(" ")[1]
                 }`
               );
@@ -260,36 +259,42 @@ export default function DropAlert() {
           case "StudyReply":
             if (alert.url) {
               navigate(
-                `study/${alert.url.split(" ")[0]}/board/${
+                `/study/${alert.url.split(" ")[0]}/board/${
                   alert.url.split(" ")[1]
                 }`
               );
             }
             return;
+
+          case "Conference":
+            if (alert.url) {
+              navigate(`/study/${alert.url}/meeting`);
+            }
+            return;
           case "BoardComment":
             if (alert.url) {
               navigate(
-                `board/${alert.url.split(" ")[0]}/${alert.url.split(" ")[1]}`
+                `/board/${alert.url.split(" ")[0]}/${alert.url.split(" ")[1]}`
               );
             }
             return;
           case "BoardReply":
             if (alert.url) {
               navigate(
-                `board/${alert.url.split(" ")[0]}/${alert.url.split(" ")[1]}`
+                `/board/${alert.url.split(" ")[0]}/${alert.url.split(" ")[1]}`
               );
             }
             return;
           case "Leader":
             if (alert.url) {
-              navigate(`study/${alert.url}`);
+              navigate(`/study/${alert.url}`);
             }
             return;
           case "Study_Banned":
             return;
           case "StudyCalendar":
             if (alert.url) {
-              navigate(`study/${alert.url}/calendar`);
+              navigate(`/study/${alert.url}/calendar`);
             }
             return;
           case "Comment":

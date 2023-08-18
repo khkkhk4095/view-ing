@@ -99,7 +99,7 @@ const TitleContainer = styled.div`
 const TagContainer = styled.div`
   position: absolute;
   /* top: 30px; */
-  top: 200px;
+  top: 185px;
   left: 5px;
 
   display: flex;
@@ -159,7 +159,6 @@ const CapacityContainer = styled.div`
 `;
 
 export default function StudyCard({ study }) {
-  // console.log(study.tag);
   const memberId = useSelector((state) => state.UserReducer.memberId);
   const navigate = useNavigate();
 
