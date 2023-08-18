@@ -2,7 +2,7 @@
 
 <br>
 
-<img src="/uploads/21e54163184a994227a7ca0617606ce7/1.jpg" width="1000"/>
+<img src="/uploads/21e54163184a994227a7ca0617606ce7/1.jpg" width="800"/>
 
 <br>
 
