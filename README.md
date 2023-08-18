@@ -6,7 +6,7 @@
 
 <br>
 
-## 뷰잉은 면접스터디를 위한 통합 솔루션입니다.
+## "뷰잉은 면접스터디를 위한 통합 솔루션입니다."
 
 ### 👨‍👩‍👧‍👦 사용자
 
@@ -46,9 +46,9 @@ https://i9a205.p.ssafy.io/
 <details>
  <summary>열어서 확인하기</summary>
  ![아키텍처_page-0001](/uploads/3d937b597f5d08ab146b05d2e66e8de5/아키텍처_page-0001.jpg)
+<br>
 
 ## ⚙️ 기술 스택
-
 ![Java](https://img.shields.io/badge/OpenJDK-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
 ![Spring](https://img.shields.io/badge/Spring-6DB33F.svg?&style=for-the-badge&logo=Spring&logoColor=white)
 
@@ -74,18 +74,36 @@ https://i9a205.p.ssafy.io/
 
 
 <details>
- <summary>메인화면</summary>
+ <summary>스터디</summary>
 
  ### ✍ 로그인
-![화면_기록_2023-08-18_오전_8.51.57](/uploads/90023fa910ba61f1c46b335eb2af24e4/화면_기록_2023-08-18_오전_8.51.57.mov)
+  <img src="/uploads/90023fa910ba61f1c46b335eb2af24e4/화면_기록_2023-08-18_오전_8.51.57.mov"  width="700" >
 
- ### ✍ 스터디 검색
- <img src="/uploads/c0034dc21776c2090d2f86d748370282/화면_기록_2023-08-18_오전_8.22.21.mov"  width="700" >
+ ### ✍ 스터디 검색 & 신청
+ <img src="/uploads/41b4d789a30fada7b977e2551a46084e/화면_기록_2023-08-18_오전_8.54.47.mov"  width="700" >
+
+ ### ✍ 스터디 관리 (방장)
+  <img src="/uploads/23335dd406614a54a256119a78009426/화면_기록_2023-08-18_오전_8.58.25.mov"  width="700" >
+
+ ### ✍ 스터디 기능
+   <img src="/uploads/638c294c7630bb061356686e79ee2ff6/화면_기록_2023-08-18_오전_9.33.23.mov"  width="700" >
 
 
- ### ✍ 
+<br>
+<details>
+ <summary>영상회의</summary>
+
+ ### ✍ 기본 기능
+  <img src="/uploads/90023fa910ba61f1c46b335eb2af24e4/화면_기록_2023-08-18_오전_8.51.57.mov"  width="700" >
+
+ ### ✍ 녹화, 타이머
+ <img src="/uploads/41b4d789a30fada7b977e2551a46084e/화면_기록_2023-08-18_오전_8.54.47.mov"  width="700" >
+
+ ### ✍ 피드백 기능
+  <img src="/uploads/23335dd406614a54a256119a78009426/화면_기록_2023-08-18_오전_8.58.25.mov"  width="700" >
 
 
- ### ✍ 홈 화면
+
+
 
 
