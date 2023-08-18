@@ -1,0 +1,172 @@
+
+FROM openjdk:11-jre-slim
+
+ARG JAR_FILE=InterviewStudy-0.0.1-SNAPSHOT.jar
+
+ENV SPRING_DATASOURCE_DRIVER_CLASS_NAME=${spring_datasource_driver_class_name}
+
+ARG spring_datasource_driver_class_name
+
+ENV SPRING_DATASOURCE_DRIVER_CLASS_NAME=${spring_datasource_driver_class_name}
+
+ARG spring_datasource_password
+
+ENV SPRING_DATASOURCE_PASSWORD=${spring_datasource_password}
+
+ARG spring_datasource_url
+
+ENV SPRING_DATASOURCE_URL=${spring_datasource_url}
+
+ARG spring_datasource_username
+
+ENV SPRING_DATASOURCE_USERNAME=${spring_datasource_username}
+
+ARG spring_jpa_hibernate_ddl_auto
+
+ENV SPRING_JPA_HIBERNATE_DDL_AUTO=${spring_jpa_hibernate_ddl_auto}
+
+ARG spring_jpa_properties_hibernate_dialect
+
+ENV SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=${spring_jpa_properties_hibernate_dialect}
+
+ARG spring_jpa_properties_hibernate_format_sql
+
+ENV SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL=${spring_jpa_properties_hibernate_format_sql}
+
+ARG spring_jpa_show_sql
+
+ENV SPRING_JPA_SHOW_SQL=${spring_jpa_show_sql}
+
+ARG spring_redis_host
+
+ENV SPRING_REDIS_HOST=${spring_redis_host}
+
+ARG spring_redis_lettuce_pool_max_active
+
+ENV SPRING_REDIS_LETTUCE_POOL_MAX_ACTIVE=${spring_redis_lettuce_pool_max_active}
+
+ARG spring_redis_lettuce_pool_max_idle
+
+ENV SPRING_REDIS_LETTUCE_POOL_MAX_IDLE=${spring_redis_lettuce_pool_max_idle}
+
+ARG spring_redis_lettuce_pool_min_idle
+
+ENV SPRING_REDIS_LETTUCE_POOL_MIN_IDLE=${spring_redis_lettuce_pool_min_idle}
+
+ARG spring_redis_port
+
+ENV SPRING_REDIS_PORT=${spring_redis_port}
+
+ARG OPENVIDU_URL
+
+ENV OPENVIDUURL=${OPENVIDU_URL}
+
+ARG OPENVIDU_SECRET
+
+ENV OPENVIDUSECRET=${OPENVIDU_SECRET}
+
+ARG cloud_aws_s3_bucket
+
+ENV cloud_aws_s3_bucket=${cloud_aws_s3_bucket}
+
+ARG cloud_aws_region_static
+
+ENV cloud_aws_region_static=${cloud_aws_region_static}
+
+ARG cloud_aws_stack_auto
+
+ENV cloud_aws_stack_auto=${cloud_aws_stack_auto}
+
+ARG cloud_aws_credentials_access_key
+
+ENV cloud_aws_credentials_access_key=${cloud_aws_credentials_access_key}
+
+ARG cloud_aws_credentials_secret_key
+
+ENV cloud_aws_credentials_secret_key=${cloud_aws_credentials_secret_key}
+
+ARG spring_servlet_multipart_max_file_size
+
+ENV spring_servlet_multipart_max_file_size=${spring_servlet_multipart_max_file_size}
+
+ARG spring_servlet_multipart_max_request_size
+
+ENV spring_servlet_multipart_max_request_size=${spring_servlet_multipart_max_request_size}
+
+ARG spring_servlet_multipart_enabled
+
+ENV spring_servlet_multipart_enabled=${spring_servlet_multipart_enabled}
+
+ARG cloud_aws_s3_bucket
+
+ENV cloud_aws_s3_bucket=${cloud_aws_s3_bucket}
+
+ARG cloud_aws_region_static
+
+ENV cloud_aws_region_static=${cloud_aws_region_static}
+
+ARG cloud_aws_stack_auto
+
+ENV cloud_aws_stack_auto=${cloud_aws_stack_auto}
+
+ARG cloud_aws_credentials_access_key
+
+ENV cloud_aws_credentials_access_key=${cloud_aws_credentials_access_key}
+
+ARG cloud_aws_credentials_secret_key
+
+ENV cloud_aws_credentials_secret_key=${cloud_aws_credentials_secret_key}
+
+ARG spring_servlet_multipart_max_file_size
+
+ENV spring_servlet_multipart_max_file_size=${spring_servlet_multipart_max_file_size}
+
+ARG spring_servlet_multipart_max_request_size
+
+ENV spring_servlet_multipart_max_request_size=${spring_servlet_multipart_max_request_size}
+
+ARG spring_servlet_multipart_enabled
+
+ENV spring_servlet_multipart_enabled=${spring_servlet_multipart_enabled}
+
+ARG spring_datasource_hikari_maximum_pool_size
+
+ENV SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE=${spring_datasource_hikari_maximum_pool_size}
+
+ARG oauth_redirecturi
+
+ENV OAUTH_REDIRECTURI=${oauth_redirecturi}
+
+COPY ${JAR_FILE} app.jar
+
+EXPOSE 8090
+
+RUN mkdir -p viewing
+
+CMD java -Dspring.datasource.driver-class-name=${SPRING_DATASOURCE_DRIVER_CLASS_NAME} \
+ -Dspring.datasource.password=${SPRING_DATASOURCE_PASSWORD} \
+ -Dspring.datasource.url=${SPRING_DATASOURCE_URL} \
+ -Dspring.datasource.username=${SPRING_DATASOURCE_USERNAME} \
+ -Dspring.jpa.hibernate.ddl-auto=${SPRING_JPA_HIBERNATE_DDL_AUTO} \
+ -Dspring.jpa.properties.hibernate.dialect=${SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT} \
+ -Dspring.jpa.show-sql=${SPRING_JPA_SHOW_SQL} \
+ -Dspring.redis.host=${SPRING_REDIS_HOST} \
+ -Dspring.redis.lettuce.pool.max-active=${SPRING_REDIS_LETTUCE_POOL_MAX_ACTIVE} \
+ -Dspring.redis.lettuce.pool.max-idle=${SPRING_REDIS_LETTUCE_POOL_MAX_IDLE} \
+ -Dspring.redis.lettuce.pool.min-idle=${SPRING_REDIS_LETTUCE_POOL_MIN_IDLE} \
+ -Dspring.redis.port=${SPRING_REDIS_PORT} \
+ -DOPENVIDU_URL=${OPENVIDUURL} \
+ -DOPENVIDU_SECRET=${OPENVIDUSECRET} \
+ -Dspring.datasource.hikari.maximum.pool.size=${SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE} \
+ -Dcloud.aws.s3.bucket=${cloud_aws_s3_bucket} \
+ -Dcloud.aws.region.static=${cloud_aws_region_static} \
+ -Dcloud.aws.stack.auto=${cloud_aws_stack_auto} \
+ -Dcloud.aws.credentials.access-key=${cloud_aws_credentials_access_key} \
+ -Dcloud.aws.credentials.secret-key=${cloud_aws_credentials_secret_key} \
+ -Dspring.servlet.multipart.max-file-size=${spring_servlet_multipart_max_file_size} \
+ -Dspring.servlet.multipart.max-request-size=${spring_servlet_multipart_max_request_size} \
+ -Dspring.servlet.multipart.enabled=${spring_servlet_multipart_enabled} \
+ -Dspring.datasource.hikari.maximum-pool-size=${SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE} \
+ -Doauth.redirectUri=${OAUTH_REDIRECTURI} \
+ -Duser.timezone=Asia/Seoul \
+ -jar app.jar >>/viewing/application.log 2>/dev/null
