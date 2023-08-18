@@ -598,6 +598,7 @@ export default function MeetingPk() {
   };
 
   const sendChat = () => {
+    if (!document.getElementById("chatInput").value.trim()) return;
     session
       .signal({
         data: document.getElementById("chatInput").value,
