@@ -45,7 +45,10 @@ https://i9a205.p.ssafy.io/
 
 <details>
  <summary>열어서 확인하기</summary>
- ![아키텍처_page-0001](/uploads/3d937b597f5d08ab146b05d2e66e8de5/아키텍처_page-0001.jpg)
+    <img src="/uploads/3d937b597f5d08ab146b05d2e66e8de5/아키텍처_page-0001.jpg"  width="700" >
+</details>
+
+
 <br>
 
 ## ⚙️ 기술 스택
@@ -88,8 +91,10 @@ https://i9a205.p.ssafy.io/
  ### ✍ 스터디 기능
    <img src="/uploads/638c294c7630bb061356686e79ee2ff6/화면_기록_2023-08-18_오전_9.33.23.mov"  width="700" >
 
+</details>
 
 <br>
+
 <details>
  <summary>영상회의</summary>
 
@@ -101,6 +106,7 @@ https://i9a205.p.ssafy.io/
 
  ### ✍ 피드백 기능
   <img src="/uploads/23335dd406614a54a256119a78009426/화면_기록_2023-08-18_오전_8.58.25.mov"  width="700" >
+</details>
 
 
 
